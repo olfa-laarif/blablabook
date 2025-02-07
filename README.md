@@ -12,7 +12,7 @@ git branch -M main
 git remote add origin git@github.com:O-clock-Raclette/blablabook.git
 git push -u origin main
 
-##Création de branche: 
+##Création de branche:
 
 git remote add origin git@github.com:O-clock-Raclette/blablabook.git
 git branch -M main
