@@ -1,7 +1,8 @@
 import { Router } from "express";
 
+export const router = new Router();
 
 router.get('/');
-export const router = new Router();
+
 
 
