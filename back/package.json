@@ -10,8 +10,10 @@
   "type": "module",
   "main": "eslint.config.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node --watch index.js"
+    "dev": "node --watch index.js",
+    "db:sync": "node data/01.create-tables.js",
+    "db:seed": "node data/02.seed-tables.js",
+    "db:reset": "npm run db:sync && npm run db:seed"
   },
   "keywords": [],
   "author": "",
