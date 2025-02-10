@@ -42,7 +42,7 @@ const featuredBooks: Book[] = [
     },
     {
       id: '5',
-      title: 'Tomorrow, and Tomorrow, and Tomorrow',
+      title: 'Yesterday, Tomorrow and Today',
       author: 'Gabrielle Zevin',
       genre: 'Literary Fiction',
       publishedDate: '2022-07-05',

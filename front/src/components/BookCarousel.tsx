@@ -43,8 +43,8 @@ export default function BookCarousel({ books }: BookCarouselProps) {
             <div key={book.id} className="transform transition-transform duration-500">
               <BookCard
                 book={book}
-                onAddToRead={() => console.log('Added to read:', book.title)}
-                onAddToReadLater={() => console.log('Added to read later:', book.title)}
+                // onAddToRead={() => console.log('Added to read:', book.title)}
+                // onAddToReadLater={() => console.log('Added to read later:', book.title)}
               />
             </div>
           ))}
