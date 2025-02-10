@@ -4,6 +4,7 @@ import { User, Book, Author,Category,Mark } from '../models/associations.js';
 
 console.log("🔄 blablabook seeding started...");
 
+// Création des auteurs et des livres en seule lot (batch/bulk)
 await Author.bulkCreate([
   {
     firstname: "Albert",
@@ -94,27 +95,36 @@ console.log("Les auteurs et leurs livres ont été ajoutés avec succès !");
 
 
 
-async function populateCategory() {
+async function CreateCategory() {
     await Category.create({ name: 'Philosophie' });
     await Category.create({ name: 'Littérature jeunesse' });
     await Category.create({ name: 'Science-fiction' });
     await Category.create({ name: 'Roman historique' });
     await Category.create({ name: 'Fantastique' });
     await Category.create({ name: 'Poésie' });
+    await Category.create({name : 'Roman réaliste'});
+    await Category.create({name : 'Roman gothique'});
 
     console.log("Données ajoutées dans la table Category.");
 }
 
-populateCategory();
+await CreateCategory();
 
+
+// Fonction asynchrone ui permet d'associer une catégorie à un livre
 async function addCategoryToBook(bookTitle, categoryName) {
+  //On recherche un livre en BDD en fonction de son titre
   const book = await Book.findOne({ where: { title: bookTitle } });
+  //On recherche la catégorie een BDD en fonction de son nom
   const category = await Category.findOne({ where: { name: categoryName } });
 
+  // On vérifie que les 2 entités existent avant d'établir la l'association
   if (book && category) {
+    //On ajoute la catégorie du livre  via la relation définie par Sequelize
     await book.addCategory(category);
     console.log(`La catégorie "${categoryName}" a été associée au livre "${bookTitle}".`);
   } else {
+    // On affiche un message d'erreur si le livre ou la catégorie n'existe pas.
     if (!book) console.log(`Le livre "${bookTitle}" n'a pas été trouvé.`);
     if (!category) console.log(`La catégorie "${categoryName}" n'a pas été trouvée.`);
   }
@@ -125,8 +135,96 @@ await addCategoryToBook("L'Étranger", "Philosophie");
 await addCategoryToBook("Le Petit Prince", "Littérature jeunesse");
 await addCategoryToBook("Les Misérables", "Roman historique");
 await addCategoryToBook("Les Fleurs du Mal", "Poésie");
+await addCategoryToBook("Notre-Dame de Paris","Roman gothique");
+await addCategoryToBook("Madame Bovary", "Roman réaliste");
 
+  async function CreateUser() {
 
+      await User.create({ username: 'booklover92', firstname: 'Alice', lastname: 'Dupont', email: 'alice.dupont@example.com', password: 'securepass1', biography: 'Amoureuse des livres depuis toujours.' });
+      await User.create({ username: 'readaholic21', firstname: 'Bob', lastname: 'Martin', email: 'bob.martin@example.com', password: 'securepass2', biography: 'Explorateur de mondes littéraires.' });
+      await User.create({ username: 'pagewanderer', firstname: 'Charlie', lastname: 'Durand', email: 'charlie.durand@example.com', password: 'securepass3', biography: 'À la recherche du prochain chef-d\'œuvre.' });
+      await User.create({ username: 'literarymind', firstname: 'Diana', lastname: 'Blanc', email: 'diana.blanc@example.com', password: 'securepass4', biography: 'Poésie et philosophie sont mes passions.' });
+  
+      console.log("Données ajoutées dans la table User.");
+     
+  }
+  
+  await CreateUser();
+  // Fonction asynchrone qui permet d'associer un livre et un utilisateur
+  async function addBookToUser(username, bookTitle) {
+    //On recherche  l'utilisateur en BDD en fonction de son nom d'utilisateur
+    const user = await User.findOne({ where: { username: username } })
+    if (!user){ console.log(`L'utilisateur "${username}" n'a pas été trouvé.`);
+    return;
+  }
+      // On recherhe le livre en BDD en fonction de n titre
+      const book = await Book.findOne({ where: { title: bookTitle } });
+      //On vérifie que l'utilisateur et le livre existent avant d'établir leur association
+      if (user && book) {
+        //On ajoute le livre à l'utilisateur via la relation définie par Sequelize
+        await user.addBook(book);
+        console.log(`Le livre "${bookTitle}" a été associé à l'utilisateur "${username}".`);
+      } else {
+    }
+      //On affiche un message d'erreur si l'utilisateur ou le livre n'existe pas .
+      
+      if (!book) console.log(`Le livre "${bookTitle}" n'a pas été trouvé.`);
+    }
+  
+
+ // association de livres à des utilisateurs
+await addBookToUser("booklover92", "L'Étranger");
+await addBookToUser("booklover92", "Le Petit Prince");
+await addBookToUser("readaholic21", "Les Misérables");
+await addBookToUser("readaholic21", "Notre-Dame de Paris");
+await addBookToUser("pagewanderer", "Madame Bovary");
+await addBookToUser("pagewanderer", "Les Fleurs du Mal");
+await addBookToUser("literarymind", "Les Fleurs du Mal");
+await addBookToUser("literarymind", "L'Étranger");
+
+async function addMarkToBook(bookTitle, username, rating, review) {
+ 
+    const book = await Book.findOne({ where: { title: bookTitle } });
+    const user = await User.findOne({ where: { username: username } });
+
+    if (book && user) {
+      // Vérification préalable de l'existence de la note
+      const existingMark = await Mark.findOne({ where: { UserId: user.id, BookId: book.id } });
+
+      if (existingMark) {
+        console.log(`Une note existe déjà pour le livre "${bookTitle}" par l'utilisateur "${username}".`);
+        return;
+      }
+
+      const markData = {
+        rating: rating,
+        UserId: user.id,
+        BookId: book.id,
+      };
+
+      if (review) {
+        markData.review = review; // Ajout de la review seulement si elle est définie
+      }
+
+      await Mark.create(markData);
+      console.log(`La note de ${rating} a été ajoutée pour le livre "${bookTitle}" par l'utilisateur "${username}".`);
+    } else {
+      if (!book) console.log(`Le livre "${bookTitle}" n'a pas été trouvé.`);
+      if (!user) console.log(`L'utilisateur "${username}" n'a pas été trouvé.`);
+    }
+ 
+}
+
+// 
+await addMarkToBook("L'Étranger", "booklover92", 5); // Sans review
+await addMarkToBook("Le Petit Prince", "readaholic21", 4, "Une aventure poétique magnifique."); // Avec review
+await addMarkToBook("Madame Bovary", "pagewanderer", 3, "Bien écrit mais un peu long.");
+await addMarkToBook("Les Fleurs du Mal", "literarymind", 5, "Des poèmes captivants.");
+
+console.log("✅ blablabook seed done with success !");
+  
+console.log("🧹 Clean up by closing database connexion");
+await sequelize.close();
 
 /*
 const featuredBooks = [
