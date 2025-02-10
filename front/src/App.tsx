@@ -3,7 +3,6 @@ import Hero from './components/Hero';
 import FeaturedBook from './components/FeaturedBook';
 import Features from './components/Features';
 import Footer from './components/Footer';
-import Sidebar from './components/Sidebar';
 import SearchBar from './components/SearchBar';
 
 

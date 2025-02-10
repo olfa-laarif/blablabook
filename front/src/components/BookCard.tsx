@@ -1,7 +1,4 @@
-import React, { useState } from 'react';
-import { Book, BookPlus, Star } from 'lucide-react';
 import type { Book as BookType } from '../types';
-import ReviewModal from './ReviewModal';
 
 interface BookCardProps {
   book: BookType;
@@ -9,13 +6,7 @@ interface BookCardProps {
   onAddToReadLater?: () => void;
 }
 
-export default function BookCard({ book, onAddToRead, onAddToReadLater }: BookCardProps) {
-  const [isReviewModalOpen, setIsReviewModalOpen] = useState(false);
-
-  const handleReviewSubmit = (rating: number, review: string) => {
-    console.log('Review submitted:', { book: book.title, rating, review });
-    // Here you would typically send this data to your backend
-  };
+export default function BookCard({ book}: BookCardProps) {
 
   return (
     <>
