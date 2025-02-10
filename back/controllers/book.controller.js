@@ -1,4 +1,4 @@
-import {Book, Author} from "../models/associations.js";
+import {Book, Author, Category} from "../models/associations.js";
 import { sequelize } from "../models/sequelizeClient.js";
 
 
@@ -19,13 +19,25 @@ async  getRandomBooks(req, res){
 
 async  getAllBooks(req, res){
  const books = await Book.findAll(
- // { 
-//      include : [
-//       { model : Author,attributes: ['firstname', 'lastname']}
-//       ]
-//}
-);
-     res.json(books);
- }
+ { 
+  include : [
+  { model : Author,attributes: ['firstname', 'lastname']}
+  ]});
+  res.json(books);
+ },
+
+async getOneBook(req, res){
+  const book = await Book.findByPk(req.params.id, {
+    include : [
+      {model : Author},
+      {model : Category, attributes : ['name']}
+    ]
+  });
  
+
+  if(!book){
+    res.status(404).json({error:'Book not found !'});
+  }
+  res.json(book);
+}
 }

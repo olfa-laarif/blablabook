@@ -3,4 +3,7 @@ GET http://localhost:3001/api/books/random
 
 ###Récupérer tout les livres
 GET http://localhost:3001/api/books
-Accept: application/json
+
+
+###Récupérer un seul livre par son id
+GET http://localhost:3001/api/books/3
