@@ -1,5 +1,4 @@
-import { ArrowLeft, Star, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowLeft, Link, Star, User } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 
