@@ -1,18 +1,33 @@
-import Header from './components/Header'
+import Header from './components/Header';
+import Hero from './components/Hero';
+import FeaturedBook from './components/FeaturedBook';
+import Features from './components/Features';
+import Footer from './components/Footer';
+import Sidebar from './components/Sidebar';
+import SearchBar from './components/SearchBar';
 
 
-import './App.css'
-import './index.css'
 
 
 function App() {
 
   return (
-    <div>
+    <div className="min-h-screen bg-gray-50">
       <Header />
+      <Hero />
+      <SearchBar />
+      <FeaturedBook />
+      
+
+      <Features />
+
+
+
+      <Footer />
+      
+      {/* <Sidebar /> */}
     </div>
-   
- )
+  );
 }
 
-export default App
+export default App;
