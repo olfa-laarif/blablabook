@@ -1,9 +1,8 @@
-import Header from './components/Header';
-import Hero from './components/Hero';
-import FeaturedBook from './components/FeaturedBook';
-import Features from './components/Features';
-import Footer from './components/Footer';
-import SearchBar from './components/SearchBar';
+
+import { BrowserRouter, Route, Routes } from 'react-router';
+import BookDetails from './pages/BookDetails';
+import HomePage from './pages/HomePage';
+
 
 
 
@@ -11,21 +10,13 @@ import SearchBar from './components/SearchBar';
 function App() {
 
   return (
-    <div className="min-h-screen bg-gray-50">
-      <Header />
-      <Hero />
-      <SearchBar />
-      <FeaturedBook />
-      
+      <BrowserRouter>
+      <Routes>
+      <Route path="/books/:id" element={<BookDetails />} />
+      <Route path="/" element={<HomePage />} />
+      </Routes>
+      </BrowserRouter>
 
-      <Features />
-
-
-
-      <Footer />
-      
-      {/* <Sidebar /> */}
-    </div>
   );
 }
 
