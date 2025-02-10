@@ -1,0 +1,6 @@
+### Récupération d'une liste random de livre
+GET http://localhost:3001/api/books/random
+
+###Récupérer tout les livres
+GET http://localhost:3001/api/books
+Accept: application/json
