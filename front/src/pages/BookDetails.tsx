@@ -14,7 +14,7 @@ const book = {
     summary: "L'histoire se déroule à Alger. Le protagoniste, Meursault, employé de bureau, reçoit un télégramme annonçant que sa mère, qu'il a placée à l'hospice de Marengo, vient de mourir. Il se rend à l'enterrement et ne manifeste aucune tristesse apparente...",
     rating: 4.5,
     published_date: "1942",
-    reviews: 128
+    availability: "Yes"
 };
 
 // const BookDetails = () => {
@@ -122,7 +122,7 @@ return (
             </div>
             
             <div className="flex items-center gap-4 text-sm text-gray-600">
-            <span>{book.reviews} avis</span>
+            <span>{book.availability} avis</span>
             <span>·</span>
             <span>Publié en {book.published_date}</span>
             </div>
