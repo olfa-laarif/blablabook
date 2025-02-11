@@ -1,4 +1,5 @@
 import type { Book as BookType } from '../types';
+import { Link } from "react-router-dom";
 
 interface BookCardProps {
   book: BookType;
@@ -9,7 +10,8 @@ interface BookCardProps {
 export default function BookCard({ book}: BookCardProps) {
 
   return (
-    <>
+    
+    <Link to={`/books/${book.id}`} className="block">
       <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
         <img
           src={book.coverUrl}
@@ -22,6 +24,7 @@ export default function BookCard({ book}: BookCardProps) {
           <p className="text-gray-500 text-sm mb-4">{book.genre}</p>
         </div>
       </div>
-    </>
+      </Link>
+    
   );
 }

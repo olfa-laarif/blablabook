@@ -1,19 +1,45 @@
-import { ArrowLeft, Star, User } from "lucide-react";
-import { Link } from "react-router-dom";
+import { ArrowLeft, Link, Star, User } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
+// import { useParams } from "react-router";
+// import { useEffect, useState } from "react";
+// import { getBookById } from "../services/api";
 
 const BookDetails = () => {
   // Mock data - to be replaced with real data
 const book = {
     title: "L'Étranger",
     author: "Albert Camus",
-    coverUrl: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
     summary: "L'histoire se déroule à Alger. Le protagoniste, Meursault, employé de bureau, reçoit un télégramme annonçant que sa mère, qu'il a placée à l'hospice de Marengo, vient de mourir. Il se rend à l'enterrement et ne manifeste aucune tristesse apparente...",
     rating: 4.5,
-    publishedDate: "1942",
+    published_date: "1942",
     reviews: 128
 };
+
+// const BookDetails = () => {
+//     const { id } = useParams();
+//     const [book, setBook] = useState(null);
+
+//     useEffect(() => {
+
+//         const fetchBookDetails = async () => {
+//             try {
+//                 const data = await getBookById(id);
+//                 setBook(data);
+//             } catch (error) {
+//                 console.error("Impossible de charger les détails du livre", error);
+//             }
+//         };
+
+//         fetchBookDetails();
+
+//     }, [id]);
+
+//     if(!book){
+//         return <div>charegelent ...</div>
+//     }
+//   }
 
 return (
     <div className="min-h-screen flex flex-col">
@@ -42,7 +68,7 @@ return (
         <div className="relative">
             <div className="aspect-[2/3] rounded-lg overflow-hidden shadow-md">
             <img 
-                src={book.coverUrl} 
+                src={book.image} 
                 alt={book.title}
                 className="w-full h-full object-cover"
             />
@@ -98,13 +124,15 @@ return (
             <div className="flex items-center gap-4 text-sm text-gray-600">
             <span>{book.reviews} avis</span>
             <span>·</span>
-            <span>Publié en {book.publishedDate}</span>
+            <span>Publié en {book.published_date}</span>
             </div>
         </div>
         </div>
     </main>
-
+    
     <Footer />
+   
+   
     </div>
 );
 };
