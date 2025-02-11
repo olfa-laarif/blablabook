@@ -1,4 +1,5 @@
 import { BookOpen } from 'lucide-react';
+import { Link } from 'react-router-dom';
 
 export default function Footer() {
   const footerLinks = [
@@ -14,13 +15,13 @@ export default function Footer() {
   ];
 
   return (
-    <footer className="max-w-7xl mx-auto bg-gray-50">
+    <footer className="w-full bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="flex flex-col items-center">
-          <div className="flex items-center mb-8">
+          <Link to="/" className="flex items-center mb-8">
             <BookOpen className="h-8 w-8 text-indigo-600" />
             <span className="ml-2 text-xl font-bold text-gray-900">Blablabook</span>
-          </div>
+          </Link>
           
           <nav className="flex flex-wrap justify-center gap-6 mb-8">
             {footerLinks.map((link) => (
