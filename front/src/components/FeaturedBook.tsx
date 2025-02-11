@@ -10,7 +10,7 @@ const featuredBooks: Book[] = [
       author: 'Matt Haig',
       genre: 'Fiction',
       publishedDate: '2020-08-13',
-      coverUrl: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=800',
       description: 'Between life and death there is a library...'
     },
     {
@@ -19,7 +19,7 @@ const featuredBooks: Book[] = [
       author: 'James Clear',
       genre: 'Self-Help',
       publishedDate: '2018-10-16',
-      coverUrl: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1589829085413-56de8ae18c73?auto=format&fit=crop&q=80&w=800',
       description: 'An Easy & Proven Way to Build Good Habits & Break Bad Ones'
     },
     {
@@ -28,7 +28,7 @@ const featuredBooks: Book[] = [
       author: 'Andy Weir',
       genre: 'Science Fiction',
       publishedDate: '2021-05-04',
-      coverUrl: 'https://images.unsplash.com/photo-1614544048536-0d28caf77f41?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1614544048536-0d28caf77f41?auto=format&fit=crop&q=80&w=800',
       description: 'A lone astronaut must save the earth from disaster'
     },
     {
@@ -37,7 +37,7 @@ const featuredBooks: Book[] = [
       author: 'Taylor Jenkins Reid',
       genre: 'Historical Fiction',
       publishedDate: '2017-06-13',
-      coverUrl: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=800',
       description: "The truth behind Hollywood's greatest mystery"
     },
     {
@@ -46,7 +46,7 @@ const featuredBooks: Book[] = [
       author: 'Gabrielle Zevin',
       genre: 'Literary Fiction',
       publishedDate: '2022-07-05',
-      coverUrl: 'https://images.unsplash.com/photo-1587334274328-64186a80aeee?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1587334274328-64186a80aeee?auto=format&fit=crop&q=80&w=800',
       description: 'A modern tale of love, creativity, and video games'
     },
     {
@@ -55,7 +55,7 @@ const featuredBooks: Book[] = [
       author: 'Bonnie Garmus',
       genre: 'Historical Fiction',
       publishedDate: '2022-04-05',
-      coverUrl: 'https://images.unsplash.com/photo-1532634993-15f421e42ec0?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1532634993-15f421e42ec0?auto=format&fit=crop&q=80&w=800',
       description: 'A chemist turned cooking show host in the 1960s'
     },
     {
@@ -64,7 +64,7 @@ const featuredBooks: Book[] = [
       author: 'Michelle Obama',
       genre: 'Memoir',
       publishedDate: '2022-11-15',
-      coverUrl: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=800',
       description: 'Practical wisdom and powerful strategies for staying hopeful'
     },
     {
@@ -73,7 +73,7 @@ const featuredBooks: Book[] = [
       author: 'Anthony Doerr',
       genre: 'Literary Fiction',
       publishedDate: '2021-09-28',
-      coverUrl: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=80&w=800',
       description: 'A masterpiece about children on the cusp of adulthood'
     },
     {
@@ -82,7 +82,7 @@ const featuredBooks: Book[] = [
       author: 'Lucy Foley',
       genre: 'Mystery',
       publishedDate: '2022-02-22',
-      coverUrl: 'https://images.unsplash.com/photo-1524230659092-07f99a75c013?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1524230659092-07f99a75c013?auto=format&fit=crop&q=80&w=800',
       description: 'A mystery in the heart of Paris'
     },
     {
@@ -91,7 +91,7 @@ const featuredBooks: Book[] = [
       author: 'Emily St. John Mandel',
       genre: 'Science Fiction',
       publishedDate: '2022-04-05',
-      coverUrl: 'https://images.unsplash.com/photo-1465929639680-64ee080eb3ed?auto=format&fit=crop&q=80&w=800',
+      image: 'https://images.unsplash.com/photo-1465929639680-64ee080eb3ed?auto=format&fit=crop&q=80&w=800',
       description: 'A novel of art, time travel, and pandemic'
     }
   ];
