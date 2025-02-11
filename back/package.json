@@ -1,8 +1,12 @@
 {
   "dependencies": {
+    "argon2": "^0.41.1",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "helmet": "^8.0.0",
+    "joi": "^17.13.3",
     "pg": "^8.13.1",
+    "sanitize-html": "^2.14.0",
     "sequelize": "^6.37.5"
   },
   "name": "back",
