@@ -4,13 +4,13 @@ import { Link } from 'react-router-dom';
 export default function Footer() {
   const footerLinks = [
     { title: 'A propos', href: '/about' },
-    // { title: 'Blog', href: '/blog' },
-    // { title: 'Afterbooks', href: '/afterbooks' },
-    // { title: 'My Books', href: '/my-books' },
-    // { title: 'My Borrowings', href: '/borrowings' },
-    // { title: 'My Loans', href: '/loans' },
+    // { title: 'Blog', href: '/blog' },  // Possible évolution v3
+    // { title: 'Afterbooks', href: '/afterbooks' }, // Possible évolution v3
+    // { title: 'My Books', href: '/my-books' }, // A voir si on en a besoin
+    // { title: 'My Borrowings', href: '/borrowings' }, // possible évolution v2
+    // { title: 'My Loans', href: '/loans' }, // possible évolution v2
     { title: 'Mentions légales', href: '/legal' },
-    // { title: 'App', href: '/app' },
+    // { title: 'App', href: '/app' }, // Possible évolution vX
     { title: 'Contactez-nous', href: '/contact' },
   ];
 
