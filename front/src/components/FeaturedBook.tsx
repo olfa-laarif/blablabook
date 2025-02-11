@@ -30,7 +30,11 @@ const featuredBooks: Book[] = [
       title: 'Project Hail Mary',
       author: 'Andy Weir',
       category: 'Science Fiction',
+<<<<<<< HEAD
       publishedDate: '2021-05-04',
+=======
+      published_date: '2021-05-04',
+>>>>>>> 705dc535a6d042574ecc8be75ce2b372da504e8c
       image: 'https://images.unsplash.com/photo-1614544048536-0d28caf77f41?auto=format&fit=crop&q=80&w=800',
       description: 'A lone astronaut must save the earth from disaster'
     },
@@ -39,7 +43,11 @@ const featuredBooks: Book[] = [
       title: 'The Seven Husbands of Evelyn Hugo',
       author: 'Taylor Jenkins Reid',
       category: 'Historical Fiction',
+<<<<<<< HEAD
       publishedDate: '2017-06-13',
+=======
+      published_date: '2017-06-13',
+>>>>>>> 705dc535a6d042574ecc8be75ce2b372da504e8c
       image: 'https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=800',
       description: "The truth behind Hollywood's greatest mystery"
     },
@@ -48,7 +56,11 @@ const featuredBooks: Book[] = [
       title: 'Yesterday, Tomorrow and Today',
       author: 'Gabrielle Zevin',
       category: 'Literary Fiction',
+<<<<<<< HEAD
       publishedDate: '2022-07-05',
+=======
+      published_date: '2022-07-05',
+>>>>>>> 705dc535a6d042574ecc8be75ce2b372da504e8c
       image: 'https://images.unsplash.com/photo-1587334274328-64186a80aeee?auto=format&fit=crop&q=80&w=800',
       description: 'A modern tale of love, creativity, and video games'
     },
@@ -57,7 +69,11 @@ const featuredBooks: Book[] = [
       title: 'Lessons in Chemistry',
       author: 'Bonnie Garmus',
       category: 'Historical Fiction',
+<<<<<<< HEAD
       publishedDate: '2022-04-05',
+=======
+      published_date: '2022-04-05',
+>>>>>>> 705dc535a6d042574ecc8be75ce2b372da504e8c
       image: 'https://images.unsplash.com/photo-1532634993-15f421e42ec0?auto=format&fit=crop&q=80&w=800',
       description: 'A chemist turned cooking show host in the 1960s'
     },
@@ -66,7 +82,11 @@ const featuredBooks: Book[] = [
       title: 'The Light We Carry',
       author: 'Michelle Obama',
       category: 'Memoir',
+<<<<<<< HEAD
       publishedDate: '2022-11-15',
+=======
+      published_date: '2022-11-15',
+>>>>>>> 705dc535a6d042574ecc8be75ce2b372da504e8c
       image: 'https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&q=80&w=800',
       description: 'Practical wisdom and powerful strategies for staying hopeful'
     },
@@ -75,7 +95,11 @@ const featuredBooks: Book[] = [
       title: 'Cloud Cuckoo Land',
       author: 'Anthony Doerr',
       category: 'Literary Fiction',
+<<<<<<< HEAD
       publishedDate: '2021-09-28',
+=======
+      published_date: '2021-09-28',
+>>>>>>> 705dc535a6d042574ecc8be75ce2b372da504e8c
       image: 'https://images.unsplash.com/photo-1516979187457-637abb4f9353?auto=format&fit=crop&q=80&w=800',
       description: 'A masterpiece about children on the cusp of adulthood'
     },
@@ -84,7 +108,11 @@ const featuredBooks: Book[] = [
       title: 'The Paris Apartment',
       author: 'Lucy Foley',
       category: 'Mystery',
+<<<<<<< HEAD
       publishedDate: '2022-02-22',
+=======
+      published_date: '2022-02-22',
+>>>>>>> 705dc535a6d042574ecc8be75ce2b372da504e8c
       image: 'https://images.unsplash.com/photo-1524230659092-07f99a75c013?auto=format&fit=crop&q=80&w=800',
       description: 'A mystery in the heart of Paris'
     },
@@ -93,7 +121,11 @@ const featuredBooks: Book[] = [
       title: 'Sea of Tranquility',
       author: 'Emily St. John Mandel',
       category: 'Science Fiction',
+<<<<<<< HEAD
       publishedDate: '2022-04-05',
+=======
+      published_date: '2022-04-05',
+>>>>>>> 705dc535a6d042574ecc8be75ce2b372da504e8c
       image: 'https://images.unsplash.com/photo-1465929639680-64ee080eb3ed?auto=format&fit=crop&q=80&w=800',
       description: 'A novel of art, time travel, and pandemic'
     }
