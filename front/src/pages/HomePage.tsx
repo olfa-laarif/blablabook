@@ -6,10 +6,11 @@ import Footer from '../components/Footer';
 import SearchBar from '../components/SearchBar';
 import { useEffect, useState } from 'react';
 import { getAllBooks } from '../services/api';
+import { Book } from "../types";
 
 
 const HomePage = () => {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<Book[]>([]);
   
   useEffect(() => {
     // Chargement des livres dès le chargement de la page
@@ -25,7 +26,7 @@ const HomePage = () => {
 
     fetchBooks();
 
-  }, [books]);
+  }, []);
 
 return (
     <>
@@ -33,7 +34,7 @@ return (
         <Header />
         <Hero />
         <SearchBar />
-        <FeaturedBook />
+        <FeaturedBook books={books}/>
         
 
         <Features />
