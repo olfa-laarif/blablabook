@@ -2,7 +2,7 @@ export interface Book {
     id: string;
     title: string;
     Author: {firstname:string,
-      lastname:string
+      lastname:string, biography:string
     };
     category: string;
     published_date: string;
