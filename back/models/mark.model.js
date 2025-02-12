@@ -18,7 +18,6 @@ Mark.init({
   }
 }, {
   sequelize,
-  tableName: 'mark',
   indexes: [
     {
       unique: true,
