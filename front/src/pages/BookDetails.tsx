@@ -77,8 +77,12 @@ export const BookDetails = () => {
                     <h1 className="font-display text-2xl font-semibold text-gray-900">
                     {book.title}
                     </h1>
-                    <p className="text-sm font-medium text-gray-600 mt-1">{book.Author.firstname} {book.Author.lastname}</p>
-                    <p className="text-xs font-medium text-gray-500 mt-1">{book.category}</p>
+                    <p className="text-sm text-gray-600 leading-relaxed">Publié le {new Date(book.published_date).toLocaleDateString('fr-FR')}</p>
+                    <h2 className="font-display text-lg font-semibold text-gray-900 mb-2">
+                    {book.Author.firstname} {book.Author.lastname}
+                    </h2>
+                    <p className="text-sm text-gray-600 leading-relaxed">{book.Categories[0].name}</p>
+                    
                 </div>
                 <div>
                     <h2 className="font-display text-lg font-semibold text-gray-900 mb-2">
@@ -107,14 +111,14 @@ export const BookDetails = () => {
                     <Star
                         key={i}
                         className={`w-5 h-5 ${
-                        i < Math.floor(book.rating)
+                        i < Math.floor(book.Marks?.[0]?.rating || 0)
                             ? "text-gold-400 fill-gold-400"
                             : "text-gray-300"
                         }`}
                     />
                     ))}
                     <span className="ml-2 text-sm font-medium text-gray-600">
-                    {book.rating}/5
+                    {book.Marks?.[0]?.rating || 0}/5
                     </span>
                 </div>
                 
@@ -135,9 +139,9 @@ export const BookDetails = () => {
                 </div>
                 
                 <div className="flex items-center gap-4 text-sm text-gray-600">
-                <span>{book.reviews} avis</span>
-                <span>·</span>
-                <span>Publié le {new Date(book.published_date).toLocaleDateString('fr-FR')}</span>
+                <span>{book.Marks?.length} avis</span>
+                <span>{book.Marks?.[0]?.review}</span>
+                <span>Publié le {new Date(book.Marks?.[0]?.createdAt).toLocaleDateString('fr-FR')}</span>
                 </div>
             </div>
             </div>
