@@ -18,7 +18,7 @@ import { Book } from "../types";
 //     availability: "Yes"
 // };
 
- export const BookDetails = () => {
+export const BookDetails = () => {
     const { id } = useParams();
     const [book, setBook] = useState<Book | null >(null) //on stock un seul livre
 
@@ -42,101 +42,110 @@ import { Book } from "../types";
     }
     return (
         <div className="min-h-screen flex flex-col">
-        <Header />
-        
-        <main className="flex-grow container mx-auto px-4 pt-24 pb-12">
+          <Header />
+          
+          <main className="flex-grow container mx-auto px-4 pt-24 pb-12">
             <div className="flex items-center gap-4 mb-8">
-            <Link 
+              <Link 
                 to="/"
                 className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors"
-            >
+              >
                 <ArrowLeft className="w-5 h-5" />
                 <span>Accueil</span>
-            </Link>
-            
-            <Link 
+              </Link>
+              
+              <Link 
                 to="/profile"
                 className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors ml-auto"
-            >
+              >
                 <User className="w-5 h-5" />
                 <span>Profil</span>
-            </Link>
+              </Link>
             </div>
     
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl shadow-sm p-6">
-            <div className="relative">
-                <div className="aspect-[2/3] rounded-lg overflow-hidden shadow-md">
-                <img 
+              <div className="flex flex-col gap-4">
+                <div className="aspect-[3/4] h-120 rounded-lg overflow-hidden shadow-md">
+                  <img 
                     src={book.image} 
                     alt={book.title}
                     className="w-full h-full object-cover"
-                />
+                  />
                 </div>
-                <h1 className="absolute bottom-4 left-4 right-4 font-display text-2xl font-semibold text-white drop-shadow-lg">
-                {book.title}
-                </h1>
-            </div>
-            
-            <div className="flex flex-col">
-                <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 mb-6">
-                <h2 className="font-display text-xl font-semibold text-gray-900 mb-4">
+                <div className="space-y-3">
+                  <div>
+                    <h1 className="font-display text-2xl font-semibold text-gray-900">
+                      {book.title}
+                    </h1>
+                    <p className="text-sm font-medium text-gray-600 mt-1">{book.Author.firstname} {book.Author.lastname}</p>
+                    <p className="text-xs font-medium text-gray-500 mt-1">{book.category}</p>
+                  </div>
+                  <div>
+                    <h2 className="font-display text-lg font-semibold text-gray-900 mb-2">
+                      À propos de l'auteur
+                    </h2>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                      {book.Author.biography}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="flex flex-col">
+                <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 mb-4 max-h-48 overflow-hidden">
+                  <h2 className="font-display text-lg font-semibold text-gray-900 mb-3">
                     Résumé
-                </h2>
-                <p className="text-gray-600 leading-relaxed">
+                  </h2>
+                  <p className="text-gray-600 leading-relaxed">
                     {book.summary}
-                </p>
+                  </p>
                 </div>
                 
                 <div className="flex items-center gap-6 mb-4">
-                <div className="flex items-center gap-1">
+                  <div className="flex items-center gap-1">
                     {[...Array(5)].map((_, i) => (
-                    <Star
+                      <Star
                         key={i}
                         className={`w-5 h-5 ${
-                        i < Math.floor(book.rating)
+                          i < Math.floor(book.rating)
                             ? "text-gold-400 fill-gold-400"
                             : "text-gray-300"
                         }`}
-                    />
+                      />
                     ))}
                     <span className="ml-2 text-sm font-medium text-gray-600">
-                    {book.rating}/5
+                      {book.rating}/5
                     </span>
-                </div>
-                
-                <div className="flex items-center gap-4">
+                  </div>
+                  
+                  <div className="flex items-center gap-4">
                     <Link 
-                    to="/review"
-                    className="text-sm font-medium text-primary hover:text-primary/90 transition-colors"
+                      to="/review"
+                      className="text-sm font-medium text-primary hover:text-primary/90 transition-colors"
                     >
-                    Évaluer ce livre
+                      Évaluer ce livre
                     </Link>
                     <Link 
-                    to="/reviews"
-                    className="text-sm font-medium text-primary hover:text-primary/90 transition-colors"
+                      to="/reviews"
+                      className="text-sm font-medium text-primary hover:text-primary/90 transition-colors"
                     >
-                    Avis
+                      Avis
                     </Link>
-                </div>
+                  </div>
                 </div>
                 
                 <div className="flex items-center gap-4 text-sm text-gray-600">
-                <span>{book.availability} avis</span>
+                  <span>{book.reviews} avis</span>
                 <span>·</span>
-                <span>Publié le {book.published_date}</span>
+                <span>Publié le {new Date(book.published_date).toLocaleDateString('fr-FR')}</span>
                 </div>
             </div>
             </div>
         </main>
-        
+    
         <Footer />
-       
-       
         </div>
     );
-  }
-
-
-//};
-
-export default BookDetails;
+    };
+    
+    export default BookDetails;
