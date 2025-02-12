@@ -9,6 +9,7 @@ export interface Book {
     image: string;
     summary: string;
     status:string;
+    availability : string;
   }
   
   export interface User {

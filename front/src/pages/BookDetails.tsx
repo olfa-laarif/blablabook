@@ -1,9 +1,10 @@
-import { ArrowLeft, Link, Star, User } from "lucide-react";
+import { ArrowLeft, Star, User } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-import { useParams } from "react-router";
+import { Link, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { getBookById } from "../services/api";
+import { Book } from "../types";
 
 // const BookDetails = () => {
   // Mock data - to be replaced with real data
@@ -17,12 +18,12 @@ import { getBookById } from "../services/api";
 //     availability: "Yes"
 // };
 
-const BookDetails = () => {
+ export const BookDetails = () => {
     const { id } = useParams();
-    const [book, setBook] = useState(null);
+    const [book, setBook] = useState<Book | null >(null) //on stock un seul livre
 
     useEffect(() => {
-
+        if(!id)return; // si on ne trouve pas l'id, on annule l' appel
         const fetchBookDetails = async () => {
             try {
                 const data = await getBookById(id);
@@ -37,7 +38,7 @@ const BookDetails = () => {
     }, [id]);
 
     if(!book){
-        return <div>charegelent ...</div>
+        return <div>chargement ...</div>
     }
     return (
         <div className="min-h-screen flex flex-col">
@@ -122,7 +123,7 @@ const BookDetails = () => {
                 <div className="flex items-center gap-4 text-sm text-gray-600">
                 <span>{book.availability} avis</span>
                 <span>·</span>
-                <span>Publié en {book.published_date}</span>
+                <span>Publié le {book.published_date}</span>
                 </div>
             </div>
             </div>
