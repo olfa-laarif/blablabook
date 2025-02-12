@@ -28,20 +28,38 @@ export default function BookCarousel({ books }: BookCarouselProps) {
   };
 
   const getCurrentSlideBooks = () => {
+    const uniqueBooks = new Set(); // Utilisation d'un Set pour éviter les doublons
     const visibleBooks = [];
+  
     for (let i = 0; i < booksPerSlide; i++) {
       const bookIndex = (currentIndex + i) % books.length;
-      visibleBooks.push(books[bookIndex]);
+      const book = books[bookIndex];
+  
+      if (book && !uniqueBooks.has(book.id)) { // Vérifie que book n'est pas undefined
+        uniqueBooks.add(book.id);
+        visibleBooks.push(book);
+      }
     }
     return visibleBooks;
   };
+
+  // const getCurrentSlideBooks = () => {
+  //   const visibleBooks = [];
+  //   for (let i = 0; i < booksPerSlide; i++) {
+  //     const bookIndex = (currentIndex + i) % books.length;
+  //     visibleBooks.push(books[bookIndex]);
+  //   }
+  //   return visibleBooks;
+  // };
 
   return (
     <div className="relative max-w-7xl mx-auto">
       <div className="overflow-hidden relative px-12">
         <div className="grid grid-cols-3 gap-6">
-          {getCurrentSlideBooks().filter((book) => book !== undefined && book !== null).map((book) => (
-            <div key={book.id} className="transform transition-transform duration-500">
+        {getCurrentSlideBooks().filter((book) => book !== undefined && book !== null).map((book, index) => (
+       <div key={`${book.id}-${index}`} className="transform transition-transform duration-500">
+          {/* {getCurrentSlideBooks().filter((book) => book !== undefined && book !== null).map((book) => (
+            <div key={`${book.id}-${index}`} className="transform transition-transform duration-500"> */}
               <BookCard book={book}
                 // onAddToRead={() => console.log('Added to read:', book.title)}
                 // onAddToReadLater={() => console.log('Added to read later:', book.title)}
