@@ -31,7 +31,6 @@ Book.init({
 
 }, {
   sequelize,
-  tableName: 'book'
 });
 
 

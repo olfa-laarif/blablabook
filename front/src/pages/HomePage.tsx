@@ -6,10 +6,14 @@ import Footer from '../components/Footer';
 import SearchBar from '../components/SearchBar';
 import { useEffect, useState } from 'react';
 import { getAllBooks } from '../services/api';
+import { Book } from "../types";
+import { filterBooks } from '../utils/filterBooks';
 
 
 const HomePage = () => {
-  const [books, setBooks] = useState([]);
+  const [books, setBooks] = useState<Book[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  const [searchOption, setSearchOption] = useState<string>("title"); // Critère par défaut : Titre
   
   useEffect(() => {
     // Chargement des livres dès le chargement de la page
@@ -25,21 +29,23 @@ const HomePage = () => {
 
     fetchBooks();
 
-  }, [books]);
+  }, []);
 
+  const filteredBooks = filterBooks(books, searchQuery, searchOption);
+  console.log("filtered books", filteredBooks);
 return (
     <>
         <div className="min-h-screen bg-gray-50">
         <Header />
         <Hero />
-        <SearchBar />
-        <FeaturedBook />
-        
-
+        <SearchBar 
+        searchQuery={searchQuery} 
+        setSearchQuery={setSearchQuery} 
+        searchOption={searchOption} 
+        setSearchOption={setSearchOption}
+        />
+        <FeaturedBook books={filteredBooks}/>
         <Features />
-
-
-
         <Footer />
         
           {/* <Sidebar /> */}

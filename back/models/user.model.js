@@ -1,5 +1,6 @@
 import { DataTypes, Model } from "sequelize";
 import { sequelize } from "./sequelizeClient.js";
+import argon2 from "argon2";
 
 export class User extends Model{};
 
@@ -31,8 +32,17 @@ User.init({
         type: DataTypes.TEXT,
       },
   }, {
+    hooks: {
+      beforeCreate: async (user) => {
+        user.password = await argon2.hash(user.password);
+      },
+      beforeUpdate: async (user) => {
+        if (user.changed("password")) {
+          user.password = await argon2.hash(user.password);
+        }
+      }
+    },
     sequelize,
-    tableName: 'user'
   });
 
 

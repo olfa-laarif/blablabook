@@ -1,11 +1,22 @@
 export interface Book {
     id: string;
     title: string;
-    author: string;
-    genre: string;
-    publishedDate: string;
+    Author: {
+      firstname:string,
+      lastname:string,
+      biography: string
+    };
+    Categories: {
+      name:string}[];
+    published_date: string;
     image: string;
-    description: string;
+    summary: string;
+    status:string;
+    availability : string;
+    Marks: {
+      review: string;
+      createdAt:string;
+      rating: number;} [];
   }
   
   export interface User {

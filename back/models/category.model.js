@@ -12,7 +12,6 @@ Category.init({
     },
 }, {
     sequelize,
-    tableName: 'category'
 });
 
 
