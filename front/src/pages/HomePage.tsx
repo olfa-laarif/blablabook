@@ -18,7 +18,6 @@ const HomePage = () => {
   useEffect(() => {
     // Chargement des livres dès le chargement de la page
     const fetchBooks = async () => {
-
       try {
         const data = await getAllBooks();
         setBooks(data);
@@ -26,9 +25,7 @@ const HomePage = () => {
         console.error('Impossible de charger les livres:', error);
       }
     };
-
     fetchBooks();
-
   }, []);
 
   const filteredBooks = filterBooks(books, searchQuery, searchOption);
@@ -47,8 +44,6 @@ return (
         <FeaturedBook books={filteredBooks}/>
         <Features />
         <Footer />
-        
-          {/* <Sidebar /> */}
         </div>
     </>
 );
