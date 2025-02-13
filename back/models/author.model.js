@@ -19,7 +19,6 @@ Author.init({
   }
 }, {
   sequelize,
-  tableName: 'author'
 });
 
 

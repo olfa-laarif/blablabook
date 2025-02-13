@@ -1,140 +1,155 @@
-import { ArrowLeft, Link, Star, User } from "lucide-react";
+import { ArrowLeft, Star, User } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
-// import { useParams } from "react-router";
-// import { useEffect, useState } from "react";
-// import { getBookById } from "../services/api";
-
-const BookDetails = () => {
-  // Mock data - to be replaced with real data
-const book = {
-    title: "L'Étranger",
-    author: "Albert Camus",
-    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-    summary: "L'histoire se déroule à Alger. Le protagoniste, Meursault, employé de bureau, reçoit un télégramme annonçant que sa mère, qu'il a placée à l'hospice de Marengo, vient de mourir. Il se rend à l'enterrement et ne manifeste aucune tristesse apparente...",
-    rating: 4.5,
-    published_date: "1942",
-    availability: "Yes"
-};
+import { Link, useParams } from "react-router";
+import { useEffect, useState } from "react";
+import { getBookById } from "../services/api";
+import { Book } from "../types";
 
 // const BookDetails = () => {
-//     const { id } = useParams();
-//     const [book, setBook] = useState(null);
+  // Mock data - to be replaced with real data
+// const book = {
+//     title: "L'Étranger",
+//     author: "Albert Camus",
+//     image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
+//     summary: "L'histoire se déroule à Alger. Le protagoniste, Meursault, employé de bureau, reçoit un télégramme annonçant que sa mère, qu'il a placée à l'hospice de Marengo, vient de mourir. Il se rend à l'enterrement et ne manifeste aucune tristesse apparente...",
+//     rating: 4.5,
+//     published_date: "1942",
+//     availability: "Yes"
+// };
 
-//     useEffect(() => {
+export const BookDetails = () => {
+    const { id } = useParams();
+    const [book, setBook] = useState<Book | null >(null) //on stock un seul livre
 
-//         const fetchBookDetails = async () => {
-//             try {
-//                 const data = await getBookById(id);
-//                 setBook(data);
-//             } catch (error) {
-//                 console.error("Impossible de charger les détails du livre", error);
-//             }
-//         };
+    useEffect(() => {
+        if(!id)return; // si on ne trouve pas l'id, on annule l' appel
+        const fetchBookDetails = async () => {
+            try {
+                const data = await getBookById(id);
+                setBook(data);
+            } catch (error) {
+                console.error("Impossible de charger les détails du livre", error);
+            }
+        };
 
-//         fetchBookDetails();
+        fetchBookDetails();
 
-//     }, [id]);
+    }, [id]);
 
-//     if(!book){
-//         return <div>charegelent ...</div>
-//     }
-//   }
-
-return (
-    <div className="min-h-screen flex flex-col">
-    <Header />
-    
-    <main className="flex-grow container mx-auto px-4 pt-24 pb-12">
-        <div className="flex items-center gap-4 mb-8">
-        <Link 
-            to="/"
-            className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors"
-        >
-            <ArrowLeft className="w-5 h-5" />
-            <span>Accueil</span>
-        </Link>
+    if(!book){
+        return <div>chargement ...</div>
+    }
+    return (
+        <div className="min-h-screen flex flex-col">
+        <Header />
         
-        <Link 
-            to="/profile"
-            className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors ml-auto"
-        >
-            <User className="w-5 h-5" />
-            <span>Profil</span>
-        </Link>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl shadow-sm p-6">
-        <div className="relative">
-            <div className="aspect-[2/3] rounded-lg overflow-hidden shadow-md">
-            <img 
-                src={book.image} 
-                alt={book.title}
-                className="w-full h-full object-cover"
-            />
-            </div>
-            <h1 className="absolute bottom-4 left-4 right-4 font-display text-2xl font-semibold text-white drop-shadow-lg">
-            {book.title}
-            </h1>
-        </div>
-        
-        <div className="flex flex-col">
-            <div className="bg-white rounded-lg p-6 shadow-sm border border-gray-100 mb-6">
-            <h2 className="font-display text-xl font-semibold text-gray-900 mb-4">
-                Résumé
-            </h2>
-            <p className="text-gray-600 leading-relaxed">
-                {book.summary}
-            </p>
-            </div>
+        <main className="flex-grow container mx-auto px-4 pt-24 pb-12">
+            <div className="flex items-center gap-4 mb-8">
+            <Link 
+                to="/"
+                className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors"
+            >
+                <ArrowLeft className="w-5 h-5" />
+                <span>Accueil</span>
+            </Link>
             
-            <div className="flex items-center gap-6 mb-4">
-            <div className="flex items-center gap-1">
-                {[...Array(5)].map((_, i) => (
-                <Star
-                    key={i}
-                    className={`w-5 h-5 ${
-                    i < Math.floor(book.rating)
-                        ? "text-gold-400 fill-gold-400"
-                        : "text-gray-300"
-                    }`}
+            <Link 
+                to="/profile"
+                className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors ml-auto"
+            >
+                <User className="w-5 h-5" />
+                <span>Profil</span>
+            </Link>
+            </div>
+    
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl shadow-sm p-6">
+            <div className="flex flex-col gap-4">
+                <div className="aspect-[3/4] h-120 rounded-lg overflow-hidden shadow-md">
+                <img 
+                    src={book.image} 
+                    alt={book.title}
+                    className="w-full h-full object-cover"
                 />
-                ))}
-                <span className="ml-2 text-sm font-medium text-gray-600">
-                {book.rating}/5
-                </span>
+                </div>
+                <div className="space-y-3">
+                <div>
+                    <h1 className="font-display text-2xl font-semibold text-gray-900">
+                    {book.title}
+                    </h1>
+                    <p className="text-sm text-gray-600 leading-relaxed">Publié le {new Date(book.published_date).toLocaleDateString('fr-FR')}</p>
+                    <h2 className="font-display text-lg font-semibold text-gray-900 mb-2">
+                    {book.Author.firstname} {book.Author.lastname}
+                    </h2>
+                    <p className="text-sm text-gray-600 leading-relaxed">{book.Categories[0].name}</p>
+                    
+                </div>
+                <div>
+                    <h2 className="font-display text-lg font-semibold text-gray-900 mb-2">
+                    À propos de l'auteur
+                    </h2>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+                    {book.Author.biography}
+                    </p>
+                </div>
+                </div>
             </div>
             
-            <div className="flex items-center gap-4">
-                <Link 
-                to="/review"
-                className="text-sm font-medium text-primary hover:text-primary/90 transition-colors"
-                >
-                Évaluer ce livre
-                </Link>
-                <Link 
-                to="/reviews"
-                className="text-sm font-medium text-primary hover:text-primary/90 transition-colors"
-                >
-                Avis
-                </Link>
+            <div className="flex flex-col">
+                <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 mb-4 max-h-48 overflow-hidden">
+                <h2 className="font-display text-lg font-semibold text-gray-900 mb-3">
+                    Résumé
+                </h2>
+                <p className="text-gray-600 leading-relaxed">
+                    {book.summary}
+                </p>
+                </div>
+                
+                <div className="flex items-center gap-6 mb-4">
+                <div className="flex items-center gap-1">
+                    {[...Array(5)].map((_, i) => (
+                    <Star
+                        key={i}
+                        className={`w-5 h-5 ${
+                        i < Math.floor(book.Marks?.[0]?.rating || 0)
+                            ? "text-gold-400 fill-gold-400"
+                            : "text-gray-300"
+                        }`}
+                    />
+                    ))}
+                    <span className="ml-2 text-sm font-medium text-gray-600">
+                    {book.Marks?.[0]?.rating || 0}/5
+                    </span>
+                </div>
+                
+                <div className="flex items-center gap-4">
+                    <Link 
+                    to="/review"
+                    className="text-sm font-medium text-primary hover:text-primary/90 transition-colors"
+                    >
+                    Évaluer ce livre
+                    </Link>
+                    <Link 
+                    to="/reviews"
+                    className="text-sm font-medium text-primary hover:text-primary/90 transition-colors"
+                    >
+                    Avis
+                    </Link>
+                </div>
+                </div>
+                
+                <div className="flex items-center gap-4 text-sm text-gray-600">
+                <span>{book.Marks?.length} avis</span>
+                <span>{book.Marks?.[0]?.review}</span>
+                <span>Publié le {new Date(book.Marks?.[0]?.createdAt).toLocaleDateString('fr-FR')}</span>
+                </div>
             </div>
             </div>
-            
-            <div className="flex items-center gap-4 text-sm text-gray-600">
-            <span>{book.availability} avis</span>
-            <span>·</span>
-            <span>Publié en {book.published_date}</span>
-            </div>
-        </div>
-        </div>
-    </main>
+        </main>
     
-    <Footer />
-   
-   
-    </div>
-);
-};
-
-export default BookDetails;
+        <Footer />
+        </div>
+    );
+    };
+    
+    export default BookDetails;
