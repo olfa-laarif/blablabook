@@ -31,3 +31,15 @@ export const getBookById = async (id: string) => {
         return null;
     }
 };
+export const getRandomBooks = async () => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/books/random`);
+        if (!res.ok) {
+        throw new Error ("Erreur lors de la récupération des livres");
+        }
+        return await res.json();
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+};

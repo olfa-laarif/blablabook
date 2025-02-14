@@ -8,7 +8,7 @@ interface BookCarouselProps {
 }
 
 export default function BookCarousel({ books }: BookCarouselProps) {
-  
+
   const [currentIndex, setCurrentIndex] = useState(0);
   const booksPerSlide = 3;
   const totalSlides = Math.ceil(books.length / booksPerSlide);

@@ -5,7 +5,7 @@ import Features from '../components/Features';
 import Footer from '../components/Footer';
 import SearchBar from '../components/SearchBar';
 import { useEffect, useState } from 'react';
-import { getAllBooks } from '../services/api';
+import { getRandomBooks } from '../services/api';
 import { Book } from "../types";
 import { filterBooks } from '../utils/filterBooks';
 
@@ -19,7 +19,7 @@ const HomePage = () => {
     // Chargement des livres dès le chargement de la page
     const fetchBooks = async () => {
       try {
-        const data = await getAllBooks();
+        const data = await getRandomBooks();
         setBooks(data);
       } catch (error) {
         console.error('Impossible de charger les livres:', error);
@@ -29,7 +29,7 @@ const HomePage = () => {
   }, []);
 
   const filteredBooks = filterBooks(books, searchQuery, searchOption);
-  console.log("filtered books", filteredBooks);
+  //console.log("filtered books", filteredBooks);
 return (
     <>
         <div className="min-h-screen bg-gray-50">
