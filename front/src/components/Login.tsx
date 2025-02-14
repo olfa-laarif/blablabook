@@ -1,7 +1,8 @@
 export default function Login() {
+    
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gray-100">
-      <div className="w-full max-w-md p-6 bg-white rounded-2xl shadow-md">
+    <div className="flex items-center justify-center py-8 bg-gray-100">
+      <div className="w-full max-w-md p-6 bg-white rounded-2xl shadow-md mt-30">
         <h2 className="text-2xl font-bold text-center text-gray-700">
           S'inscrire
         </h2>
@@ -12,7 +13,7 @@ export default function Login() {
             </label>
             <input
               type="text"
-              className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
+              className="w-full px-4 py-1 mt-1 border rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Votre nom"
             />
           </div>
@@ -22,7 +23,7 @@ export default function Login() {
             </label>
             <input
               type="text"
-              className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
+              className="w-full px-4 py-1 mt-1 border rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Votre prenom"
             />
           </div>
@@ -32,7 +33,7 @@ export default function Login() {
             </label>
             <input
               type="text"
-              className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
+              className="w-full px-4 py-1 mt-1 border rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Votre pseudo"
             />
           </div>
@@ -42,7 +43,7 @@ export default function Login() {
             </label>
             <input
               type="email"
-              className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
+              className="w-full px-4 py-1 mt-1 border rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Votre email"
             />
           </div>
@@ -52,7 +53,7 @@ export default function Login() {
             </label>
             <input
               type="password"
-              className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
+              className="w-full px-4 py-1 mt-1 border rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Votre mot de passe"
             />
           </div>
@@ -62,11 +63,11 @@ export default function Login() {
             </label>
             <input
               type="password"
-              className="w-full px-4 py-2 mt-1 border rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
+              className="w-full px-4 py-1 mt-1 border rounded-lg focus:ring focus:ring-blue-200 focus:outline-none"
               placeholder="Votre mot de passe"
             />
           </div>
-          <button className="w-full px-4 py-2 font-bold text-white bg-[#646cffaa] rounded-lg hover:bg-blue-600">
+          <button className="w-full px-4 py-1 font-bold text-white bg-[#626cffaa] rounded-lg hover:bg-blue-600">
             S'inscrire
           </button>
         </form>
