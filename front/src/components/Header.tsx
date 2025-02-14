@@ -11,9 +11,11 @@ export default function Header() {
             <BookOpen className="h-8 w-8 text-indigo-600" />
             <span className="ml-2 text-xl font-bold text-gray-900">Blablabook</span>
           </Link>
+          <Link to="/login">
             <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
               Se connecter
             </button>
+            </Link>
         </div>
       </div>
     </header>
