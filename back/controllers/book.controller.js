@@ -23,7 +23,9 @@ async  getAllBooks(req, res){
  { 
   include : [
   { model : Author,attributes: ['firstname', 'lastname']}
-  ]});
+  ]}).catch((error) => {
+    console.log(error);
+  } );
   res.json(books);
  },
 
