@@ -10,3 +10,34 @@ GET http://localhost:3001/api/books/2
 
 
 
+# Test pour Register, Login et Logout
+
+### Tester l'inscription d'un utilisateur
+POST http://localhost:3001/api/users/register
+Content-Type: application/json
+
+{
+    "username": "Benons",
+    "firstname": "Delly",
+    "lastname": "Delabarre",
+    "email": "actest@example.com",
+    "password": "Test@1234",
+    "biography": "Développeur passionné"
+}
+
+### Tester la connexion d'un utilisateur
+POST http://localhost:3001/api/users/login
+Content-Type: application/json
+
+{
+    "email": "actest@example.com",
+    "password": "Test@1234"
+}
+
+### Tester la déconnexion d'un utilisateur
+GET http://localhost:3001/api/users/logout
+
+
+### Récupérer les informations de l'utilisateur connecté
+GET http://localhost:3001/api/users/connected-user
+Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OCwiZW1haWwiOiJhY3Rlc3RAZXhhbXBsZS5jb20iLCJpYXQiOjE3Mzk3MTkxNTMsImV4cCI6MTczOTgwNTU1M30.egH6r-s6BjH-1YYLMBZ8hP2q5NL4ShJOEWsHyLIKWfM
