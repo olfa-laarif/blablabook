@@ -41,6 +41,7 @@ export const getRandomBooks = async () => {
     }
 };
 
+
 // vérifier les identifiants auprès du serveur
 export const checkCredentials = async (emailFromInput: string,passwordFromInput: string) => {
     try {
@@ -67,3 +68,6 @@ export const checkCredentials = async (emailFromInput: string,passwordFromInput:
     return null;
     }
 }; 
+
+
+

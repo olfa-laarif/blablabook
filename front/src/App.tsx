@@ -6,7 +6,6 @@ import SignUpPage from './pages/SignUpPage';
 import LoginPage from './pages/LoginPage';
 import NotFoundPage from './pages/NotFoundPage';
 
-
 function App() {
 
   return (
