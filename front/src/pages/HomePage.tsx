@@ -33,7 +33,7 @@ const HomePage = () => {
 return (
     <>
         <div className="min-h-screen bg-gray-50">
-        <Header />
+        <Header/>
         <Hero />
         <SearchBar 
         searchQuery={searchQuery} 

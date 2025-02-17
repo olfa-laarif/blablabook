@@ -3,12 +3,8 @@ import { BrowserRouter, Route, Routes } from 'react-router';
 import BookDetails from './pages/BookDetails';
 import HomePage from './pages/HomePage';
 import SignUpPage from './pages/SignUpPage';
-//import NotFoundPage from './pages/NotFoundPage';
 import LoginPage from './pages/LoginPage';
-
-
-
-
+import NotFoundPage from './pages/NotFoundPage';
 
 
 function App() {
@@ -20,6 +16,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/login" element={<LoginPage />} />
       <Route path="/signup" element={<SignUpPage />} />
+      <Route path="*" element={<NotFoundPage/>} />
       </Routes>
       </BrowserRouter>
 
