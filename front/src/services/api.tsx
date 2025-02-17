@@ -43,3 +43,15 @@ export const getRandomBooks = async () => {
         return [];
     }
 };
+export const getllABooks = async () => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/books`);
+        if (!res.ok) {
+        throw new Error ("Erreur lors de la récupération des livres");
+        }
+        return await res.json();
+    } catch (error) {
+        console.error(error);
+        return [];
+    }
+};
