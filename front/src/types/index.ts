@@ -6,7 +6,7 @@ export interface Book {
       lastname:string,
       biography: string
     };
-    Categories: {
+    Category: {
       name:string}[];
     published_date: string;
     image: string;

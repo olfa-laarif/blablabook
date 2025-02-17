@@ -1,7 +1,8 @@
 import { BookOpen } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link,useLocation } from 'react-router-dom';
 
 export default function Header() {
+  const location = useLocation(); // Récupérer l'URL actuelle
 
   return (
     <header className="bg-white shadow-sm fixed w-full top-0 z-50">
@@ -11,9 +12,24 @@ export default function Header() {
             <BookOpen className="h-8 w-8 text-indigo-600" />
             <span className="ml-2 text-xl font-bold text-gray-900">Blablabook</span>
           </Link>
-            <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
-              Se connecter
-            </button>
+          {/* Afficher "Se connecter" sur la page d'accueil et /login */}
+          {(location.pathname === "/" || location.pathname === "/login") && (
+              <Link to="/login">
+                <button className="bg-indigo-600 text-white px-4 py-2 mx-2 rounded-lg hover:bg-indigo-700">
+                  Se connecter
+                </button>
+              </Link>
+            )} 
+
+            {/* Afficher "S'inscrire" uniquement sur la page /signup */}
+            {location.pathname === "/signup" && (
+              <Link to="/signup">
+                <button className="bg-indigo-600 text-white px-4 py-2 mx-2 rounded-lg hover:bg-indigo-700">
+                  S'inscrire
+                </button>
+              </Link>
+            )}
+          
         </div>
       </div>
     </header>

@@ -17,6 +17,7 @@ async  getRandomBooks(req, res){
     res.json(randomBooks);
 },
 
+//On veut récupérer tout les livres seulement si l'utilateur est connecté
 async  getAllBooks(req, res){
  const books = await Book.findAll(
  { 
