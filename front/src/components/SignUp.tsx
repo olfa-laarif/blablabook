@@ -1,6 +1,8 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
+
 import { registerUser } from '../services/api';
+
 
 export default function SignUp() {
   // États pour afficher/masquer les mots de passe
@@ -14,6 +16,7 @@ export default function SignUp() {
   const [error, setError] = useState('');
 
     // Fonction de soumission du formulaire
+
     const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     // Empêcher le rechargement de la page
     event.preventDefault(); 
@@ -21,6 +24,8 @@ export default function SignUp() {
       setPasswordError('Les deux mots de passe sont différents');
       return;
     }
+
+
 
      // Expression régulière pour vérifier le format du mot de passe
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
@@ -32,10 +37,12 @@ export default function SignUp() {
   return;
 }
     
+
     setPasswordError('');
     // récupérer le contenu des champs
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData);
+
     console.log(data);
     try {
       const responseData = await registerUser(data.lastname as string, data.firstname as string, data.username as string, data.email as string, data.password as string);
@@ -82,6 +89,7 @@ export default function SignUp() {
           </div>
           {/* Champ username */}
           <div className="mb-4">
+
             <label htmlFor="username" className="block text-sm font-medium text-gray-600">
               Pseudo
             </label>
