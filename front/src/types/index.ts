@@ -26,3 +26,23 @@ export interface Book {
     readBooks: string[];
     toReadBooks: string[];
   }
+
+  export interface UserData {
+    id: string; 
+    username: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
+    biography?: string;
+  }
+
+  export interface NewUserData {
+    username: string;
+    firstname: string;
+    lastname: string;
+    email: string;
+    password: string;
+    biography?: string;
+  }
+  
