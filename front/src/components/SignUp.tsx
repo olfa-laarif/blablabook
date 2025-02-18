@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
 
+import { registerUser } from '../services/api';
+
+
 export default function SignUp() {
 
   const [passwordVisible, setPasswordVisible] = useState(false);
@@ -10,23 +13,38 @@ export default function SignUp() {
   const [passwordError, setPasswordError] = useState('');
 
     // Fonction de soumission du formulaire
-    const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+
+    const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     // Empêcher le rechargement de la page
     event.preventDefault(); 
     if (password !== confirmPassword) {
       setPasswordError('Les deux mots de passe sont différents');
       return;
     }
+
+
+
+     // Expression régulière pour vérifier le format du mot de passe
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+    // Vérifier le format du mot de passe
+    if (!passwordRegex.test(password)) {
+    setPasswordError(
+    "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial et être d'au moins 8 caractères."
+  );
+  return;
+}
+    
+
     setPasswordError('');
     // récupérer le contenu des champs
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData);
 
     console.log(data);
-    
-    
+    const responseData = await registerUser(data.lastname as string, data.firstname as string, data.username as string,data.email as string, data.password as string );
+    console.log(responseData);
     };
-    
+
   return (
     <div className="flex items-center justify-center py-8 bg-gray-100">
       <div className="w-full max-w-md p-6 bg-white rounded-2xl shadow-md mt-30">
@@ -61,13 +79,14 @@ export default function SignUp() {
             />
           </div>
           <div className="mb-4">
-            <label htmlFor="pseudo" className="block text-sm font-medium text-gray-600">
+
+            <label htmlFor="username" className="block text-sm font-medium text-gray-600">
               Pseudo
             </label>
             <input
               type="text"
-              id="pseudo"
-              name="pseudo"
+              id="username"
+              name="username"
               className="w-full px-4 py-1 mt-1 border border-gray-300 rounded-lg focus:ring focus:ring-indigo-500 focus:outline-none"
               placeholder="Votre pseudo"
               required

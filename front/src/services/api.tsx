@@ -2,6 +2,7 @@
 // Obtention de tous les livres (Méthode getAllBooks qui pointera sur une route get '/books')
 // Obtention d'un livre par son ID (Méthode getBookById qui pointera sur la route get'/books/${id})
 // Fetch à faire directement dans HomePage et BookDetails avec useEffect
+//import type { NewUserData } from "../types";
 
 const API_BASE_URL = "http://localhost:3001";
 
@@ -82,30 +83,36 @@ export const getConnectedUser = async () => {
     }
 };
 
-export const registerUser = async (
-    firstname: string,
-    lastname: string,
-    pseudo: string,
-    email: string,
-    password: string
-  ) => {
-    try {
-      const res = await fetch(`${API_BASE_URL}/api/users/register`, {
-        credentials: "include",
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ firstname, lastname, pseudo, email, password }),
-      });
-  
-      if (!res.ok) {
-        const errorData = await res.json(); // 🔴 Lire la réponse d'erreur du serveur
-        console.error("Erreur API:", errorData);
-        throw new Error(errorData.message || "Erreur lors de l'inscription");
-      }
-  
-      return await res.json();
-    } catch (error) {
-      console.error("Erreur client:", error);
-      return null;
-    }
-  };
+
+export const  registerUser= async (lastnameFromInput: string,firstnameFromInput: string,usernameFromInput: string,emailFromInput: string,passwordFromInput: string)=>{
+try {
+    const response = await fetch(`${API_BASE_URL}/api/users/register`, 
+    // données et configuration
+    {credentials: "include",
+    method: 'POST',
+    headers: {
+        'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+        username: usernameFromInput,
+        password: passwordFromInput,
+        email: emailFromInput,
+        firstname: firstnameFromInput,
+        lastname: lastnameFromInput,
+        }),
+    });
+
+    if (!response.ok) {
+        throw new Error ("Erreur de creation de l'utilisateur ");    
+    } 
+
+    // Récupération de la réponse du serveur
+    const data = await response.json();
+    return data;
+} catch (error) {
+    console.log("Erreur lors de l'appel à registerUser:", error);
+    return null;
+}
+}
+
+
