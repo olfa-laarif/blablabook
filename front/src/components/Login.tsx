@@ -1,65 +1,55 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { checkCredentials, getConnectedUser } from '../services/api';
+import { checkCredentials, getConnectedUser } from "../services/api";
+import { useAuth } from "../context/AuthContext";
+import { useNavigate } from "react-router-dom";
 
 export default function Login() {
+  const { login } = useAuth(); // Récupérer la fonction login du contexte
+  const navigate = useNavigate();
   const [passwordVisible, setPasswordVisible] = useState(false);
-  // Fonction de soumission du formulaire
+  const [error, setError] = useState<string | null>(null);
+
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  event.preventDefault(); // Empêcher le rechargement de la page
-  // récupérer le contenu des champs
-  const formData = new FormData(event.currentTarget);
-  const data = Object.fromEntries(formData);
-  if(data){
-    console.log("Email:", data.email, "Password:", data.password);
-  }
-  // envoyer les infos à l'API
-  const userData=await checkCredentials(data.email as string, data.password as string);
-if(userData.message){
-  console.log(userData.message);
-  const data=await getConnectedUser();
-  console.log(data.user);
-}
-};
-  
+    event.preventDefault();
+    const formData = new FormData(event.currentTarget);
+    const data = Object.fromEntries(formData);
+
+    try {
+      const userData = await checkCredentials(data.email as string, data.password as string);
+      if (userData) {
+        const userInfo = await getConnectedUser();
+        if (userInfo?.user) {
+          login(userInfo.user); // Met à jour le contexte global avec l'utilisateur connecté
+          navigate("/"); // Redirige pour le moment vers la page d'accueil (On devra apporter les modifications pour faire la redirection vers une autre page)
+        }
+      }
+    } catch (err) {
+      setError("Email ou mot de passe incorrect.");
+    }
+  };
+
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-6 bg-white rounded-2xl shadow-md mt-10">
         <h2 className="text-2xl font-bold text-center text-gray-700">Se connecter</h2>
-        <form  onSubmit={handleSubmit} className="mt-4">
+        {error && <p className="text-red-500 text-center">{error}</p>}
+        <form onSubmit={handleSubmit} className="mt-4">
           <div className="mb-4">
             <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
-            <input id="email" name="email"
-                type="email" 
-                required
-                className="w-full px-4 py-1 mt-1 border border-gray-300 border border-gray-300-gray-300 rounded-lg focus:ring focus:ring-indigo-500 focus:outline-none" placeholder="Votre email" />
+            <input id="email" name="email" type="email" required className="w-full px-4 py-1 mt-1 border rounded-lg focus:ring focus:ring-indigo-500 focus:outline-none" placeholder="Votre email" />
           </div>
           <div className="mb-4">
             <label htmlFor="password" className="block text-sm font-medium text-gray-600">Mot de passe</label>
-            {/* Ce div est utilisé pour positionner l'icône de visibilité du mot de passe en mode absolu à l'intérieur du champ de saisie. */}
             <div className="relative">
-              {/* Ce champ d'entrée bascule entre un type 'password' et 'text' en fonction de l'état de `passwordVisible`. */}
-              <input type={passwordVisible ? "text" : "password"} 
-                id="password"
-                name="password"
-                required
-                className="w-full px-4 py-1 mt-1 border border-gray-300 border border-gray-300-gray-300 rounded-lg focus:ring focus:ring-indigo-500 focus:outline-none" placeholder="Votre mot de passe" />
-              {/* Ce bouton permet d'afficher ou masquer le mot de passe en modifiant l'état `passwordVisible` lorsqu'on clique dessus. */}
-              <button
-                type="button"
-                className="absolute right-3 top-3 text-gray-600"
-                onClick={() => setPasswordVisible(!passwordVisible)}
-              >
-                {/* Cette expression conditionnelle affiche l'icône d'œil ouvert ou fermé en fonction de `passwordVisible`. */}
+              <input type={passwordVisible ? "text" : "password"} id="password" name="password" required className="w-full px-4 py-1 mt-1 border rounded-lg focus:ring focus:ring-indigo-500 focus:outline-none" placeholder="Votre mot de passe" />
+              <button type="button" className="absolute right-3 top-3 text-gray-600" onClick={() => setPasswordVisible(!passwordVisible)}>
                 {passwordVisible ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
             </div>
           </div>
-          <button type="submit"   className="w-full px-4 py-1 font-bold text-white bg-indigo-400 rounded-lg hover:bg-indigo-600">Se connecter</button>
+          <button type="submit" className="w-full px-4 py-1 font-bold text-white bg-indigo-400 rounded-lg hover:bg-indigo-600">Se connecter</button>
         </form>
-        <p className="mt-4 text-sm text-center text-gray-600">
-          Pas encore de compte ? <a href="/signup" className="text-indigo-500 hover:underline">S'inscrire</a>
-        </p>
       </div>
     </div>
   );

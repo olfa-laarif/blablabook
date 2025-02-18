@@ -82,5 +82,30 @@ export const getConnectedUser = async () => {
     }
 };
 
-
-
+export const registerUser = async (
+    firstname: string,
+    lastname: string,
+    pseudo: string,
+    email: string,
+    password: string
+  ) => {
+    try {
+      const res = await fetch(`${API_BASE_URL}/api/users/register`, {
+        credentials: "include",
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ firstname, lastname, pseudo, email, password }),
+      });
+  
+      if (!res.ok) {
+        const errorData = await res.json(); // 🔴 Lire la réponse d'erreur du serveur
+        console.error("Erreur API:", errorData);
+        throw new Error(errorData.message || "Erreur lors de l'inscription");
+      }
+  
+      return await res.json();
+    } catch (error) {
+      console.error("Erreur client:", error);
+      return null;
+    }
+  };
