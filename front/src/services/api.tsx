@@ -2,6 +2,14 @@
 // Obtention de tous les livres (Méthode getAllBooks qui pointera sur une route get '/books')
 // Obtention d'un livre par son ID (Méthode getBookById qui pointera sur la route get'/books/${id})
 // Fetch à faire directement dans HomePage et BookDetails avec useEffect
+import type { NewUserData } from "../types";
+
+type RegisterResponse = {
+  // Define the structure of the response here
+  success: boolean;
+  message: string;
+  // Add other fields as needed
+};
 
 const API_BASE_URL = "http://localhost:3001";
 
@@ -45,9 +53,9 @@ export const getRandomBooks = async () => {
 // vérifier les identifiants auprès du serveur
 export const checkCredentials = async (emailFromInput: string,passwordFromInput: string) => {
     try {
-    const res = await fetch(`${API_BASE_URL}/api/login`,
+    const res = await fetch(`${API_BASE_URL}/api/users/login`,
         // données et configuration
-        {
+        {credentials: "include",
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -59,9 +67,7 @@ export const checkCredentials = async (emailFromInput: string,passwordFromInput:
         },
     );
     if (!res.ok){ throw new Error("Erreur lors de l’authentification");}
-    const data = await res.json();
-    return data;
-    console.log(data);
+    return  await res.json();
     } catch (error) {
     //les identifiants n'étaient pas bons, 401 (Unauthorized)
     console.log('catch/error', error);
@@ -69,5 +75,99 @@ export const checkCredentials = async (emailFromInput: string,passwordFromInput:
     }
 }; 
 
+
+export const getConnectedUser = async () => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/users/connected-user`,{credentials: "include"});
+        if (!res.ok) {
+        throw new Error ("Erreur utilisateur non authentifié.");
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+
+export async function registerUser(userData: NewUserData): Promise<RegisterResponse> {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/users/register`,{
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        credentials: 'include',
+        body: JSON.stringify(userData),
+      });
+  
+      if (!response.ok) {
+        const text = await response.text();
+        console.error("Réponse brute d'erreur :", text);
+        let errorMessage = "Erreur lors de l'enregistrement";
+        // Vérifie si le texte n'est pas vide avant de tenter de le parser
+        if (text && text.trim().length > 0) {
+          try {
+            const errorData = JSON.parse(text);
+            errorMessage = errorData.error || errorMessage;
+          } catch (jsonError) {
+            console.error("Erreur lors du parsing de la réponse d'erreur :", jsonError);
+          }
+        }
+        throw new Error(errorMessage);
+      }
+  
+      // Si la réponse est ok, tente de récupérer le texte et le parser
+      const text = await response.text();
+      const data = text && text.trim().length > 0 ? JSON.parse(text) : {};
+      return data;
+    } catch (error) {
+      console.error("Erreur lors de l'appel à registerUser:", error);
+      throw error;
+    }
+  }
+  
+  
+
+// type RegisterResponse = unknown;
+
+// export async function registerUser(userData: NewUserData): Promise<RegisterResponse> {
+//   try {
+//     const response = await fetch('${API_BASE_URL}/api/users/register', {
+//       method: 'POST',
+//       headers: {
+//         'Content-Type': 'application/json',
+//       },
+//       // L'option "include" permet d'envoyer/recevoir les cookies
+//      credentials: 'include',
+//     body: JSON.stringify(userData),
+//     });
+
+//     if (!response.ok) {
+//         const text = await response.text();
+//         console.error("Réponse brute d'erreur:", text);
+//         let errorMessage = text || "Erreur lors de l'enregistrement";
+        
+//         if (text) {
+//         try {
+//             const errorData = JSON.parse(text);
+//             errorMessage = errorData.message || errorMessage;
+//         } catch (e) {
+//             console.error("Erreur de parsing JSON de la réponse d'erreur :", e);
+//         }
+//         }
+        
+//         throw new Error(errorMessage);
+//     } 
+
+//     // Récupération de la réponse du serveur
+//     const data = await response.json();
+//     return data;
+// } catch (error) {
+//     console.error("Erreur lors de l'appel à registerUser:", error);
+//     throw error;
+// }
+// }
 
 

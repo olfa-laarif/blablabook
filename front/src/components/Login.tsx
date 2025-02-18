@@ -1,39 +1,26 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-//import { checkCredentials } from '../services/api';
+import { checkCredentials, getConnectedUser } from '../services/api';
 
 export default function Login() {
   const [passwordVisible, setPasswordVisible] = useState(false);
-    // stockage du message à afficher quand on a eu la réponse du serveur
-    //const [message, setMessage] = useState('');
-
-    // stockage du JWT quand l'utilisateur est authentifié
-    //const [jwt, setJwt] = useState('');
-  
   // Fonction de soumission du formulaire
-  const handleSubmit = (event: React.FormEvent<HTMLFormElement>) => {
+  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
   event.preventDefault(); // Empêcher le rechargement de la page
   // récupérer le contenu des champs
   const formData = new FormData(event.currentTarget);
   const data = Object.fromEntries(formData);
   if(data){
-    console.log('Form submitted');
-    console.log(data);
     console.log("Email:", data.email, "Password:", data.password);
   }
-  /* exemple pour data :
-  {email: 'toto@mail.com', password: '123156'}
-  */
   // envoyer les infos à l'API
-  //const userData=checkCredentials(data.email as string, data.password as string);
-  //setJwt(userData.token);
-
-  // les identifiants étaient bons, on a notamment "pseudo" dans les données
-  //console.log(userData);
-  //setMessage(`Bienvenue ${userData.pseudo}`);
-  //console.log(message);
-
-  };
+  const userData=await checkCredentials(data.email as string, data.password as string);
+if(userData.message){
+  console.log(userData.message);
+  const data=await getConnectedUser();
+  console.log(data.user);
+}
+};
   
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
