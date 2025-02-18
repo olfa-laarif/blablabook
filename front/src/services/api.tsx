@@ -84,7 +84,6 @@ export const getConnectedUser = async () => {
 };
 
 
-
 export const  registerUser= async (lastnameFromInput: string,firstnameFromInput: string,usernameFromInput: string,emailFromInput: string,passwordFromInput: string)=>{
 try {
     const response = await fetch(`${API_BASE_URL}/api/users/register`, 
@@ -115,9 +114,5 @@ try {
     return null;
 }
 }
-
-
-
-
 
 
