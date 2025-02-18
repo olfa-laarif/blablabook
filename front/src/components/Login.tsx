@@ -25,7 +25,7 @@ export default function Login() {
         }
       }
     } catch (err) {
-      setError("Email ou mot de passe incorrect.");
+      setError(`Email ou mot de passe incorrect.${err}`);
     }
   };
 
