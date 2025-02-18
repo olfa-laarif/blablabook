@@ -45,9 +45,9 @@ export const getRandomBooks = async () => {
 // vérifier les identifiants auprès du serveur
 export const checkCredentials = async (emailFromInput: string,passwordFromInput: string) => {
     try {
-    const res = await fetch(`${API_BASE_URL}/api/login`,
+    const res = await fetch(`${API_BASE_URL}/api/users/login`,
         // données et configuration
-        {
+        {credentials: "include",
         method: 'POST',
         headers: {
             'Content-Type': 'application/json',
@@ -59,15 +59,28 @@ export const checkCredentials = async (emailFromInput: string,passwordFromInput:
         },
     );
     if (!res.ok){ throw new Error("Erreur lors de l’authentification");}
-    const data = await res.json();
-    return data;
-    console.log(data);
+    return  await res.json();
     } catch (error) {
     //les identifiants n'étaient pas bons, 401 (Unauthorized)
     console.log('catch/error', error);
     return null;
     }
 }; 
+
+
+export const getConnectedUser = async () => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/users/connected-user`,{credentials: "include"});
+        if (!res.ok) {
+        throw new Error ("Erreur utilisateur non authentifié.");
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
 
 
 
