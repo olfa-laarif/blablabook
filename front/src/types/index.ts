@@ -46,6 +46,3 @@ export interface Book {
     biography?: string;
   }
   
-
-  
-  

@@ -1,5 +1,5 @@
 import Header from "../components/Header";
-import SignUp from "../components/signUp";
+import SignUp from "../components/SignUp";
 import Footer from "../components/Footer";
 
 const SignUpPage = () => {

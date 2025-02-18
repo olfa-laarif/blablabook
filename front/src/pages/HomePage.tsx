@@ -21,6 +21,7 @@ const HomePage = () => {
     const fetchBooks = async () => {
       try {
         const data = await getRandomBooks();
+        console.log(data);
         setBooks(data);
       } catch (error) {
         console.error('Impossible de charger les livres:', error);

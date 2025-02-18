@@ -1,7 +1,6 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { registerUser } from "../services/api";
-import type { NewUserData } from "../types"; // Assurez-vous que le chemin est correct
+import { registerUser } from '../services/api';
 
 export default function SignUp() {
   // États pour afficher/masquer les mots de passe
@@ -12,60 +11,39 @@ export default function SignUp() {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [error, setError] = useState('');
 
-  // États pour les retours de l'appel API
-  const [error, setError] = useState<string | null>(null);
-  const [success, setSuccess] = useState('');
-
-  // Expression régulière pour vérifier le format du mot de passe
-  const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
-
-  // Fonction de soumission du formulaire
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault(); // Empêche le rechargement de la page
-
-    // Vérifier que les deux mots de passe sont identiques
+    // Fonction de soumission du formulaire
+    const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+    // Empêcher le rechargement de la page
+    event.preventDefault(); 
     if (password !== confirmPassword) {
       setPasswordError('Les deux mots de passe sont différents');
       return;
     }
 
+     // Expression régulière pour vérifier le format du mot de passe
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
     // Vérifier le format du mot de passe
     if (!passwordRegex.test(password)) {
-      setPasswordError(
-        "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial et être d'au moins 8 caractères."
-      );
-      return;
-    }
-
-    setPasswordError('');
-    setError(null);
-    setSuccess('');
-
-    // Récupération des données du formulaire via FormData
-    const formData = new FormData(event.currentTarget);
-    const dataObj = Object.fromEntries(formData.entries());
+    setPasswordError(
+    "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial et être d'au moins 8 caractères."
+  );
+  return;
+}
     
-    // On s'assure d'avoir le mot de passe contrôlé
-    const userData: NewUserData = {
-      ...dataObj,
-      password,
-    } as NewUserData;
-
+    setPasswordError('');
+    // récupérer le contenu des champs
+    const formData = new FormData(event.currentTarget);
+    const data = Object.fromEntries(formData);
+    console.log(data);
     try {
-      // Appel à la fonction registerUser pour envoyer les données au backend
-      const responseData = await registerUser(userData) as { token?: string };
-      setSuccess("Inscription réussie ! Vous êtes maintenant connecté.");
-      console.log("Utilisateur enregistré :", responseData);
-      
-  
-    } catch (err) {
-      setError((err as Error).message);
-      console.error(err);
+      const responseData = await registerUser(data.lastname as string, data.firstname as string, data.username as string, data.email as string, data.password as string);
+      console.log(responseData);
+    } catch {
+      setError('Une erreur est survenue lors de l\'inscription. Veuillez réessayer.');
     }
-  };
-
-
+    };
 
   return (
     <div className="flex items-center justify-center py-8 bg-gray-100">
@@ -195,7 +173,6 @@ export default function SignUp() {
         </form>
         {/* Messages d'erreur ou de succès */}
         {error && <p className="mt-4 text-center text-red-600">{error}</p>}
-        {success && <p className="mt-4 text-center text-green-600">{success}</p>}
         <p className="mt-4 text-sm text-center text-gray-600">
           Déjà un compte ?{" "}
           <a href="/login" className="text-indigo-500 hover:underline">
