@@ -25,7 +25,7 @@ export default function App() {
         <Route path="/login" element={user ? <Navigate to="/" /> : <LoginPage />} />
         <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUpPage />} />
         <Route path="/all-books" element={<AllBooksPage />} />
-        <Route path="/books/:id" element={<BookDetails />
+        <Route path="/books/:id" element={<BookDetails />}
         />
         {/* Route protégée */}
         <Route
