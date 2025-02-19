@@ -5,7 +5,7 @@ const booksData = [
     title: "L'Étranger",
     summary: "Un roman philosophique qui explore l'absurdité de la condition humaine.",
     published_date: "1942-06-01",
-    image: "https://images.unsplash.com/photo-1544936207-0a6d6d43c7f0?auto=format&fit=crop&w=400&q=80",
+    image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400",
     status: "lu",
     availability: false,
   },
@@ -13,7 +13,7 @@ const booksData = [
     title: "La Peste",
     summary: "Un récit sur la lutte collective face à une épidémie dévastatrice.",
     published_date: "1947-05-10",
-    image: "https://images.unsplash.com/photo-1563201517-6ae98e37b0d1?auto=format&fit=crop&w=400&q=80",
+    image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400",
     status: "à lire",
     availability: true,
   },
@@ -110,7 +110,7 @@ const booksData = [
     title: "L'Enquête Implacable",
     summary: "Une intrigue policière où rien n'est laissé au hasard.",
     published_date: "2002-05-15",
-    image: "https://images.unsplash.com/photo-1564866657313-47b5d5a098ef?auto=format&fit=crop&w=400&q=80",
+    image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400",
     status: "en cours",
     availability: true,
   },
@@ -161,6 +161,54 @@ const booksData = [
     image: "https://images.unsplash.com/photo-1519681393784-d120267933ba?auto=format&fit=crop&w=400&q=80",
     status: "lu",
     availability: true,
+  },
+  {
+    title: "L'Étranger",
+    summary: "Un roman philosophique qui explore l'absurdité de la condition humaine.",
+    published_date: "1942-06-01",
+    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400",
+    status: "lu",
+    availability: true
+  },
+  {
+    title: "Le Petit Prince",
+    summary: "Une histoire intemporelle sur l'amour, l'amitié et la vie.",
+    published_date: "1943-04-06",
+    image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400",
+    status: "à lire",
+    availability: true
+  },
+  {
+    title: "Madame Bovary",
+    summary: "L'histoire tragique d'une femme prisonnière de ses rêves et de ses désillusions.",
+    published_date: "1857-12-01",
+    image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=400",
+    status: "en cours",
+    availability: false
+  },
+  {
+    title: "Les Misérables",
+    summary: "Une fresque épique sur la lutte pour la justice et la rédemption.",
+    published_date: "1862-01-01",
+    image: "https://images.unsplash.com/photo-1476275466078-4007374efbbe?auto=format&fit=crop&q=80&w=400",
+    status: "lu",
+    availability: true
+  },
+  {
+    title: "Notre-Dame de Paris",
+    summary: "Une histoire tragique se déroulant autour de la cathédrale de Paris.",
+    published_date: "1831-03-16",
+    image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80&w=400",
+    status: "à lire",
+    availability: true
+  },
+  {
+    title: "Les Fleurs du Mal",
+    summary: "Une collection de poèmes explorant la beauté et la décadence.",
+    published_date: "1857-06-01",
+    image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400",
+    status: "en cours",
+    availability: true
   }
 ];
 

@@ -7,10 +7,11 @@ import { useAuth } from "../context/AuthContext";
 export default function SignUp() {
   const { login } = useAuth(); // Récupérer la fonction login du contexte
   const [passwordVisible, setPasswordVisible] = useState(false);
-  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);  
   const [password, setPassword] = useState('');
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [error, setError] = useState('');
 
   const navigate = useNavigate();
 
@@ -52,6 +53,7 @@ export default function SignUp() {
     }
     catch(error){
       console.log(error);
+      setError("Une erreur s'est produite lors de l'inscription. Veuillez réessayer.");
     }
     };
 
@@ -169,6 +171,9 @@ export default function SignUp() {
             <button type="submit" className="w-full px-4 py-1 font-bold text-white bg-indigo-400 rounded-lg hover:bg-indigo-600">
               S'inscrire
             </button>
+            {error && (
+              <p className="mt-2 text-sm text-red-600">{error}</p>
+            )}
           </form>
           <p className="mt-4 text-sm text-center text-gray-600">
             Déjà un compte ?{" "}
