@@ -30,10 +30,10 @@ POST http://localhost:3001/api/users/register
 Content-Type: application/json
 
 {
-    "username": "Noelito",
+    "username": "Noel",
     "firstname": "isradis",
     "lastname": "laarif",
-    "email": "aNoel@example.com",
+    "email": "Noel@example.com",
     "password": "Test@1234"
     
 }
@@ -43,7 +43,7 @@ POST http://localhost:3001/api/users/login
 Content-Type: application/json
 
 {
-    "email": "aNoel@example.com",
+    "email": "Noel@example.com",
     "password": "Test@1234"
 }
 
@@ -55,3 +55,8 @@ Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJvbGZhQ
 
 ### Tester la déconnexion d'un utilisateur
 GET http://localhost:3001/api/users/logout
+
+
+
+### Tester 
+GET http://localhost:3001/api/user/username/Noelito
