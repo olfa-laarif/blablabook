@@ -18,6 +18,103 @@ export const getAllBooks = async () => {
         return [];
     }
 };
+// // Dans votre service API (ex: src/services/api.ts)
+// import { Book } from "../types";
+
+// export async function getAllBooks(): Promise<Book[]> {
+//   // Simuler un délai
+//   await new Promise((resolve) => setTimeout(resolve, 500));
+//   // Retourner des données fictives
+//   return [
+//     {
+//       id: "1",
+//       title: "Livre Exemple 1",
+//       Author: { firstname: "John", lastname: "Doe", biography: "Bio de John" },
+//       Category: [{ name: "Fiction" }],
+//       published_date: "2020-01-01",
+//       image: "https://via.placeholder.com/150",
+//       summary: "Résumé du livre 1",
+//       status: "Disponible",
+//       availability: "En stock",
+//       Marks: [
+//         { review: "Excellent", createdAt: "2021-01-01", rating: 5 }
+//       ]
+//     },
+//     {
+//       id: "2",
+//       title: "Livre Exemple 2",
+//       Author: { firstname: "Jane", lastname: "Smith", biography: "Bio de Jane" },
+//       Category: [{ name: "Non-fiction" }],
+//       published_date: "2021-06-15",
+//       image: "https://via.placeholder.com/150",
+//       summary: "Résumé du livre 2",
+//       status: "Disponible",
+//       availability: "En stock",
+//       Marks: [
+//         { review: "Bon", createdAt: "2021-07-01", rating: 4 }
+//       ]
+//     },
+//     {
+//         id: "6",
+//         title: "Livre Exemple 1",
+//         Author: { firstname: "John", lastname: "Doe", biography: "Bio de John" },
+//         Category: [{ name: "Fiction" }],
+//         published_date: "2020-01-01",
+//         image: "https://via.placeholder.com/150",
+//         summary: "Résumé du livre 1",
+//         status: "Disponible",
+//         availability: "En stock",
+//         Marks: [
+//           { review: "Excellent", createdAt: "2021-01-01", rating: 5 }
+//         ]
+//       },
+//       {
+//         id: "4",
+//         title: "Livre Exemple 2",
+//         Author: { firstname: "Jane", lastname: "Smith", biography: "Bio de Jane" },
+//         Category: [{ name: "Non-fiction" }],
+//         published_date: "2021-06-15",
+//         image: "https://via.placeholder.com/150",
+//         summary: "Résumé du livre 2",
+//         status: "Disponible",
+//         availability: "En stock",
+//         Marks: [
+//           { review: "Bon", createdAt: "2021-07-01", rating: 4 }
+//         ]
+//       },
+//       {
+//         id: "3",
+//         title: "Livre Exemple 1",
+//         Author: { firstname: "John", lastname: "Doe", biography: "Bio de John" },
+//         Category: [{ name: "Fiction" }],
+//         published_date: "2020-01-01",
+//         image: "https://via.placeholder.com/150",
+//         summary: "Résumé du livre 1",
+//         status: "Disponible",
+//         availability: "En stock",
+//         Marks: [
+//           { review: "Excellent", createdAt: "2021-01-01", rating: 5 }
+//         ]
+//       },
+//       {
+//         id: "8",
+//         title: "Livre Exemple 2",
+//         Author: { firstname: "Jane", lastname: "Smith", biography: "Bio de Jane" },
+//         Category: [{ name: "Non-fiction" }],
+//         published_date: "2021-06-15",
+//         image: "https://via.placeholder.com/150",
+//         summary: "Résumé du livre 2",
+//         status: "Disponible",
+//         availability: "En stock",
+//         Marks: [
+//           { review: "Bon", createdAt: "2021-07-01", rating: 4 }
+//         ]
+//       },
+
+//     // Ajoutez autant d'exemples que nécessaire
+//   ];
+// }
+
 
 export const getBookById = async (id: string) => {
     try {
@@ -43,30 +140,43 @@ export const getRandomBooks = async () => {
 };
 
 
-// vérifier les identifiants auprès du serveur
-export const checkCredentials = async (emailFromInput: string,passwordFromInput: string) => {
+// Vérifier les identifiants auprès du serveur
+export const checkCredentials = async (emailFromInput: string, passwordFromInput: string) => {
     try {
-    const res = await fetch(`${API_BASE_URL}/api/users/login`,
-        // données et configuration
-        {credentials: "include",
-        method: 'POST',
+      // Envoi d'une requête POST à l'endpoint de login de l'API
+      const res = await fetch(`${API_BASE_URL}/api/users/login`, {
+        // L'option credentials: "include" permet d'inclure les cookies dans la requête,
+        // utile pour l'authentification via token stocké dans un cookie
+        credentials: "include",
+        method: 'POST', // Méthode HTTP POST pour envoyer des données
         headers: {
-            'Content-Type': 'application/json',
+          'Content-Type': 'application/json', // Indique que le corps de la requête est au format JSON
         },
+        // Le corps de la requête contient les identifiants sous forme de JSON
         body: JSON.stringify({
-        email: emailFromInput,
-        password: passwordFromInput,
+          email: emailFromInput,
+          password: passwordFromInput,
         }),
-        },
-    );
-    if (!res.ok){ throw new Error("Erreur lors de l’authentification");}
-    return  await res.json();
+      });
+  
+      // Vérification du statut de la réponse.
+      // Si la réponse n'est pas "ok" (statut HTTP 200-299), on lève une erreur.
+      if (!res.ok) {
+        throw new Error("Erreur lors de l’authentification");
+      }
+  
+      // Si la réponse est correcte, on convertit le corps de la réponse en JSON
+      return await res.json();
     } catch (error) {
-    //les identifiants n'étaient pas bons, 401 (Unauthorized)
-    console.log('catch/error', error);
-    return null;
+      // Si une erreur est attrapée (par exemple, en cas d'identifiants invalides,
+      // le serveur renvoie une erreur 401, ou en cas de problème réseau),
+      // on affiche l'erreur dans la console
+      console.log('catch/error', error);
+      // Et on retourne null pour indiquer l'échec de l'authentification
+      return null;
     }
-}; 
+  };
+  
 
 
 export const getConnectedUser = async () => {
@@ -114,5 +224,19 @@ try {
     return null;
 }
 }
+
+export const logoutUser = async () => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/users/logout`,{credentials: "include"});
+        if (!res.ok) {
+        throw new Error ("Erreur de déconnexion ");
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
 
 

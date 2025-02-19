@@ -81,7 +81,9 @@ export const BookDetails = () => {
                     <h2 className="font-display text-lg font-semibold text-gray-900 mb-2">
                     {book.Author.firstname} {book.Author.lastname}
                     </h2>
-                    <p className="text-sm text-gray-600 leading-relaxed">{book.Categories[0].name}</p>
+                    <p className="text-sm text-gray-600 leading-relaxed">
+  {book.Category?.map(category => category.name).join(', ') || "Pas de catégorie"}
+</p>
                     
                 </div>
                 <div>
