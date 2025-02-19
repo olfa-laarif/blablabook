@@ -17,11 +17,11 @@ POST http://localhost:3001/api/users/register
 Content-Type: application/json
 
 {
-    "username": "Benons",
+    "username": "Bonsiigigi",
     "firstname": "Delly",
     "lastname": "Delabarre",
-    "email": "actest@example.com",
-    "password": "Test@1234",
+    "email": "aceyyt@exmple.com",
+    "password": "Tet@1234",
     "biography": "Développeur passionné"
 }
 

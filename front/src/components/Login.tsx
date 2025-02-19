@@ -21,9 +21,10 @@ export default function Login() {
         const userInfo = await getConnectedUser();
         if (userInfo?.user) {
           login(userInfo.user); // Met à jour le contexte global avec l'utilisateur connecté
-          navigate("/"); // Redirige pour le moment vers la page d'accueil (On devra apporter les modifications pour faire la redirection vers une autre page)
+          navigate("/all-books"); // Redirige pour le moment vers la page d'accueil (On devra apporter les modifications pour faire la redirection vers une autre page)
         }
       }
+
     } catch (err) {
       setError(`Email ou mot de passe incorrect.${err}`);
     }
