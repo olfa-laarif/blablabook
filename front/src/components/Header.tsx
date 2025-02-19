@@ -1,15 +1,19 @@
 import { BookOpen } from "lucide-react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 import { logoutUser } from "../services/api";
 
 export default function Header() {
+
   const { user, logout } = useAuth(); // Récupérer l'utilisateur connecté et la fonction de déconnexion
-  
+  const navigate = useNavigate();
+        
   const runLogoutUser = async () => {
     await logoutUser();
     logout();
+    navigate("/all-books");    // Redirige vers la page de tous les livres
   }
+
   return (
     <header className="bg-white shadow-sm fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -19,8 +23,7 @@ export default function Header() {
             <BookOpen className="h-8 w-8 text-indigo-600" />
             <span className="ml-2 text-xl font-bold text-gray-900">Blablabook</span>
           </Link>
-
-          {/* Navigation : Affichage selon l'état de connexion */}
+          {/* Navigation */}
           <div className="flex items-center gap-4">
             {user ? (
               <>
@@ -58,45 +61,3 @@ export default function Header() {
     </header>
   );
 }
-
-
-
-
-
-// import { BookOpen } from 'lucide-react';
-// import { Link,useLocation } from 'react-router-dom';
-
-// export default function Header() {
-//   const location = useLocation(); // Récupérer l'URL actuelle
-
-//   return (
-//     <header className="bg-white shadow-sm fixed w-full top-0 z-50">
-//       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-//         <div className="flex justify-between h-16 items-center">
-//           <Link to="/" className="flex items-center">
-//             <BookOpen className="h-8 w-8 text-indigo-600" />
-//             <span className="ml-2 text-xl font-bold text-gray-900">Blablabook</span>
-//           </Link>
-//           {/* Afficher "Se connecter" sur la page d'accueil et /login */}
-//           {(location.pathname === "/" || location.pathname === "/login") && (
-//               <Link to="/login">
-//                 <button className="bg-indigo-600 text-white px-4 py-2 mx-2 rounded-lg hover:bg-indigo-700">
-//                   Se connecter
-//                 </button>
-//               </Link>
-//             )} 
-
-//             {/* Afficher "S'inscrire" uniquement sur la page /signup */}
-//             {location.pathname === "/signup" && (
-//               <Link to="/signup">
-//                 <button className="bg-indigo-600 text-white px-4 py-2 mx-2 rounded-lg hover:bg-indigo-700">
-//                   S'inscrire
-//                 </button>
-//               </Link>
-//             )}
-          
-//         </div>
-//       </div>
-//     </header>
-//   );
-// }
