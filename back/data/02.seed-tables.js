@@ -1,97 +1,120 @@
 import 'dotenv/config';
 import { sequelize } from '../models/sequelizeClient.js';
 import { User, Book, Author,Category,Mark } from '../models/associations.js';
+import booksData from './booksData.js';
 
 console.log("🔄 blablabook seeding started...");
 
 // Création des auteurs et des livres en seule lot (batch/bulk)
-await Author.bulkCreate([
-  {
-    firstname: "Albert",
-    lastname: "Camus",
-    biography: "Albert Camus était un écrivain, philosophe et journaliste français, prix Nobel de littérature.",
-    Books: [
+async function seedAuthors() {
+  try {
+    await Author.bulkCreate([
       {
-        title: "L'Étranger",
-        summary: "Un roman philosophique qui explore l'absurdité de la condition humaine.",
-        published_date: "1942-06-01",
-        image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400",
-        status: "lu",
-        availability: false
-      }
-    ]
-  },
-  {
-    firstname: "Antoine",
-    lastname: "de Saint-Exupéry",
-    biography: "Antoine de Saint-Exupéry était un aviateur et écrivain français, auteur du Petit Prince.",
-    Books: [
-      {
-        title: "Le Petit Prince",
-        summary: "Une histoire intemporelle sur l'amour, l'amitié et la vie.",
-        published_date: "1943-04-06",
-        image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400",
-        status: "à lire",
-        availability: false
-      }
-    ]
-  },
-  {
-    firstname: "Victor",
-    lastname: "Hugo",
-    biography: "Victor Hugo est l'un des plus grands écrivains français, auteur de Les Misérables et Notre-Dame de Paris.",
-    Books: [
-      {
-        title: "Les Misérables",
-        summary: "Une fresque épique sur la lutte pour la justice et la rédemption.",
-        published_date: "1862-01-01",
-        image: "https://images.unsplash.com/photo-1476275466078-4007374efbbe?auto=format&fit=crop&q=80&w=400",
-        status: "lu",
-        availability: false
+        firstname: "Albert",
+        lastname: "Camus",
+        biography: "Albert Camus était un écrivain, philosophe et journaliste français, prix Nobel de littérature.",
+        // Utilise le tableau de 20 livres issus de booksData pour cet auteur.
+        Books: booksData,
       },
-      {
-        title: "Notre-Dame de Paris",
-        summary: "Une histoire tragique se déroulant autour de la cathédrale de Paris.",
-        published_date: "1831-03-16",
-        image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80&w=400",
-        status: "à lire",
-        availability: false
-      }
-    ]
-  },
-  {
-    firstname: "Gustave",
-    lastname: "Flaubert",
-    biography: "Gustave Flaubert était un romancier français célèbre pour son œuvre Madame Bovary.",
-    Books: [
-      {
-        title: "Madame Bovary",
-        summary: "L'histoire tragique d'une femme prisonnière de ses rêves et de ses désillusions.",
-        published_date: "1857-12-01",
-        image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=400",
-        status: "en cours",
-        availability: false
-      }
-    ]
-  },
-  {
-    firstname: "Charles",
-    lastname: "Baudelaire",
-    biography: "Charles Baudelaire était un poète français, célèbre pour son recueil Les Fleurs du Mal.",
-    Books: [
-      {
-        title: "Les Fleurs du Mal",
-        summary: "Une collection de poèmes explorant la beauté et la décadence.",
-        published_date: "1857-06-01",
-        image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400",
-        status: "en cours",
-        availability: false
-      }
-    ]
-  }
-], { include: Book });
+      // Vous pouvez ajouter d'autres auteurs ici si nécessaire
+    ], { include: [Book] }); // On inclut le modèle Book pour créer les enregistrements associés
 
-console.log("Les auteurs et leurs livres ont été ajoutés avec succès !");
+    console.log("Les auteurs et leurs livres ont été ajoutés avec succès !");
+    process.exit(0);
+  } catch (error) {
+    console.error("Erreur lors du seed des auteurs et livres :", error);
+    process.exit(1);
+  }
+}
+
+seedAuthors();
+// await Author.bulkCreate([
+//   {
+//     firstname: "Albert",
+//     lastname: "Camus",
+//     biography: "Albert Camus était un écrivain, philosophe et journaliste français, prix Nobel de littérature.",
+//     Books: [
+//       {
+//         title: "L'Étranger",
+//         summary: "Un roman philosophique qui explore l'absurdité de la condition humaine.",
+//         published_date: "1942-06-01",
+//         image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400",
+//         status: "lu",
+//         availability: false
+//       }
+//     ]
+//   },
+//   {
+//     firstname: "Antoine",
+//     lastname: "de Saint-Exupéry",
+//     biography: "Antoine de Saint-Exupéry était un aviateur et écrivain français, auteur du Petit Prince.",
+//     Books: [
+//       {
+//         title: "Le Petit Prince",
+//         summary: "Une histoire intemporelle sur l'amour, l'amitié et la vie.",
+//         published_date: "1943-04-06",
+//         image: "https://images.unsplash.com/photo-1543002588-bfa74002ed7e?auto=format&fit=crop&q=80&w=400",
+//         status: "à lire",
+//         availability: false
+//       }
+//     ]
+//   },
+//   {
+//     firstname: "Victor",
+//     lastname: "Hugo",
+//     biography: "Victor Hugo est l'un des plus grands écrivains français, auteur de Les Misérables et Notre-Dame de Paris.",
+//     Books: [
+//       {
+//         title: "Les Misérables",
+//         summary: "Une fresque épique sur la lutte pour la justice et la rédemption.",
+//         published_date: "1862-01-01",
+//         image: "https://images.unsplash.com/photo-1476275466078-4007374efbbe?auto=format&fit=crop&q=80&w=400",
+//         status: "lu",
+//         availability: false
+//       },
+//       {
+//         title: "Notre-Dame de Paris",
+//         summary: "Une histoire tragique se déroulant autour de la cathédrale de Paris.",
+//         published_date: "1831-03-16",
+//         image: "https://images.unsplash.com/photo-1481627834876-b7833e8f5570?auto=format&fit=crop&q=80&w=400",
+//         status: "à lire",
+//         availability: false
+//       }
+//     ]
+//   },
+//   {
+//     firstname: "Gustave",
+//     lastname: "Flaubert",
+//     biography: "Gustave Flaubert était un romancier français célèbre pour son œuvre Madame Bovary.",
+//     Books: [
+//       {
+//         title: "Madame Bovary",
+//         summary: "L'histoire tragique d'une femme prisonnière de ses rêves et de ses désillusions.",
+//         published_date: "1857-12-01",
+//         image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?auto=format&fit=crop&q=80&w=400",
+//         status: "en cours",
+//         availability: false
+//       }
+//     ]
+//   },
+//   {
+//     firstname: "Charles",
+//     lastname: "Baudelaire",
+//     biography: "Charles Baudelaire était un poète français, célèbre pour son recueil Les Fleurs du Mal.",
+//     Books: [
+//       {
+//         title: "Les Fleurs du Mal",
+//         summary: "Une collection de poèmes explorant la beauté et la décadence.",
+//         published_date: "1857-06-01",
+//         image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?auto=format&fit=crop&q=80&w=400",
+//         status: "en cours",
+//         availability: false
+//       }
+//     ]
+//   }
+// ], { include: Book });
+
+// console.log("Les auteurs et leurs livres ont été ajoutés avec succès !");
 
 
 
