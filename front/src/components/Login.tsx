@@ -24,8 +24,9 @@ export default function Login() {
           navigate("/all-books"); // Redirige pour le moment vers la page d'accueil (On devra apporter les modifications pour faire la redirection vers une autre page)
         }
       }
-    } catch {
-      setError("Email ou mot de passe incorrect.");
+
+    } catch (err) {
+      setError(`Email ou mot de passe incorrect.${err}`);
     }
   };
 
