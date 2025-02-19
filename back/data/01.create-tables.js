@@ -11,7 +11,7 @@ await sequelize.sync();
 
 console.log('✅ Synchronisation des tables terminée.');
 
-try {
+/*try {
     // Vérifier que l'extension pg_trgm est activée
     await sequelize.query(`CREATE EXTENSION IF NOT EXISTS pg_trgm;`);
   
@@ -27,7 +27,7 @@ try {
   
   } catch (error) {
     console.error('❌ Erreur lors de la création des index :', error);
-  }
+  }*/
 
 // On pense a terminer la connexion à la BDD à la fin
 await sequelize.close();

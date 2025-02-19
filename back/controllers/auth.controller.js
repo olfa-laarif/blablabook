@@ -1,4 +1,4 @@
-import { User } from "../models/user.model.js";
+import { User } from "../models/associations.js";
 import { userCreateShema } from "../schemas/user.schema.js";
 import jwt from "jsonwebtoken";
 import argon2 from "argon2";

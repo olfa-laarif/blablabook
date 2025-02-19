@@ -4,12 +4,15 @@ import { controllerWrapper } from "../middlewares/controller.wrapper.js";
 
 const userRouter = express.Router();
 
-//Route pour recuperer un  utilisateur par son email
-userRouter.get('/api/user/email/:email',controllerWrapper(userController.getUserByEmail));
+userRouter.get('/email/:email', controllerWrapper(userController.getUserByEmail));
+userRouter.get('/username/:username', controllerWrapper(userController.getUserByUsername));
+userRouter.get('/:id(\\d+)', controllerWrapper(userController.getOneUser));
+userRouter.get('/', controllerWrapper(userController.getAllUsers));
 
-//Route pour recuperer un  utilisateur par son pseudo
-userRouter.get('/api/user/username/:username',(userController.getUserByUsername));
 
-userRouter.get('/api/user/username/:id',controllerWrapper(userController.getOneUser));
+// Gestion des erreurs 404
+userRouter.use((req, res) => {
+  res.status(404).json({ error: 'Not found' });
+});
 
 export { userRouter } 

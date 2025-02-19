@@ -43,6 +43,7 @@ User.init({
       }
     },
     sequelize,
+    tableName: "User", // Spécifie explicitement le nom de la table
   });
 
 
