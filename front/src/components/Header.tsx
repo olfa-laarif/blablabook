@@ -1,10 +1,15 @@
 import { BookOpen } from "lucide-react";
 import { Link } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
+import { logoutUser } from "../services/api";
 
 export default function Header() {
   const { user, logout } = useAuth(); // Récupérer l'utilisateur connecté et la fonction de déconnexion
-
+  
+  const runLogoutUser = async () => {
+    await logoutUser();
+    logout();
+  }
   return (
     <header className="bg-white shadow-sm fixed w-full top-0 z-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -20,29 +25,32 @@ export default function Header() {
             {user ? (
               <>
                 {/* Affiche le pseudo de l'utilisateur */}
-                <span className="text-gray-800 font-medium">Bienvenue, {user.username}!</span>
+                <span className="text-gray-800 font-medium">Bienvenue, {user.username}</span>
                 {/* Bouton de déconnexion */}
                 <button
-                  onClick={logout}
-                  className="bg-red-500 text-white px-4 py-2 rounded-lg hover:bg-red-600"
+                  onClick={runLogoutUser}
+                  className="px-4 py-2 font-bold text-white bg-indigo-400 rounded-lg hover:bg-indigo-600"
+                  aria-label="Déconnexion"
                 >
                   Déconnexion
                 </button>
               </>
             ) : (
-              <>
+              <div className="flex space-x-4">
                 {/* Liens vers Login et Signup si non connecté */}
-                <Link to="/login">
-                  <button className="bg-indigo-600 text-white px-4 py-2 rounded-lg hover:bg-indigo-700">
-                    Se connecter
+                <Link to="/login" >
+                  <button className="w-full min-w-[140px] px-4 py-2 font-bold text-white bg-indigo-400 rounded-lg hover:bg-indigo-600 whitespace-nowrap"
+                  aria-label="Se connecter">
+                  Se connecter
                   </button>
                 </Link>
-                <Link to="/signup">
-                  <button className="bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700">
+                <Link to="/signup" >
+                  <button className="w-full px-4 py-2 min-w-[140px] font-bold text-white bg-indigo-400 rounded-lg hover:bg-indigo-600 whitespace-nowrap"
+                  aria-label="S'inscrire">
                     S'inscrire
                   </button>
                 </Link>
-              </>
+              </div>
             )}
           </div>
         </div>

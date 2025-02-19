@@ -35,8 +35,6 @@ export async function registerUser(req, res) {
     throw new Error("ValidationError : Cet email est déjà utilisé.");
   }
 
-  //const hashedPassword = await argon2.hash(password, { type: argon2.argon2id });
-
   await User.create({
     username,
     firstname,
@@ -59,8 +57,6 @@ export async function loginUser(req, res) {
   if (!user) {
     throw new Error("ValidationError : Email incorrect.");
   }
-
-  console.log(user.password);
   const validPassword = await argon2.verify(user.password, password);
   if (!validPassword) {
     throw new Error("ValidationError : Mot de passe incorrect.");

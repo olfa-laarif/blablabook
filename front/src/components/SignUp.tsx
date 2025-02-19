@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-
 import { registerUser } from '../services/api';
+import { useNavigate } from "react-router-dom";
 
 
 export default function SignUp() {
@@ -12,8 +12,9 @@ export default function SignUp() {
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
 
-    // Fonction de soumission du formulaire
+  const navigate = useNavigate();
 
+    // Fonction de soumission du formulaire
     const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
     // Empêcher le rechargement de la page
     event.preventDefault(); 
@@ -33,16 +34,22 @@ export default function SignUp() {
   );
   return;
 }
-    
-
+  
     setPasswordError('');
     // récupérer le contenu des champs
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData);
-
-    console.log(data);
-    const responseData = await registerUser(data.lastname as string, data.firstname as string, data.username as string,data.email as string, data.password as string );
-    console.log(responseData);
+    try{
+    const registerData=await registerUser(data.lastname as string, data.firstname as string, data.username as string,data.email as string, data.password as string );
+    if(registerData){
+      navigate("/");
+    }
+    
+    }
+    catch(error){
+      console.log(error);
+    }
+ 
     };
 
   return (
