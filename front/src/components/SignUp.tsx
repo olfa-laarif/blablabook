@@ -1,10 +1,11 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { registerUser } from '../services/api';
+import { checkCredentials, getConnectedUser, registerUser } from '../services/api';
 import { useNavigate } from "react-router-dom";
+import { useAuth } from "../context/AuthContext";
 
 export default function SignUp() {
-
+  const { login } = useAuth(); // Récupérer la fonction login du contexte
   const [passwordVisible, setPasswordVisible] = useState(false);
   const [password, setPassword] = useState('');
   const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);
@@ -39,7 +40,14 @@ export default function SignUp() {
     try{
     const registerData=await registerUser(data.lastname as string, data.firstname as string, data.username as string,data.email as string, data.password as string );
     if(registerData){
-      navigate("/all-books");
+      const userData = await checkCredentials(data.email as string, data.password as string);
+      if (userData) {
+        const userInfo = await getConnectedUser();
+        if (userInfo?.user) {
+          login(userInfo.user); // Met à jour le contexte global avec l'utilisateur connecté
+          navigate("/all-books"); // Redirige pour le moment vers la page de tous les livres
+        }
+      }
     }
     
     }
