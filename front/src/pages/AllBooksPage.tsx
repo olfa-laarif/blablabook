@@ -22,7 +22,6 @@ const AllBooksPage = () => {
     const fetchBooks = async () => {
       try {
         const data = await getAllBooks();
-        console.log("Livres récupérés :", data);
         setBooks(data);
       } catch (error) {
         console.error('Impossible de charger les livres:', error);
