@@ -5,17 +5,22 @@ import Hero from '../components/Hero';
 import BookList from '../components/BookList';
 import Features from '../components/Features';
 import Footer from '../components/Footer';
-import SearchBar from '../components/SearchBar';
+import ConnectedUserSearchBar from '../components/ConnectedUserSearchBar';
 import { getAllBooks } from '../services/api';
 import { Book } from "../types";
+import { filterBooks } from '../utils/filterBooks';
+import { useDebouncedSearch } from '../hooks/useDebouncedSearch';
+
 
 const AllBooksPage = () => {
   const [books, setBooks] = useState<Book[]>([]);
-  const [searchQuery, setSearchQuery] = useState<string>("");
   const [searchOption, setSearchOption] = useState<string>("title"); // Critère par défaut : Titre
   const [currentPage, setCurrentPage] = useState<number>(1);
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
   const booksPerPage = 6;
 
+ // Utilisation du hook `useDebouncedSearch`
+  const { query, setQuery, debouncedQuery } = useDebouncedSearch("", 1000);
 
   useEffect(() => {
     // Chargement des livres dès le montage de la page
@@ -30,11 +35,17 @@ const AllBooksPage = () => {
     fetchBooks();
   }, []);
 
+   useEffect(() => {
+      // Filtrage des livres uniquement après la fin de la saisie (debounced)
+      const results = filterBooks(books, debouncedQuery, searchOption);
+      setFilteredBooks(results);
+    }, [books, debouncedQuery, searchOption]);
+
   // Calcul de la pagination
-  const totalPages = Math.ceil(books.length / booksPerPage);
+  const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
   const startIndex = (currentPage - 1) * booksPerPage;
   const endIndex = startIndex + booksPerPage;
-  const paginatedBooks = books.slice(startIndex, endIndex);
+  const paginatedBooks = filteredBooks.slice(startIndex, endIndex);
 
   // Gestion des boutons "Précédent" et "Suivant"
   const handlePreviousPage = () => {
@@ -53,12 +64,12 @@ const AllBooksPage = () => {
     <div className="min-h-screen bg-gray-50">
       <Header />
       <Hero isBooksPage={true} />
-      <SearchBar 
-        searchQuery={searchQuery} 
-        setSearchQuery={setSearchQuery} 
-        searchOption={searchOption} 
-        setSearchOption={setSearchOption}
-      />
+       <ConnectedUserSearchBar 
+              searchQuery={query}
+              setSearchQuery={setQuery}
+              searchOption={searchOption}
+              setSearchOption={setSearchOption}
+            />
       {/* Affichage de la liste paginée des livres */}
       <div className="mt-10"></div>
       <BookList books={paginatedBooks} />
@@ -89,3 +100,5 @@ const AllBooksPage = () => {
 };
 
 export default AllBooksPage;
+
+
