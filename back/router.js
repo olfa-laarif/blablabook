@@ -5,9 +5,13 @@ import { userRouter } from "./routes/user.routes.js";
 
 const router = express.Router();
 
+// app.use(express.json());
+// app.use(express.urlencoded({extended: true}));
+
 router.use(authRouter);
 router.use(bookRouter);
 router.use(userRouter);
+
 
 export { router };
 

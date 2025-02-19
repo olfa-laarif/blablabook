@@ -1,4 +1,3 @@
-
 import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "./context/AuthContext";
 import Header from "./components/Header";
@@ -7,7 +6,8 @@ import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
 import BookDetails from "./pages/BookDetails";
 import NotFoundPage from "./pages/NotFoundPage";
-//import PrivateRoute from "./routes/PrivateRoute";
+import PrivateRoute from "./routes/PrivateRoute";
+ //import ConnectedUserHomePage from "./pages/ConnectedUserHomePage";
 import AllBooksPage from "./pages/AllBooksPage";
 
 
@@ -19,22 +19,25 @@ export default function App() {
       <Header />
       <Routes>
         <Route path="/" element={<HomePage />} />
-        <Route path="*" element={<NotFoundPage />} />
+        <Route path="*" element={<NotFoundPage />} />      
 
-        {/* Empêcher un utilisateur connecté d'accéder à /login ou /signup */}
-        <Route path="/login" element={user ? <Navigate to="/" /> : <LoginPage />} />
-        <Route path="/signup" element={user ? <Navigate to="/" /> : <SignUpPage />} />
-        <Route path="/all-books" element={<AllBooksPage />} />
+        <Route path="/login" element={user ? <Navigate to="/all-books" /> : <LoginPage />} />
+        <Route path="/signup" element={user ? <Navigate to="/all-books" /> : <SignUpPage />} />
+        {/* La ligne ci-dessous n'a pas de sens, c'est juste pour tester ce qu'on reçoit  */}
+        {/* <Route path="/signup" element={user ? <Navigate to="/all-books" /> : <ConnectedUserHomePage />} /> */}
+
+
+        {/* <Route path="/all-books" element={<AllBooksPage />} /> */}
         <Route path="/books/:id" element={<BookDetails />}
         />
         {/* Route protégée */}
         <Route
-          // path="/books/:id"
-          // element={
-          //   // <PrivateRoute>
-              
-          //   // </PrivateRoute>
-          // }
+          path="/all-books"
+          element={
+              <PrivateRoute>
+              <AllBooksPage />
+              </PrivateRoute>
+          }
         />
       </Routes>
     </Router>
