@@ -5,7 +5,7 @@ import FeaturedBook from '../components/FeaturedBook';
 import Features from '../components/Features';
 import Footer from '../components/Footer';
 import ConnectedUserSearchBar from '../components/ConnectedUserSearchBar';
-import { getRandomBooks } from '../services/api';
+import { getAllBooks, } from '../services/api';
 import { useDebouncedSearch } from '../hooks/useDebouncedSearch';
 import { Book } from "../types";
 import { filterBooks } from '../utils/filterBooks';
@@ -22,7 +22,7 @@ const ConnectedUserHomePage = () => {
     // Chargement des livres dès le montage du composant
     const fetchBooks = async () => {
       try {
-        const data = await getRandomBooks();
+        const data = await getAllBooks();
         setBooks(data);
       } catch (error) {
         console.error('Impossible de charger les livres:', error);
