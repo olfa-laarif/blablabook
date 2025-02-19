@@ -2,8 +2,7 @@ import { useEffect, useState } from 'react';
 // import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
 import Hero from '../components/Hero';
-import BookList from '../components/BookList';
-import Features from '../components/Features';
+import BookList from '../components/BookList'
 import Footer from '../components/Footer';
 import ConnectedUserSearchBar from '../components/ConnectedUserSearchBar';
 import { getAllBooks } from '../services/api';
@@ -43,9 +42,18 @@ const AllBooksPage = () => {
 
   // Calcul de la pagination
   const totalPages = Math.ceil(filteredBooks.length / booksPerPage);
+  // Calcule le nombre total de pages en divisant le nombre total de livres filtrés par le nombre de livres affichés par page, et en arrondissant à l'entier supérieur.
+  
   const startIndex = (currentPage - 1) * booksPerPage;
+  // Détermine l'indice du premier livre à afficher pour la page actuelle.
+  // Pour la page 1, startIndex sera 0; pour la page 2, il sera booksPerPage, etc.
+  
   const endIndex = startIndex + booksPerPage;
+  // Il détermine la limite supérieure pour la découpe du tableau.
+  
   const paginatedBooks = filteredBooks.slice(startIndex, endIndex);
+  // Découpe le tableau filteredBooks pour obtenir uniquement les livres qui doivent être affichés sur la page actuelle.
+  
 
   // Gestion des boutons "Précédent" et "Suivant"
   const handlePreviousPage = () => {
@@ -93,7 +101,6 @@ const AllBooksPage = () => {
           Suivant
         </button>
       </div>
-      <Features />
       <Footer />
     </div>
   );

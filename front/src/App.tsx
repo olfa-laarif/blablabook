@@ -7,7 +7,7 @@ import SignUpPage from "./pages/SignUpPage";
 import BookDetails from "./pages/BookDetails";
 import NotFoundPage from "./pages/NotFoundPage";
 import PrivateRoute from "./routes/PrivateRoute";
- import ConnectedUserHomePage from "./pages/ConnectedUserHomePage";
+ //import ConnectedUserHomePage from "./pages/ConnectedUserHomePage";
 import AllBooksPage from "./pages/AllBooksPage";
 
 
@@ -36,7 +36,6 @@ export default function App() {
           element={
               <PrivateRoute>
               <AllBooksPage />
-              <ConnectedUserHomePage />
               </PrivateRoute>
           }
         />
