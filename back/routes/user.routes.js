@@ -8,7 +8,7 @@ const userRouter = express.Router();
 userRouter.get('/api/user/email/:email',controllerWrapper(userController.getUserByEmail));
 
 //Route pour recuperer un  utilisateur par son pseudo
-userRouter.get('/api/user/username/:username',controllerWrapper(userController.getUserByUsername));
+userRouter.get('/api/user/username/:username',(userController.getUserByUsername));
 
 userRouter.get('/api/user/username/:id',controllerWrapper(userController.getOneUser));
 
