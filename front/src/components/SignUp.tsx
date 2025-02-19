@@ -1,33 +1,52 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { checkCredentials, getConnectedUser } from "../services/api";
-import { useAuth } from "../context/AuthContext";
+import { registerUser } from '../services/api';
 import { useNavigate } from "react-router-dom";
 
-export default function Login() {
-  const { login } = useAuth(); // Récupérer la fonction login du contexte
-  const navigate = useNavigate();
-  const [passwordVisible, setPasswordVisible] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export default function SignUp() {
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
+  const [passwordVisible, setPasswordVisible] = useState(false);
+  const [confirmPasswordVisible, setConfirmPasswordVisible] = useState(false);  
+  const [password, setPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+  const [passwordError, setPasswordError] = useState('');
+
+  const navigate = useNavigate();
+
+    // Fonction de soumission du formulaire
+    const handleSubmit = async(event: React.FormEvent<HTMLFormElement>) => {
+    // Empêcher le rechargement de la page
+    event.preventDefault(); 
+    if (password !== confirmPassword) {
+      setPasswordError('Les deux mots de passe sont différents');
+      return;
+    }
+     // Expression régulière pour vérifier le format du mot de passe
+    const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
+    // Vérifier le format du mot de passe
+    if (!passwordRegex.test(password)) {
+    setPasswordError(
+    "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial et être d'au moins 8 caractères."
+  );
+  return;
+}
+  
+    setPasswordError('');
+    // récupérer le contenu des champs
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData);
-
-    try {
-      const userData = await checkCredentials(data.email as string, data.password as string);
-      if (userData) {
-        const userInfo = await getConnectedUser();
-        if (userInfo?.user) {
-          login(userInfo.user); // Met à jour le contexte global avec l'utilisateur connecté
-          navigate("/all-books");
-        }
-      }
-    } catch {
-      setError("Email ou mot de passe incorrect.");
+    try{
+    const registerData=await registerUser(data.lastname as string, data.firstname as string, data.username as string,data.email as string, data.password as string );
+    if(registerData){
+      navigate("/all-books");
     }
-  };
+    
+    }
+    catch(error){
+      console.log(error);
+    }
+ 
+    };
 
   return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">

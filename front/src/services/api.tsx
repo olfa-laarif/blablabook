@@ -225,4 +225,18 @@ try {
 }
 }
 
+export const logoutUser = async () => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/users/logout`,{credentials: "include"});
+        if (!res.ok) {
+        throw new Error ("Erreur de déconnexion ");
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
 

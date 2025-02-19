@@ -43,14 +43,6 @@ export default function BookCarousel({ books }: BookCarouselProps) {
     return visibleBooks;
   };
 
-  // const getCurrentSlideBooks = () => {
-  //   const visibleBooks = [];
-  //   for (let i = 0; i < booksPerSlide; i++) {
-  //     const bookIndex = (currentIndex + i) % books.length;
-  //     visibleBooks.push(books[bookIndex]);
-  //   }
-  //   return visibleBooks;
-  // };
 
   return (
     <div className="relative max-w-7xl mx-auto">
@@ -59,8 +51,6 @@ export default function BookCarousel({ books }: BookCarouselProps) {
         {getCurrentSlideBooks().map((book, index) => (
         <div key={`${book.id}-${index}`} className="transform transition-transform duration-500">
               <BookCard book={book}
-                // onAddToRead={() => console.log('Added to read:', book.title)}
-                // onAddToReadLater={() => console.log('Added to read later:', book.title)}
               />
             </div>
           ))}

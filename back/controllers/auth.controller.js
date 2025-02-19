@@ -59,6 +59,7 @@ export async function registerUser(req, res) {
     throw new Error("Internal Server Error during user creation");
   }
 
+
   // Envoi de la réponse de succès
   console.log("Envoi de la réponse de succès");
   res.status(201).json({ message: "Utilisateur créé avec succès !" });
@@ -75,8 +76,6 @@ export async function loginUser(req, res) {
   if (!user) {
     throw new Error("ValidationError : Email incorrect.");
   }
-
-  console.log(user.password);
   const validPassword = await argon2.verify(user.password, password);
   if (!validPassword) {
     throw new Error("ValidationError : Mot de passe incorrect.");
