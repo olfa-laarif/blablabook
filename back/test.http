@@ -30,10 +30,10 @@ POST http://localhost:3001/api/users/register
 Content-Type: application/json
 
 {
-    "username": "olfa-la",
-    "firstname": "olfa",
+    "username": "Noelito",
+    "firstname": "isradis",
     "lastname": "laarif",
-    "email": "olfa@example.com",
+    "email": "aNoel@example.com",
     "password": "Test@1234"
     
 }
@@ -43,14 +43,15 @@ POST http://localhost:3001/api/users/login
 Content-Type: application/json
 
 {
-    "email": "olfa@example.com",
+    "email": "aNoel@example.com",
     "password": "Test@1234"
 }
-
-### Tester la déconnexion d'un utilisateur
-GET http://localhost:3001/api/users/logout
 
 
 ### Récupérer les informations de l'utilisateur connecté
 GET http://localhost:3001/api/users/connected-user
 Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJvbGZhQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM5ODIwMzU2LCJleHAiOjE3Mzk5MDY3NTZ9.PKUWNS7ocxRB9vxn_j2iTGtwJ3R4eF-1v4ySEYdQeHA
+
+
+### Tester la déconnexion d'un utilisateur
+GET http://localhost:3001/api/users/logout
