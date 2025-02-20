@@ -1,14 +1,13 @@
-import {User} from "../models/associations.js";
-
+import {User,Book} from "../models/associations.js";
+import { sequelize } from "../models/sequelizeClient.js";
 
 export const userController ={
 
   async getUserByEmail(req, res) {
     try {
 
-        const email = decodeURIComponent(req.params.email); // Décoder l'email
-        
-        const user = await User.findOne({ where: { email } });
+        const email=req.params.email;
+        const user =await User.findOne({ where: { email } });
 
         if (!user) {
             return res.status(404).json({ error: 'User not found!' });
@@ -22,8 +21,8 @@ export const userController ={
 
 
   async getUserByUsername(req, res){
-    console.log(req.params.username);
-    const user = await User.findOne({ where: { username:req.params.username } });
+    const username=req.params.username;
+    const user = await User.findOne({ where: { username } });
     if(!user){
       res.status(404).json({error:'User not found !'});
     }
@@ -39,5 +38,16 @@ export const userController ={
       res.status(404).json({error:'User not found !'});
     }
     res.json(user);
-  }
+  },
+
+  async  getAllUsers(req, res){
+    const users = await User.findAll(
+    { 
+      include : [
+      { model : Book}
+      ]}).catch((error) => {
+        console.log(error);
+      } );
+      res.json(users);
+    },
 }

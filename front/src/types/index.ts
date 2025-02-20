@@ -6,7 +6,7 @@ export interface Book {
       lastname:string,
       biography: string
     };
-    Category: {
+    Categories: {
       name:string}[];
     published_date: string;
     image: string;
@@ -21,28 +21,11 @@ export interface Book {
   
   export interface User {
     id: string;
-    name: string;
-    email: string;
-    readBooks: string[];
-    toReadBooks: string[];
-  }
-
-  export interface UserData {
-    id: string; 
     username: string;
     firstname: string;
     lastname: string;
-    email: string;
-    password: string;
-    biography?: string;
+    email: string; 
+    biography:string;
   }
 
-  export interface NewUserData {
-    username: string;
-    firstname: string;
-    lastname: string;
-    email: string;
-    password: string;
-    biography?: string;
-  }
   

@@ -5,7 +5,10 @@ import FeaturedBook from '../components/FeaturedBook';
 import Features from '../components/Features';
 import Footer from '../components/Footer';
 import ConnectedUserSearchBar from '../components/ConnectedUserSearchBar';
-import { getAllBooks, } from '../services/api';
+
+import { getAllBooks } from '../services/api';
+
+
 import { useDebouncedSearch } from '../hooks/useDebouncedSearch';
 import { Book } from "../types";
 import { filterBooks } from '../utils/filterBooks';
@@ -49,10 +52,8 @@ const ConnectedUserHomePage = () => {
         searchOption={searchOption}
         setSearchOption={setSearchOption}
       />
-
       {/* Affichage des livres filtrés */}
       <FeaturedBook books={filteredBooks} />
-
       <Features />
       <Footer />
     </div>

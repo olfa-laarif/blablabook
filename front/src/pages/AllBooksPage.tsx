@@ -26,6 +26,7 @@ const AllBooksPage = () => {
     const fetchBooks = async () => {
       try {
         const data = await getAllBooks();
+        console.log(data);
         setBooks(data);
       } catch (error) {
         console.error('Impossible de charger les livres:', error);
@@ -34,7 +35,7 @@ const AllBooksPage = () => {
     fetchBooks();
   }, []);
 
-   useEffect(() => {
+  useEffect(() => {
       // Filtrage des livres uniquement après la fin de la saisie (debounced)
       const results = filterBooks(books, debouncedQuery, searchOption);
       setFilteredBooks(results);

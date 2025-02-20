@@ -6,14 +6,14 @@ GET http://localhost:3001/api/books
 
 
 ###Récupérer un seul livre par son id
-GET http://localhost:3001/api/books/2
+GET http://localhost:3001/api/books/3
 
 
 
 # Test pour Register, Login et Logout
 
 ### Tester l'inscription d'un utilisateur
-POST http://localhost:3001/api/users/register
+POST http://localhost:3001/api/auth/register
 Content-Type: application/json
 
 {
@@ -26,7 +26,7 @@ Content-Type: application/json
 }
 
 ### Tester l'inscription d'un utilisateur
-POST http://localhost:3001/api/users/register
+POST http://localhost:3001/api/auth/register
 Content-Type: application/json
 
 {
@@ -39,7 +39,7 @@ Content-Type: application/json
 }
 
 ### Tester la connexion d'un utilisateur
-POST http://localhost:3001/api/users/login
+POST http://localhost:3001/api/auth/login
 Content-Type: application/json
 
 {
@@ -49,14 +49,25 @@ Content-Type: application/json
 
 
 ### Récupérer les informations de l'utilisateur connecté
-GET http://localhost:3001/api/users/connected-user
+GET http://localhost:3001/api/auth/connected-user
 Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJvbGZhQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM5ODIwMzU2LCJleHAiOjE3Mzk5MDY3NTZ9.PKUWNS7ocxRB9vxn_j2iTGtwJ3R4eF-1v4ySEYdQeHA
 
 
 ### Tester la déconnexion d'un utilisateur
-GET http://localhost:3001/api/users/logout
+GET http://localhost:3001/api/auth/logout
 
 
 
-### Tester 
-GET http://localhost:3001/api/user/username/Noelito
+### Récuperer un utilisateur par son email
+GET http://localhost:3001/api/users/email/aceyyt@exmple.com
+
+
+### Récuperer un utilisateur par son pseudo
+GET http://localhost:3001/api/users/username/Bonsiigigi
+
+
+### Récuperer un utilisateur par son Id 
+GET http://localhost:3001/api/users/2
+
+###Récupérer tout les users et leurs livres
+GET http://localhost:3001/api/users
