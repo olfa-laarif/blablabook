@@ -10,9 +10,5 @@ userRouter.get('/:id(\\d+)', controllerWrapper(userController.getOneUser));
 userRouter.get('/', controllerWrapper(userController.getAllUsers));
 
 
-// Gestion des erreurs 404
-userRouter.use((req, res) => {
-  res.status(404).json({ error: 'Not found' });
-});
 
 export { userRouter } 

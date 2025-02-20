@@ -144,7 +144,7 @@ export const getRandomBooks = async () => {
 export const checkCredentials = async (emailFromInput: string, passwordFromInput: string) => {
     try {
       // Envoi d'une requête POST à l'endpoint de login de l'API
-      const res = await fetch(`${API_BASE_URL}/api/users/login`, {
+      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
         // L'option credentials: "include" permet d'inclure les cookies dans la requête,
         // utile pour l'authentification via token stocké dans un cookie
         credentials: "include",
@@ -181,7 +181,7 @@ export const checkCredentials = async (emailFromInput: string, passwordFromInput
 
 export const getConnectedUser = async () => {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/users/connected-user`,{credentials: "include"});
+        const res = await fetch(`${API_BASE_URL}/api/auth/connected-user`,{credentials: "include"});
         if (!res.ok) {
         throw new Error ("Erreur utilisateur non authentifié.");
         }
@@ -196,7 +196,7 @@ export const getConnectedUser = async () => {
 
 export const  registerUser= async (lastnameFromInput: string,firstnameFromInput: string,usernameFromInput: string,emailFromInput: string,passwordFromInput: string)=>{
 try {
-    const response = await fetch(`${API_BASE_URL}/api/users/register`, 
+    const response = await fetch(`${API_BASE_URL}/api/auth/register`, 
     // données et configuration
     {credentials: "include",
     method: 'POST',
@@ -227,7 +227,7 @@ try {
 
 export const logoutUser = async () => {
     try {
-        const res = await fetch(`${API_BASE_URL}/api/users/logout`,{credentials: "include"});
+        const res = await fetch(`${API_BASE_URL}/api/auth/logout`,{credentials: "include"});
         if (!res.ok) {
         throw new Error ("Erreur de déconnexion ");
         }

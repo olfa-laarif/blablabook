@@ -6,18 +6,6 @@ import { useEffect, useState } from "react";
 import { getBookById } from "../services/api";
 import { Book } from "../types";
 
-// const BookDetails = () => {
-  // Mock data - to be replaced with real data
-// const book = {
-//     title: "L'Étranger",
-//     author: "Albert Camus",
-//     image: "https://images.unsplash.com/photo-1544947950-fa07a98d237f?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80",
-//     summary: "L'histoire se déroule à Alger. Le protagoniste, Meursault, employé de bureau, reçoit un télégramme annonçant que sa mère, qu'il a placée à l'hospice de Marengo, vient de mourir. Il se rend à l'enterrement et ne manifeste aucune tristesse apparente...",
-//     rating: 4.5,
-//     published_date: "1942",
-//     availability: "Yes"
-// };
-
 export const BookDetails = () => {
     const { id } = useParams();
     const [book, setBook] = useState<Book | null >(null) //on stock un seul livre
@@ -82,8 +70,8 @@ export const BookDetails = () => {
                     {book.Author.firstname} {book.Author.lastname}
                     </h2>
                     <p className="text-sm text-gray-600 leading-relaxed">
-  {book.Category?.map(category => category.name).join(', ') || "Pas de catégorie"}
-</p>
+                    {book.Categories?.map(category => category.name).join(', ') || "Pas de catégorie"}
+                    </p>
                     
                 </div>
                 <div>
@@ -109,19 +97,23 @@ export const BookDetails = () => {
                 
                 <div className="flex items-center gap-6 mb-4">
                 <div className="flex items-center gap-1">
-                    {[...Array(5)].map((_, i) => (
-                    <Star
-                        key={i}
-                        className={`w-5 h-5 ${
-                        i < Math.floor(book.Marks?.[0]?.rating || 0)
-                            ? "text-gold-400 fill-gold-400"
-                            : "text-gray-300"
-                        }`}
-                    />
-                    ))}
-                    <span className="ml-2 text-sm font-medium text-gray-600">
-                    {book.Marks?.[0]?.rating || 0}/5
-                    </span>
+                {(() => {
+                    const ratings = book.Marks?.map(mark => mark.rating) || [];
+                    const averageRating = ratings.length > 0 ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length  : 0;
+                return (
+                <>
+                {[...Array(5)].map((_, i) => (
+                <Star key={i}
+                className={`w-5 h-5 ${i < Math.round(averageRating) ? "text-gold-400 fill-gold-400" : "text-gray-300"}`}
+                />
+                ))}
+          <span className="ml-2 text-sm font-medium text-gray-600">
+            {averageRating.toFixed(0)}/5 ({ratings.length} avis)
+          </span>
+        </>
+      );
+    })()}
+                   
                 </div>
                 
                 <div className="flex items-center gap-4">
@@ -140,11 +132,27 @@ export const BookDetails = () => {
                 </div>
                 </div>
                 
-                <div className="flex items-center gap-4 text-sm text-gray-600">
-                <span>{book.Marks?.length} avis</span>
-                <span>{book.Marks?.[0]?.review}</span>
-                <span>Publié le {new Date(book.Marks?.[0]?.createdAt).toLocaleDateString('fr-FR')}</span>
-                </div>
+                <div className="text-sm text-gray-600">
+  {/* Nombre total d'avis */}
+  <div className="flex items-center gap-4">
+    <span>{book.Marks?.length || 0} avis</span>
+  </div>
+
+  {/* Liste des avis */}
+  {book.Marks?.length > 0 ? (
+    book.Marks.map((mark, index) => (
+      <div key={index} className="flex items-center gap-4 mt-2">
+        <span>{mark.review || "Pas de commentaire."}</span>
+        <span>Publié le {new Date(mark.createdAt).toLocaleDateString('fr-FR')}</span>
+      </div>
+    ))
+  ) : (
+    <div className="mt-2">
+      <span>Aucun avis pour le moment.</span>
+    </div>
+  )}
+</div>
+
             </div>
             </div>
         </main>
