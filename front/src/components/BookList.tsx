@@ -1,6 +1,6 @@
 import React from "react";
 import { Book } from "../types"; // chemin vers votre interface Book
-import BookCard from "./BookCard"; // Un composant pour afficher un livre
+import { BookCard } from "./BookCardUser"; // Un composant pour afficher un livre
 
 interface BookListProps {
   books: Book[];
