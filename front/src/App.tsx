@@ -10,6 +10,7 @@ import PrivateRoute from "./routes/PrivateRoute";
 import AllBooksPage from "./pages/AllBooksPage";
 import LegalPage from "./pages/LegalPage";
 import UserProfilPage from "./pages/UserProfilPage";
+import LibraryPage from "./pages/LibraryPage";
 
 
 export default function App() {
@@ -31,7 +32,8 @@ export default function App() {
         {/* Routes protégées */}
         <Route path="/all-books" element={<PrivateRoute><AllBooksPage /></PrivateRoute>} />
         <Route path="/profil" element={<PrivateRoute><UserProfilPage /></PrivateRoute>} />
-
+        <Route path="/library" element={<PrivateRoute><LibraryPage /></PrivateRoute>}/> 
+        
         {/* Page 404 */}
         <Route path="*" element={<NotFoundPage />} />
       </Routes>

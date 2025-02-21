@@ -1,10 +1,8 @@
-import type { Book as BookType } from '../types';
+import  { Book } from '../types';
 import { Link } from "react-router-dom";
 
 interface BookCardProps {
-  book: BookType;
-  onAddToRead?: () => void;
-  onAddToReadLater?: () => void;
+  book: Book;
 }
 
 export default function BookCard({ book}: BookCardProps) {

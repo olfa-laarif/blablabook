@@ -267,6 +267,7 @@ console.log("Les catégories ont été associées aux livres avec succès !");
       await User.create({ username: 'readaholic21', firstname: 'Bob', lastname: 'Martin', email: 'bob.martin@example.com', password: 'securepass2', biography: 'Explorateur de mondes littéraires.' });
       await User.create({ username: 'pagewanderer', firstname: 'Charlie', lastname: 'Durand', email: 'charlie.durand@example.com', password: 'securepass3', biography: 'À la recherche du prochain chef-d\'œuvre.' });
       await User.create({ username: 'literarymind', firstname: 'Diana', lastname: 'Blanc', email: 'diana.blanc@example.com', password: 'securepass4', biography: 'Poésie et philosophie sont mes passions.' });
+      await User.create({ username: 'neofe', firstname: 'noel', lastname: 'Fefeu', email: 'neofe@mail.com', password: 'Aa123456.', biography: 'Developpeur en herbe!!!' });
   
       console.log("Données ajoutées dans la table User.");
   }
