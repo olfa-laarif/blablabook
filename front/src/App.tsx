@@ -9,6 +9,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import PrivateRoute from "./routes/PrivateRoute";
 import AllBooksPage from "./pages/AllBooksPage";
 import LegalPage from "./pages/LegalPage";
+import LibraryPage from "./pages/LibraryPage";
 
 
 export default function App() {
@@ -27,13 +28,21 @@ export default function App() {
         <Route path="/books/:id" element={<BookDetails />}
         />
         {/* Route protégée */}
-        <Route
-          path="/all-books"
+        <Route path="/all-books"
           element={
               <PrivateRoute>
               <AllBooksPage />
               </PrivateRoute>
           }
+        />
+            <Route 
+          path="/library" 
+          element={
+            // Par exemple, si cette page est privée :
+            <PrivateRoute>
+              <LibraryPage />
+            </PrivateRoute>
+          } 
         />
       </Routes>
     </Router>
