@@ -7,14 +7,16 @@ import { getBookById } from "../services/api";
 import { Book } from "../types";
 
 export const BookDetails = () => {
-    const { id } = useParams();
+    const { id } = useParams<{ id: string }>();
+    // Extraction de l'ID avant le premier tiret
+    const bookId = id ? id.split("-")[0] : null;
     const [book, setBook] = useState<Book | null >(null) //on stock un seul livre
 
     useEffect(() => {
-        if(!id)return; // si on ne trouve pas l'id, on annule l' appel
+        if(!bookId)return; // si on ne trouve pas l'id, on annule l' appel
         const fetchBookDetails = async () => {
             try {
-                const data = await getBookById(id);
+                const data = await getBookById(bookId);
                 setBook(data);
             } catch (error) {
                 console.error("Impossible de charger les détails du livre", error);
@@ -23,7 +25,7 @@ export const BookDetails = () => {
 
         fetchBookDetails();
 
-    }, [id]);
+    }, [bookId]);
 
     if(!book){
         return <div>chargement ...</div>

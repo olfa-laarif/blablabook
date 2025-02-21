@@ -1,5 +1,6 @@
 import type { Book as BookType } from '../types';
 import { Link } from "react-router-dom";
+import slugify from 'slugify';
 
 interface BookCardProps {
   book: BookType;
@@ -9,9 +10,11 @@ interface BookCardProps {
 
 export default function BookCard({ book}: BookCardProps) {
 
+  const slug = slugify(book.title, { lower: true, strict: true });
+
   return (
-    
-    <Link to={`/books/${book.id}`} className="block">
+    // Ajout du slug pour rendre l'URL SEO friendly
+    <Link to={`/books/${book.id}-${slug}`} className="block">
       <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
         <img
           src={book.image}
