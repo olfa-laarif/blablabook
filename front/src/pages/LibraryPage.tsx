@@ -1,0 +1,102 @@
+import { useEffect, useState } from 'react';
+import Header from '../components/Header';
+import Hero from '../components/Hero';
+import ConnectedUserSearchBar from '../components/ConnectedUserSearchBar';
+import BookList from '../components/BookList';
+import Features from '../components/Features';
+import Footer from '../components/Footer';
+import { getUserById } from '../services/api';
+import { Book } from "../types";
+import { useAuth } from '../context/AuthContext';
+
+const LibraryPage = () => {
+  const { user } = useAuth();
+  const [books, setBooks] = useState<Book[]>([]);
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
+  const [searchQuery, setSearchQuery] = useState<string>("");
+  // activeFilter peut être "all", "read", "toread" ou "favorite"
+  const [activeFilter, setActiveFilter] = useState<string>("all");
+
+  // Récupération de l'utilisateur avec sa bibliothèque via getUserById
+  useEffect(() => {
+    const fetchUserLibrary = async () => {
+      if (user) {
+        const userData = await getUserById(user.id);
+        if (userData && userData.Books) {
+          setBooks(userData.Books);
+          setFilteredBooks(userData.Books);
+        }
+      }
+    };
+    fetchUserLibrary();
+  }, [user]);
+
+  // Filtrage des livres en fonction du filtre actif et de la recherche
+  useEffect(() => {
+    let filtered = books;
+    
+    if (activeFilter === "read") {
+      filtered = filtered.filter(book => book.status.toLowerCase() === "lu");
+    } else if (activeFilter === "toread") {
+      filtered = filtered.filter(book => book.status.toLowerCase() === "à lire");
+    }
+    
+    if (searchQuery.trim() !== "") {
+      filtered = filtered.filter(book =>
+        book.title.toLowerCase().includes(searchQuery.toLowerCase())
+      );
+    }
+    
+    setFilteredBooks(filtered);
+  }, [books, activeFilter, searchQuery]);
+
+  return (
+    <div className="min-h-screen bg-gray-50">
+      <Header />
+      <Hero isBooksPage={true} />
+      <div className="max-w-7xl mx-auto px-4 py-8">
+        <h1 className="text-3xl font-bold text-gray-900 mb-4">Ma Bibliothèque</h1>
+        <div className="flex flex-col md:flex-row items-center justify-between mb-4">
+          <ConnectedUserSearchBar 
+            searchQuery={searchQuery}
+            setSearchQuery={setSearchQuery}
+            searchOption={activeFilter}
+            setSearchOption={setActiveFilter}
+          />
+          {/* Boutons de filtre */}
+          <div className="flex mt-4 md:mt-0 space-x-4">
+            <button 
+              onClick={() => setActiveFilter("all")}
+              className={`px-4 py-2 rounded ${activeFilter === "all" ? "bg-indigo-500 text-white" : "bg-gray-200 text-gray-700"}`}
+            >
+              Tous
+            </button>
+            <button 
+              onClick={() => setActiveFilter("read")}
+              className={`px-4 py-2 rounded ${activeFilter === "read" ? "bg-indigo-500 text-white" : "bg-gray-200 text-gray-700"}`}
+            >
+              Lu
+            </button>
+            <button 
+              onClick={() => setActiveFilter("toread")}
+              className={`px-4 py-2 rounded ${activeFilter === "toread" ? "bg-indigo-500 text-white" : "bg-gray-200 text-gray-700"}`}
+            >
+              À lire
+            </button>
+            <button 
+              onClick={() => setActiveFilter("favorite")}
+              className={`px-4 py-2 rounded ${activeFilter === "favorite" ? "bg-indigo-500 text-white" : "bg-gray-200 text-gray-700"}`}
+            >
+              Favoris
+            </button>
+          </div>
+        </div>
+        <BookList books={filteredBooks} />
+      </div>
+      <Features />
+      <Footer />
+    </div>
+  );
+};
+
+export default LibraryPage;
