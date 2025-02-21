@@ -1,48 +1,46 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/Header';
+import Hero from '../components/Hero';
 import ConnectedUserSearchBar from '../components/ConnectedUserSearchBar';
 import BookList from '../components/BookList';
 import Features from '../components/Features';
 import Footer from '../components/Footer';
-import { getAllBooks } from '../services/api';
+import { getUserById } from '../services/api';
 import { Book } from "../types";
+import { useAuth } from '../context/AuthContext';
 
 const LibraryPage = () => {
+  const { user } = useAuth();
   const [books, setBooks] = useState<Book[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
   // activeFilter peut être "all", "read", "toread" ou "favorite"
   const [activeFilter, setActiveFilter] = useState<string>("all");
 
+  // Récupération de l'utilisateur avec sa bibliothèque via getUserById
   useEffect(() => {
-    // Chargement des livres dès le montage de la page
-    const fetchBooks = async () => {
-      try {
-        const data = await getAllBooks();
-        setBooks(data);
-        setFilteredBooks(data);
-      } catch (error) {
-        console.error('Impossible de charger les livres:', error);
+    const fetchUserLibrary = async () => {
+      if (user) {
+        const userData = await getUserById(user.id);
+        if (userData && userData.Books) {
+          setBooks(userData.Books);
+          setFilteredBooks(userData.Books);
+        }
       }
     };
-    fetchBooks();
-  }, []);
+    fetchUserLibrary();
+  }, [user]);
 
-  // Appliquer le filtrage en fonction du filtre actif et du search query
+  // Filtrage des livres en fonction du filtre actif et de la recherche
   useEffect(() => {
     let filtered = books;
     
-    // Filtrage selon le statut ou le favori
     if (activeFilter === "read") {
       filtered = filtered.filter(book => book.status.toLowerCase() === "lu");
     } else if (activeFilter === "toread") {
       filtered = filtered.filter(book => book.status.toLowerCase() === "à lire");
-    // } else if (activeFilter === "favorite") {
-    //   // On suppose que chaque livre possède une propriété isFavorite (boolean)
-    //   filtered = filtered.filter(book => book.isFavorite);
-     }
+    }
     
-    // Filtrage par recherche sur le titre
     if (searchQuery.trim() !== "") {
       filtered = filtered.filter(book =>
         book.title.toLowerCase().includes(searchQuery.toLowerCase())
@@ -55,6 +53,7 @@ const LibraryPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
+      <Hero isBooksPage={true} />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">Ma Bibliothèque</h1>
         <div className="flex flex-col md:flex-row items-center justify-between mb-4">
