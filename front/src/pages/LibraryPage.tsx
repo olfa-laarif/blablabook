@@ -14,7 +14,7 @@ const LibraryPage = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
   const [searchQuery, setSearchQuery] = useState<string>("");
-  // activeFilter peut être "all", "read", "toread" ou "favorite"
+  // activeFilter peut être "all", "read", "toread" 
   const [activeFilter, setActiveFilter] = useState<string>("all");
 
   // Récupération de l'utilisateur avec sa bibliothèque via getUserById
@@ -29,12 +29,11 @@ const LibraryPage = () => {
       }
     };
     fetchUserLibrary();
-  }, [user]);
+  }, [books, user]);
 
   // Filtrage des livres en fonction du filtre actif et de la recherche
   useEffect(() => {
     let filtered = books;
-    
     if (activeFilter === "read") {
       filtered = filtered.filter(book => book.status.toLowerCase() === "lu");
     } else if (activeFilter === "toread") {
