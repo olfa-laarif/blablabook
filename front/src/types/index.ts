@@ -26,6 +26,7 @@ export interface Book {
     lastname: string;
     email: string; 
     biography:string;
+    Books:Book[];
   }
 
   

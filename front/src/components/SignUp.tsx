@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Eye, EyeOff } from "lucide-react";
-import { checkCredentials, getConnectedUser, registerUser } from '../services/api';
+import { checkCredentials, getConnectedUser, isEmailAlreadyExist, isUsernameAlreadyExist, registerUser } from '../services/api';
 import { useNavigate } from "react-router-dom";
 import { useAuth } from "../context/AuthContext";
 
@@ -26,8 +26,7 @@ export default function SignUp() {
      // Expression régulière pour vérifier le format du mot de passe
     const passwordRegex = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/;
     // Vérifier le format du mot de passe
-    if (!passwordRegex.test(password)) {
-    setPasswordError(
+    if (!passwordRegex.test(password)) {setPasswordError(
     "Le mot de passe doit contenir au moins une majuscule, une minuscule, un chiffre, un caractère spécial et être d'au moins 8 caractères."
   );
   return;
@@ -38,6 +37,12 @@ export default function SignUp() {
     const formData = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData);
     try{
+    const testEmail=await isEmailAlreadyExist(data.email as string);
+    const testUsername=await isUsernameAlreadyExist(data.username as string);
+    if(testEmail ||testUsername){
+      setError("L'email ou le pseudo existe déjas");
+    }
+
     const registerData=await registerUser(data.lastname as string, data.firstname as string, data.username as string,data.email as string, data.password as string );
     if(registerData){
       const userData = await checkCredentials(data.email as string, data.password as string);
@@ -63,6 +68,7 @@ export default function SignUp() {
           <h2 className="text-2xl font-bold text-center text-gray-700">
             Créer un compte
           </h2>
+          {error && <p className="text-red-500 text-center">{error}</p>}
           <form onSubmit={handleSubmit} className="mt-4">
             <div className="mb-4">
               <label htmlFor="lastname" className="block text-sm font-medium text-gray-600">
@@ -171,9 +177,6 @@ export default function SignUp() {
             <button type="submit" className="w-full px-4 py-1 font-bold text-white bg-indigo-400 rounded-lg hover:bg-indigo-600">
               S'inscrire
             </button>
-            {error && (
-              <p className="mt-2 text-sm text-red-600">{error}</p>
-            )}
           </form>
           <p className="mt-4 text-sm text-center text-gray-600">
             Déjà un compte ?{" "}
