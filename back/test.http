@@ -25,18 +25,6 @@ Content-Type: application/json
     "biography": "Développeur passionné"
 }
 
-### Tester l'inscription d'un utilisateur
-POST http://localhost:3001/api/auth/register
-Content-Type: application/json
-
-{
-    "username": "Noel",
-    "firstname": "isradis",
-    "lastname": "laarif",
-    "email": "Noel@example.com",
-    "password": "Test@1234"
-    
-}
 
 ### Tester la connexion d'un utilisateur
 POST http://localhost:3001/api/auth/login
@@ -52,11 +40,8 @@ Content-Type: application/json
 GET http://localhost:3001/api/auth/connected-user
 Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJvbGZhQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM5ODIwMzU2LCJleHAiOjE3Mzk5MDY3NTZ9.PKUWNS7ocxRB9vxn_j2iTGtwJ3R4eF-1v4ySEYdQeHA
 
-
 ### Tester la déconnexion d'un utilisateur
 GET http://localhost:3001/api/auth/logout
-
-
 
 ### Récuperer un utilisateur par son email
 GET http://localhost:3001/api/users/email/aceyyt@exmple.com
@@ -66,8 +51,15 @@ GET http://localhost:3001/api/users/email/aceyyt@exmple.com
 GET http://localhost:3001/api/users/username/Bonsiigigi
 
 
-### Récuperer un utilisateur par son Id 
-GET http://localhost:3001/api/users/2
+### Récuperer un utilisateur et ses livres par son Id 
+GET http://localhost:3001/api/users/1
 
 ###Récupérer tout les users et leurs livres
 GET http://localhost:3001/api/users
+
+
+### ajouter un livre à la bibliothèque d'un utilisateur
+PUT  http://localhost:3001/api/users/1/books/3
+
+### supprimer un livre de la bibliothèque d'un utilisateur
+DELETE  http://localhost:3001/api/users/1/books/3

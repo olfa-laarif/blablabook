@@ -18,103 +18,6 @@ export const getAllBooks = async () => {
         return [];
     }
 };
-// // Dans votre service API (ex: src/services/api.ts)
-// import { Book } from "../types";
-
-// export async function getAllBooks(): Promise<Book[]> {
-//   // Simuler un délai
-//   await new Promise((resolve) => setTimeout(resolve, 500));
-//   // Retourner des données fictives
-//   return [
-//     {
-//       id: "1",
-//       title: "Livre Exemple 1",
-//       Author: { firstname: "John", lastname: "Doe", biography: "Bio de John" },
-//       Category: [{ name: "Fiction" }],
-//       published_date: "2020-01-01",
-//       image: "https://via.placeholder.com/150",
-//       summary: "Résumé du livre 1",
-//       status: "Disponible",
-//       availability: "En stock",
-//       Marks: [
-//         { review: "Excellent", createdAt: "2021-01-01", rating: 5 }
-//       ]
-//     },
-//     {
-//       id: "2",
-//       title: "Livre Exemple 2",
-//       Author: { firstname: "Jane", lastname: "Smith", biography: "Bio de Jane" },
-//       Category: [{ name: "Non-fiction" }],
-//       published_date: "2021-06-15",
-//       image: "https://via.placeholder.com/150",
-//       summary: "Résumé du livre 2",
-//       status: "Disponible",
-//       availability: "En stock",
-//       Marks: [
-//         { review: "Bon", createdAt: "2021-07-01", rating: 4 }
-//       ]
-//     },
-//     {
-//         id: "6",
-//         title: "Livre Exemple 1",
-//         Author: { firstname: "John", lastname: "Doe", biography: "Bio de John" },
-//         Category: [{ name: "Fiction" }],
-//         published_date: "2020-01-01",
-//         image: "https://via.placeholder.com/150",
-//         summary: "Résumé du livre 1",
-//         status: "Disponible",
-//         availability: "En stock",
-//         Marks: [
-//           { review: "Excellent", createdAt: "2021-01-01", rating: 5 }
-//         ]
-//       },
-//       {
-//         id: "4",
-//         title: "Livre Exemple 2",
-//         Author: { firstname: "Jane", lastname: "Smith", biography: "Bio de Jane" },
-//         Category: [{ name: "Non-fiction" }],
-//         published_date: "2021-06-15",
-//         image: "https://via.placeholder.com/150",
-//         summary: "Résumé du livre 2",
-//         status: "Disponible",
-//         availability: "En stock",
-//         Marks: [
-//           { review: "Bon", createdAt: "2021-07-01", rating: 4 }
-//         ]
-//       },
-//       {
-//         id: "3",
-//         title: "Livre Exemple 1",
-//         Author: { firstname: "John", lastname: "Doe", biography: "Bio de John" },
-//         Category: [{ name: "Fiction" }],
-//         published_date: "2020-01-01",
-//         image: "https://via.placeholder.com/150",
-//         summary: "Résumé du livre 1",
-//         status: "Disponible",
-//         availability: "En stock",
-//         Marks: [
-//           { review: "Excellent", createdAt: "2021-01-01", rating: 5 }
-//         ]
-//       },
-//       {
-//         id: "8",
-//         title: "Livre Exemple 2",
-//         Author: { firstname: "Jane", lastname: "Smith", biography: "Bio de Jane" },
-//         Category: [{ name: "Non-fiction" }],
-//         published_date: "2021-06-15",
-//         image: "https://via.placeholder.com/150",
-//         summary: "Résumé du livre 2",
-//         status: "Disponible",
-//         availability: "En stock",
-//         Marks: [
-//           { review: "Bon", createdAt: "2021-07-01", rating: 4 }
-//         ]
-//       },
-
-//     // Ajoutez autant d'exemples que nécessaire
-//   ];
-// }
-
 
 export const getBookById = async (id: string) => {
     try {
@@ -139,12 +42,11 @@ export const getRandomBooks = async () => {
     }
 };
 
-
 // Vérifier les identifiants auprès du serveur
 export const checkCredentials = async (emailFromInput: string, passwordFromInput: string) => {
     try {
       // Envoi d'une requête POST à l'endpoint de login de l'API
-      const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
+    const res = await fetch(`${API_BASE_URL}/api/auth/login`, {
         // L'option credentials: "include" permet d'inclure les cookies dans la requête,
         // utile pour l'authentification via token stocké dans un cookie
         credentials: "include",
@@ -154,29 +56,29 @@ export const checkCredentials = async (emailFromInput: string, passwordFromInput
         },
         // Le corps de la requête contient les identifiants sous forme de JSON
         body: JSON.stringify({
-          email: emailFromInput,
-          password: passwordFromInput,
+        email: emailFromInput,
+        password: passwordFromInput,
         }),
-      });
-  
+    });
+
       // Vérification du statut de la réponse.
       // Si la réponse n'est pas "ok" (statut HTTP 200-299), on lève une erreur.
-      if (!res.ok) {
+        if (!res.ok) {
         throw new Error("Erreur lors de l’authentification");
-      }
-  
+        }
+
       // Si la réponse est correcte, on convertit le corps de la réponse en JSON
-      return await res.json();
+        return await res.json();
     } catch (error) {
       // Si une erreur est attrapée (par exemple, en cas d'identifiants invalides,
       // le serveur renvoie une erreur 401, ou en cas de problème réseau),
       // on affiche l'erreur dans la console
-      console.log('catch/error', error);
+    console.log('catch/error', error);
       // Et on retourne null pour indiquer l'échec de l'authentification
-      return null;
+    return null;
     }
-  };
-  
+};
+
 
 
 export const getConnectedUser = async () => {
@@ -223,7 +125,7 @@ try {
     console.log("Erreur lors de l'appel à registerUser:", error);
     return null;
 }
-}
+};
 
 export const logoutUser = async () => {
     try {
@@ -233,6 +135,71 @@ export const logoutUser = async () => {
         }
         const data = await res.json();
         return data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+export const isUsernameAlreadyExist = async (username:string) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/users/username/exist/${username}`);
+        if (!res.ok) {
+        throw new Error ("Erreur serveur");
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+export const isEmailAlreadyExist = async (email:string) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/users/email/exist/${email}`);
+        if (!res.ok) {
+        throw new Error ("Erreur serveur");
+        }
+        const data = await res.json();
+        return data;
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+export const getUserById = async (id: string) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/users/${id}`);
+        if (!res.ok) throw new Error("Erreur lors de la récupération du utilisateur");
+        return await res.json();
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+export const addBookToLibrary = async (user_id: string,book_id:string) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/users/${user_id}/books/${book_id}`,{
+            method: "PUT"
+    });
+        if (!res.ok) throw new Error("Erreur lors de l'ajout du livre");
+        return await res.json();
+    } catch (error) {
+        console.error(error);
+        return null;
+    }
+};
+
+export const removeBookFromLibrary = async (user_id: string,book_id:string) => {
+    try {
+        const res = await fetch(`${API_BASE_URL}/api/users/${user_id}/books/${book_id}`,{
+            method: "DELETE"
+        });
+        if (!res.ok) throw new Error("Erreur lors de la suppression du livre");
+        return await res.json();
     } catch (error) {
         console.error(error);
         return null;
