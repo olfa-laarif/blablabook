@@ -3,7 +3,7 @@ import type { Book} from '../types';
 import { Link } from "react-router-dom";
 import { Plus, Minus, Check, X,Heart } from "lucide-react";
 import { useState } from "react";
-
+import slugify from 'slugify'; 
 interface BookCardProps {
   book: Book;
 }
@@ -36,6 +36,8 @@ interface BookCardProps {
     // Vous pouvez ajouter ici un appel API pour enregistrer le favori
   };
 
+  // création du slug côté front pour avoir des liens SEO friendly
+  const slug = slugify(book.title, { lower: true, strict: true });
 
   return (
     // Conteneur relatif pour positionner les boutons absolument par rapport à la carte
@@ -51,8 +53,8 @@ interface BookCardProps {
           <Heart size={28} className="text-indigo-500" />
         </button>
       </div>
-      {/* Le lien enveloppe la carte pour la navigation vers le détail du livre */}
-      <Link to={`/books/${book.id}`} className="block">
+      {/* Le lien enveloppe la carte pour la navigation vers le détail du livre, ajout du slug pour rendre l'URL SEO friendly */}
+      <Link to={`/books/${book.id}-${slug}`} className="block">
         <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
           <img
             src={book.image}
