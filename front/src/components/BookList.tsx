@@ -6,6 +6,8 @@ interface BookListProps {
 }
 
 const BookList = ({ books }:BookListProps) => {
+
+  
   if (!books.length) {
     return <p className="text-center py-4">Aucun livre trouvé.</p>;
   }

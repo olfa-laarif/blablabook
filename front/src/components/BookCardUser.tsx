@@ -1,52 +1,52 @@
-import type { Book} from '../types';
+import type { Book } from '../types';
 import { Link } from "react-router-dom";
 import { Plus, Minus } from "lucide-react";
-import { useState } from "react";
-import { addBookToLibrary, removeBookFromLibrary } from "../services/api";
+import { useState, useEffect } from "react";
+import { addBookToLibrary, removeBookFromLibrary, checkIfInLibrary } from "../services/api";
 import { useAuth } from "../context/AuthContext";
 
 interface BookCardProps {
   book: Book;
-  
 }
 
-export const BookCard = ({book}:BookCardProps) => {
-   // État pour savoir si le livre est dans la bibliothèque
-  const [inLibrary, setInLibrary] = useState(true);
-
+export const BookCard = ({ book }: BookCardProps) => {
   const { user } = useAuth();
- 
+  const [inLibrary, setInLibrary] = useState<boolean>(false);
+  
+  useEffect(() => {
+    if (user) {
+      // Fonction pour vérifier si le livre est dans la bibliothèque
+      checkIfInLibrary(user.id, book.id).then(setInLibrary).catch(console.error);
+    }
+  }, [user, book.id]); 
+  
 
   const handleAdd = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
-    
-    // Vérifier si le livre n'est pas déjà dans la bibliothèque et si l'utilisateur est défini
     if (!inLibrary && user) {
-      const result = await addBookToLibrary(user.id, book.id);
-      if (result) {
-        setInLibrary(true);
+      try {
+        const result = await addBookToLibrary(user.id, book.id);
+        if (result) setInLibrary(true);
+      } catch (error) {
+        console.error("Erreur lors de l'ajout du livre :", error);
       }
     }
   };
 
-   // Fonction pour retirer le livre de la bibliothèque.
-     const handleRemove = async (e: React.MouseEvent<HTMLButtonElement>) => {
-       e.stopPropagation();
-       if (inLibrary && user) {
-         
-         const result = await removeBookFromLibrary(user.id, book.id); 
-         if (result) {
-           setInLibrary(false);
-         }
-       }
-     };
-
-
+  const handleRemove = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (inLibrary && user) {
+      try {
+        const result = await removeBookFromLibrary(user.id, book.id);
+        if (result) setInLibrary(false);
+      } catch (error) {
+        console.error("Erreur lors de la suppression du livre :", error);
+      }
+    }
+  };
 
   return (
-    // Conteneur relatif pour positionner les boutons absolument par rapport à la carte
     <div className="relative group">
-      {/* Le lien enveloppe la carte pour la navigation vers le détail du livre */}
       <Link to={`/books/${book.id}`} className="block">
         <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
           <img
@@ -56,34 +56,34 @@ export const BookCard = ({book}:BookCardProps) => {
           />
           <div className="p-4">
             <h3 className="text-lg font-semibold text-gray-900 mb-1 h-12">{book.title}</h3>
-            {book.Author && <p className="text-gray-600 text-sm mb-2">
-              par {book.Author.firstname} {book.Author.lastname}
-            </p> }
+            {book.Author?.firstname && book.Author?.lastname && (
+              <p className="text-gray-600 text-sm mb-2">
+                par {book.Author.firstname} {book.Author.lastname}
+              </p>
+            )}
           </div>
         </div>
       </Link>
 
       <div className="absolute bottom-2 right-2 flex flex-row space-x-5">
         {inLibrary ? (
-          <>
-            <button 
-              onClick={handleRemove}
-              className="w-10 h-10  text-gray  flex items-center justify-center hover:text-indigo-600"
-              title="Enlever de votre bibliothèque"
-            >
-              <Minus size={50} />
-            </button>
-          </>
+          <button 
+            onClick={handleRemove}
+            className="w-10 h-10 text-gray-500 flex items-center justify-center hover:text-indigo-600"
+            title="Enlever de votre bibliothèque"
+          >
+            <Minus size={24} />
+          </button>
         ) : (
           <button 
             onClick={handleAdd}
-            className="w-10 h-10 bg-indigo-500 text-white rounded-full flex items-center justify-center hover:bg-indigo-600"
+            className="w-10 h-10 text-gray-500 flex items-center justify-center hover:text-indigo-600"
             title="Ajouter à votre bibliothèque"
           >
-            <Plus size={50} />
+            <Plus size={24} />
           </button>
         )}
       </div>
     </div>
   );
-}
+};
