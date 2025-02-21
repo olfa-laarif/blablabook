@@ -9,6 +9,7 @@ import NotFoundPage from "./pages/NotFoundPage";
 import PrivateRoute from "./routes/PrivateRoute";
 import AllBooksPage from "./pages/AllBooksPage";
 import LegalPage from "./pages/LegalPage";
+import UserProfilPage from "./pages/UserProfilPage";
 import LibraryPage from "./pages/LibraryPage";
 
 
@@ -19,31 +20,22 @@ export default function App() {
     <Router>
       <Header />
       <Routes>
-        <Route path="/" element={<HomePage />} />
-        <Route path="*" element={<NotFoundPage />} />      
+        {/* Redirection si l'utilisateur est connecté */}
+        <Route path="/" element={user ? <Navigate to="/all-books" replace /> : <HomePage />} />
 
-        <Route path="/login" element={user ? <Navigate to="/all-books" /> : <LoginPage />} />
-        <Route path="/signup" element={user ? <Navigate to="/all-books" /> : <SignUpPage />} />
-        <Route path="/legal" element={<LegalPage />} /> 
-        <Route path="/books/:id" element={<BookDetails />}
-        />
-        {/* Route protégée */}
-        <Route path="/all-books"
-          element={
-              <PrivateRoute>
-              <AllBooksPage />
-              </PrivateRoute>
-          }
-        />
-            <Route 
-          path="/library" 
-          element={
-            // Par exemple, si cette page est privée :
-            <PrivateRoute>
-              <LibraryPage />
-            </PrivateRoute>
-          } 
-        />
+        {/* Pages publiques */}
+        <Route path="/login" element={user ? <Navigate to="/all-books" replace /> : <LoginPage />} />
+        <Route path="/signup" element={user ? <Navigate to="/all-books" replace /> : <SignUpPage />} />
+        <Route path="/legal" element={<LegalPage />} />
+        <Route path="/books/:id" element={<BookDetails />} />
+
+        {/* Routes protégées */}
+        <Route path="/all-books" element={<PrivateRoute><AllBooksPage /></PrivateRoute>} />
+        <Route path="/profil" element={<PrivateRoute><UserProfilPage /></PrivateRoute>} />
+        <Route path="/library" element={<PrivateRoute><LibraryPage /></PrivateRoute>}/> 
+        
+        {/* Page 404 */}
+        <Route path="*" element={<NotFoundPage />} />
       </Routes>
     </Router>
   );

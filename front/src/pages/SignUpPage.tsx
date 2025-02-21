@@ -8,7 +8,6 @@ const SignUpPage = () => {
       <Header/>
       <SignUp/>
       <Footer/>
-
     </>
   );
 };

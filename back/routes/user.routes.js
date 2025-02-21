@@ -28,4 +28,7 @@ userRouter.put('/:user_id/books/:book_id',userController.addBookToLibrary);
 // Route pour supprimer un livre d'une bibliotheque d'un utilisateur
 userRouter.delete('/:user_id/books/:book_id',userController.removeBookFromLibrary);
 
+// Vérifier si un livre est dans la bibliothèque de l'utilisateur
+userRouter.get('/:user_id/books/:book_id',userController.checkIfInLibrary);
+
 export { userRouter } 

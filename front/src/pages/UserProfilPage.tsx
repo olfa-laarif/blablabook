@@ -1,14 +1,17 @@
 import Header from "../components/Header";
+import UserProfil from "../components/UserProfil";
 import Footer from "../components/Footer";
-import NotFound from "../components/NotFound";
 
-const NotFoundPage = () => {
+const SignUpPage = () => {
   return (
     <>
       <Header/>
-      <NotFound/>
+      <UserProfil/>
       <Footer/>
     </>
   );
 };
-export default NotFoundPage;
+
+export default SignUpPage;
+
+

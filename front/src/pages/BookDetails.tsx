@@ -43,7 +43,7 @@ export const BookDetails = () => {
             </Link>
             
             <Link 
-                to="/profile"
+                to="/profil"
                 className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors ml-auto"
             >
                 <User className="w-5 h-5" />
@@ -72,7 +72,6 @@ export const BookDetails = () => {
                     <p className="text-sm text-gray-600 leading-relaxed">
                     {book.Categories?.map(category => category.name).join(', ') || "Pas de catégorie"}
                     </p>
-                    
                 </div>
                 <div>
                     <h2 className="font-display text-lg font-semibold text-gray-900 mb-2">
@@ -97,25 +96,23 @@ export const BookDetails = () => {
                 
                 <div className="flex items-center gap-6 mb-4">
                 <div className="flex items-center gap-1">
-                {(() => {
-                    const ratings = book.Marks?.map(mark => mark.rating) || [];
-                    const averageRating = ratings.length > 0 ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length  : 0;
-                return (
-                <>
-                {[...Array(5)].map((_, i) => (
-                <Star key={i}
-                className={`w-5 h-5 ${i < Math.round(averageRating) ? "text-gold-400 fill-gold-400" : "text-gray-300"}`}
-                />
-                ))}
-          <span className="ml-2 text-sm font-medium text-gray-600">
-            {averageRating.toFixed(0)}/5 ({ratings.length} avis)
-          </span>
-        </>
-      );
-    })()}
-                   
-                </div>
-                
+                    {(() => {
+                        const ratings = book.Marks?.map(mark => mark.rating) || [];
+                        const averageRating = ratings.length > 0 ? ratings.reduce((sum, rating) => sum + rating, 0) / ratings.length  : 0;
+                    return (
+                    <>
+                    {[...Array(5)].map((_, i) => (
+                    <Star key={i}
+                    className={`w-5 h-5 ${i < Math.round(averageRating) ? "text-gold-400 fill-gold-400" : "text-gray-300"}`}
+                    />
+                    ))}
+                    <span className="ml-2 text-sm font-medium text-gray-600">
+                    {averageRating.toFixed(0)}/5 ({ratings.length} avis)
+                    </span>
+                    </>
+                    );
+                    })()}        
+                </div>   
                 <div className="flex items-center gap-4">
                     <Link 
                     to="/review"
@@ -133,25 +130,25 @@ export const BookDetails = () => {
                 </div>
                 
                 <div className="text-sm text-gray-600">
-  {/* Nombre total d'avis */}
-  <div className="flex items-center gap-4">
-    <span>{book.Marks?.length || 0} avis</span>
-  </div>
+                {/* Nombre total d'avis */}
+                <div className="flex items-center gap-4">
+                <span>{book.Marks?.length || 0} avis</span>
+                </div>
 
-  {/* Liste des avis */}
-  {book.Marks?.length > 0 ? (
-    book.Marks.map((mark, index) => (
-      <div key={index} className="flex items-center gap-4 mt-2">
-        <span>{mark.review || "Pas de commentaire."}</span>
-        <span>Publié le {new Date(mark.createdAt).toLocaleDateString('fr-FR')}</span>
-      </div>
-    ))
-  ) : (
-    <div className="mt-2">
-      <span>Aucun avis pour le moment.</span>
-    </div>
-  )}
-</div>
+                {/* Liste des avis */}
+                {book.Marks?.length > 0 ? (
+                book.Marks.map((mark, index) => (
+                <div key={index} className="flex items-center gap-4 mt-2">
+                <span>{mark.review || "Pas de commentaire."}</span>
+                <span>Publié le {new Date(mark.createdAt).toLocaleDateString('fr-FR')}</span>
+                </div>
+                ))
+                ) : (
+                <div className="mt-2">
+                <span>Aucun avis pour le moment.</span>
+                </div>
+                )}
+                </div>
 
             </div>
             </div>

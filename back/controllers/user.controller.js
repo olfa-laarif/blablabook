@@ -87,7 +87,7 @@ async userNameAlreadyExist(req, res) {
 
  // Récupérer un utilisateur et tous les livres de sa bibliothèque
 async getOneUserWithLibrary(req, res) {
-  try {
+try {
       const user = await User.findByPk(req.params.user_id, { 
           attributes: ['id', 'firstname', 'lastname', 'username', 'biography', 'email'],
           include: [
@@ -184,8 +184,37 @@ async removeBookFromLibrary(req, res) {
       console.error("Erreur lors de la suppression du livre :", error);
       return res.status(500).json({ message: "Erreur interne du serveur." });
   }
+},
+
+// Vérifier si un livre est dans la bibliothèque de l'utilisateur
+async checkIfInLibrary(req, res) {
+    try {
+    const { user_id, book_id } = req.params;
+
+    // Vérifier si l'utilisateur existe
+    const user = await User.findByPk(user_id, {
+        include: Book, 
+    });
+
+    if (!user) {
+        return res.status(404).json({ message: "Utilisateur non trouvé." });
+    }
+
+      // Vérifier si le livre existe
+    const book = await Book.findByPk(book_id);
+    if (!book) {
+        return res.status(404).json({ message: "Livre non trouvé." });
+    }
+
+    // Vérifier si le livre est dans la bibliothèque de l'utilisateur
+    const hasBook = await user.hasBook(book);
+
+    return res.status(200).json({ inLibrary: hasBook });
+
+    } catch (error) {
+    console.error("Erreur lors de la vérification du livre :", error);
+    return res.status(500).json({ message: "Erreur interne du serveur." });
+    }
 }
-
-
 
 }

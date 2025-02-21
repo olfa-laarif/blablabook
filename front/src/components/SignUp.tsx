@@ -39,8 +39,8 @@ export default function SignUp() {
     try{
     const testEmail=await isEmailAlreadyExist(data.email as string);
     const testUsername=await isUsernameAlreadyExist(data.username as string);
-    if(testEmail ||testUsername){
-      setError("L'email ou le pseudo existe déjas");
+    if(testEmail||testUsername){
+      setError("L'email ou le pseudo existe déjà");
     }
 
     const registerData=await registerUser(data.lastname as string, data.firstname as string, data.username as string,data.email as string, data.password as string );
