@@ -42,7 +42,7 @@ interface BookCardProps {
     <div className="relative group">
 
          {/* Bouton cœur toujours présent en haut à droite */}
-      <div className="absolute top-2 right-2" z-10>
+      <div className="absolute top-2 right-2 z-10">
         <button
           onClick={toggleFavorite}
           className="w-12 h-12 flex items-center justify-center focus:outline-none"

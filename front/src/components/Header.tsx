@@ -6,12 +6,11 @@ import { logoutUser } from "../services/api";
 export default function Header() {
 
   const { user, logout } = useAuth(); // Récupérer l'utilisateur connecté et la fonction de déconnexion
-  const navigate = useNavigate();
-        
+  const navigate = useNavigate();      
   const runLogoutUser = async () => {
     await logoutUser();
     logout();
-    navigate("/all-books");    // Redirige vers la page de tous les livres
+    navigate("/"); // Redirige vers la page de tous les livres
   }
 
   return (
@@ -23,6 +22,7 @@ export default function Header() {
             <BookOpen className="h-8 w-8 text-indigo-600" />
             <span className="ml-2 text-xl font-bold text-gray-900">Blablabook</span>
           </Link>
+
           {/* Navigation */}
           <div className="flex items-center gap-4">
             {user ? (

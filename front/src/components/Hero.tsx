@@ -19,13 +19,13 @@ export default function Hero({ isBooksPage }: HeroProps) {
       {isBooksPage && (
         <div className="flex justify-center items-center gap-4 mt-4">
           <button 
-            onClick={() => navigate("/ma-bibliotheque")}
+            onClick={() => navigate("/library")}
             className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
           >
             Ma Bibliothèque
           </button>
           <button 
-            onClick={() => navigate("/mon-profil")}
+            onClick={() => navigate("/profil")}
             className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
           >
             Mon Profil

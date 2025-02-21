@@ -26,7 +26,6 @@ const AllBooksPage = () => {
     const fetchBooks = async () => {
       try {
         const data = await getAllBooks();
-        console.log(data);
         setBooks(data);
       } catch (error) {
         console.error('Impossible de charger les livres:', error);
@@ -73,7 +72,7 @@ const AllBooksPage = () => {
     <div className="min-h-screen bg-gray-50">
       <Header />
       <Hero isBooksPage={true} />
-       <ConnectedUserSearchBar 
+      <ConnectedUserSearchBar 
               searchQuery={query}
               setSearchQuery={setQuery}
               searchOption={searchOption}

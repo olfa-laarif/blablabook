@@ -1,12 +1,8 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { getConnectedUser } from "../services/api";
+import {User} from "../types/index"
 
-// Définition du type User
-interface User {
-  id: string;
-  username: string;
-  email: string;
-}
+
 
 // Définition du type du contexte
 interface AuthContextType {
