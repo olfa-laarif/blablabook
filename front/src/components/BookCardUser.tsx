@@ -46,20 +46,6 @@ export const BookCard = ({book}:BookCardProps) => {
   return (
     // Conteneur relatif pour positionner les boutons absolument par rapport à la carte
     <div className="relative group">
-<<<<<<< HEAD
-
-         {/* Bouton cœur toujours présent en haut à droite */}
-      <div className="absolute top-2 right-2 z-10">
-        <button
-          onClick={toggleFavorite}
-          className="w-12 h-12 flex items-center justify-center focus:outline-none"
-          title="Ajouter aux favoris"
-        >
-          <Heart size={28} className="text-indigo-500" />
-        </button>
-      </div>
-=======
->>>>>>> e7e660e79a1d86248a5c8f31b40af27ed80dd50b
       {/* Le lien enveloppe la carte pour la navigation vers le détail du livre */}
       <Link to={`/books/${book.id}`} className="block">
         <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
