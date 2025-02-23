@@ -17,7 +17,8 @@ export default function BookCard({ book}: BookCardProps) {
           className="w-full aspect-[3/4] object-contain mx-auto"
         />
         <div className="p-4">
-          <h3 className="text-lg font-semibold text-gray-900 mb-1 h-12">{book.title} </h3>
+          {/* Titre limité à 2 lignes */}
+          <h3 className="text-lg font-semibold text-gray-900  h-14 line-clamp-2 mb-1">{book.title} </h3>
           <p className="text-gray-600 text-sm mb-2">par {book.Author.firstname} {book.Author.lastname}</p>
         </div>
       </div>

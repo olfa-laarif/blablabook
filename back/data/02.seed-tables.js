@@ -266,7 +266,6 @@ await populateDatabase();
       await User.create({ username: 'pagewanderer', firstname: 'Charlie', lastname: 'Durand', email: 'charlie.durand@example.com', password: 'securepass3', biography: 'À la recherche du prochain chef-d\'œuvre.' });
       await User.create({ username: 'literarymind', firstname: 'Diana', lastname: 'Blanc', email: 'diana.blanc@example.com', password: 'securepass4', biography: 'Poésie et philosophie sont mes passions.' });
       await User.create({ username: 'neofe', firstname: 'noel', lastname: 'Fefeu', email: 'neofe@mail.com', password: 'Aa123456.', biography: 'Developpeur en herbe!!!' });
-      await User.create({ username: 'olfa-la', firstname: 'Olfa', lastname: 'Olfa', email: 'olfa@gmail.com', password: 'testtest1M&'});
       console.log("Données ajoutées dans la table User.");
   }
   

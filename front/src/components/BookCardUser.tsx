@@ -55,7 +55,7 @@ export const BookCard = ({ book }: BookCardProps) => {
             className="w-full h-48 object-cover"
           />
           <div className="p-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-1 h-12">{book.title}</h3>
+            <h3 className="text-lg font-semibold text-gray-900  h-14 line-clamp-2 mb-1">{book.title}</h3>
             {book.Author?.firstname && book.Author?.lastname && (
               <p className="text-gray-600 text-sm mb-2">
                 par {book.Author.firstname} {book.Author.lastname}

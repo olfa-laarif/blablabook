@@ -54,7 +54,8 @@ const LibraryPage = () => {
       <main className="flex-grow container mx-auto px-4 pt-24 pb-12">
       <LinksUser />
       <div className="max-w-7xl mx-auto px-4 py-8">
-        <h1 className="text-3xl font-bold text-gray-900 mb-4">Ma Bibliothèque</h1>
+      <h2 className="text-3xl font-bold text-center text-gray-900 mb-12">
+        Ma Bibliothèque</h2>
         <div className="flex flex-col md:flex-row items-center justify-between mb-4">
           <ConnectedUserSearchBar 
             searchQuery={searchQuery}

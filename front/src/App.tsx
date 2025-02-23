@@ -4,7 +4,7 @@ import Header from "./components/Header";
 import HomePage from "./pages/HomePage";
 import LoginPage from "./pages/LoginPage";
 import SignUpPage from "./pages/SignUpPage";
-import BookDetails from "./pages/BookDetails";
+import  { BookDetailsPage } from "./pages/BookDetailsPage";
 import NotFoundPage from "./pages/NotFoundPage";
 import PrivateRoute from "./routes/PrivateRoute";
 import AllBooksPage from "./pages/AllBooksPage";
@@ -27,7 +27,7 @@ export default function App() {
         <Route path="/login" element={user ? <Navigate to="/all-books" replace /> : <LoginPage />} />
         <Route path="/signup" element={user ? <Navigate to="/all-books" replace /> : <SignUpPage />} />
         <Route path="/legal" element={<LegalPage />} />
-        <Route path="/books/:id" element={<BookDetails />} />
+        <Route path="/books/:id" element={<BookDetailsPage />} />
 
         {/* Routes protégées */}
         <Route path="/all-books" element={<PrivateRoute><AllBooksPage /></PrivateRoute>} />
