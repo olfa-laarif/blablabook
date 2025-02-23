@@ -1,10 +1,11 @@
-import { ArrowLeft, Star, User } from "lucide-react";
+import {  Star } from "lucide-react";
 import Header from "../components/Header";
 import Footer from "../components/Footer";
 import { Link, useParams } from "react-router";
 import { useEffect, useState } from "react";
 import { getBookById } from "../services/api";
 import { Book } from "../types";
+import LinksUser from "../components/LinksUser";
 
 export const BookDetails = () => {
     const { id } = useParams();
@@ -20,9 +21,7 @@ export const BookDetails = () => {
                 console.error("Impossible de charger les détails du livre", error);
             }
         };
-
         fetchBookDetails();
-
     }, [id]);
 
     if(!book){
@@ -33,63 +32,36 @@ export const BookDetails = () => {
         <Header />
         
         <main className="flex-grow container mx-auto px-4 pt-24 pb-12">
-            <div className="flex items-center gap-4 mb-8">
-            <Link 
-                to="/"
-                className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors"
-            >
-                <ArrowLeft className="w-5 h-5" />
-                <span>Accueil</span>
-            </Link>
-            
-            <Link 
-                to="/profil"
-                className="flex items-center gap-2 text-gray-600 hover:text-primary transition-colors ml-auto"
-            >
-                <User className="w-5 h-5" />
-                <span>Profil</span>
-            </Link>
-            </div>
+        <LinksUser/>
     
             <div className="grid grid-cols-1 md:grid-cols-2 gap-8 bg-white rounded-xl shadow-sm p-6">
             <div className="flex flex-col gap-4">
-                <div className="aspect-[3/4] h-120 rounded-lg overflow-hidden shadow-md">
                 <img 
                     src={book.image} 
                     alt={book.title}
-                    className="w-full h-full object-cover"
-                />
-                </div>
-                <div className="space-y-3">
-                <div>
-                    <h1 className="font-display text-2xl font-semibold text-gray-900">
-                    {book.title}
-                    </h1>
-                    <p className="text-sm text-gray-600 leading-relaxed">Publié le {new Date(book.published_date).toLocaleDateString('fr-FR')}</p>
-                    <h2 className="font-display text-lg font-semibold text-gray-900 mb-2">
-                    {book.Author.firstname} {book.Author.lastname}
-                    </h2>
-                    <p className="text-sm text-gray-600 leading-relaxed">
-                    {book.Categories?.map(category => category.name).join(', ') || "Pas de catégorie"}
-                    </p>
-                </div>
-                <div>
-                    <h2 className="font-display text-lg font-semibold text-gray-900 mb-2">
-                    À propos de l'auteur
-                    </h2>
-                    <p className="text-sm text-gray-600 leading-relaxed">
-                    {book.Author.biography}
-                    </p>
-                </div>
-                </div>
+                    className="w-full aspect-[3/4] object-contain"/>
             </div>
             
             <div className="flex flex-col">
-                <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 mb-4 max-h-48 overflow-hidden">
+            <div className="space-y-3">
+                
+                <h1 className="font-display text-2xl font-semibold text-gray-900">
+                {book.title}
+                </h1>
+                <p className="text-sm text-gray-600 leading-relaxed">Publié le {new Date(book.published_date).toLocaleDateString('fr-FR')}</p>
+                <h2 className="font-display text-lg font-semibold text-gray-900 mb-2">
+                {book.Author.firstname} {book.Author.lastname}
+                </h2>
+                <p className="text-sm text-gray-600 leading-relaxed">
+                {book.Categories?.map(category => category.name).join(', ') || "Pas de catégorie"}
+                </p>
+            
+            </div>
+                <div className="bg-white rounded-lg p-4 shadow-sm border border-gray-100 mb-4 ">
                 <h2 className="font-display text-lg font-semibold text-gray-900 mb-3">
                     Résumé
                 </h2>
-                <p className="text-gray-600 leading-relaxed">
+                <p className="text-gray-600 text-lg leading-relaxed">
                     {book.summary}
                 </p>
                 </div>
@@ -114,21 +86,21 @@ export const BookDetails = () => {
                     })()}        
                 </div>   
                 <div className="flex items-center gap-4">
-                    <Link 
-                    to="/review"
-                    className="text-sm font-medium text-primary hover:text-primary/90 transition-colors"
-                    >
-                    Évaluer ce livre
-                    </Link>
-                    <Link 
-                    to="/reviews"
-                    className="text-sm font-medium text-primary hover:text-primary/90 transition-colors"
-                    >
-                    Avis
-                    </Link>
+                <Link 
+                to="/review"
+                className="text-sm font-medium text-gray-700 hover:text-purple-600 transition-colors"
+                >
+                Évaluer ce livre
+                </Link>
+                <Link 
+                to="/reviews"
+                className="text-sm font-medium text-gray-700 hover:text-purple-600 transition-colors"
+                >
+                Avis
+                </Link>
+
                 </div>
                 </div>
-                
                 <div className="text-sm text-gray-600">
                 {/* Nombre total d'avis */}
                 <div className="flex items-center gap-4">

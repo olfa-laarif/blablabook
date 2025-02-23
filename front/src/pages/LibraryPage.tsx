@@ -1,13 +1,12 @@
 import { useEffect, useState } from 'react';
 import Header from '../components/Header';
-import Hero from '../components/Hero';
 import ConnectedUserSearchBar from '../components/ConnectedUserSearchBar';
 import BookList from '../components/BookList';
-import Features from '../components/Features';
 import Footer from '../components/Footer';
 import { getUserById } from '../services/api';
 import { Book } from "../types";
 import { useAuth } from '../context/AuthContext';
+import LinksUser from '../components/LinksUser';
 
 const LibraryPage = () => {
   const { user } = useAuth();
@@ -24,7 +23,7 @@ const LibraryPage = () => {
         const userData = await getUserById(user.id);
         if (userData && userData.Books) {
           setBooks(userData.Books);
-          setFilteredBooks(userData.Books);
+          
         }
       }
     };
@@ -47,12 +46,13 @@ const LibraryPage = () => {
     }
     
     setFilteredBooks(filtered);
-  }, [books, activeFilter, searchQuery]);
+  }, [ activeFilter, searchQuery, books]);
 
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <Hero isBooksPage={true} />
+      <main className="flex-grow container mx-auto px-4 pt-24 pb-12">
+      <LinksUser />
       <div className="max-w-7xl mx-auto px-4 py-8">
         <h1 className="text-3xl font-bold text-gray-900 mb-4">Ma Bibliothèque</h1>
         <div className="flex flex-col md:flex-row items-center justify-between mb-4">
@@ -82,17 +82,11 @@ const LibraryPage = () => {
             >
               À lire
             </button>
-            <button 
-              onClick={() => setActiveFilter("favorite")}
-              className={`px-4 py-2 rounded ${activeFilter === "favorite" ? "bg-indigo-500 text-white" : "bg-gray-200 text-gray-700"}`}
-            >
-              Favoris
-            </button>
           </div>
         </div>
         <BookList books={filteredBooks} />
       </div>
-      <Features />
+      </main>
       <Footer />
     </div>
   );

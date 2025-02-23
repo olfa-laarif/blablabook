@@ -10,11 +10,11 @@ export default function BookCard({ book}: BookCardProps) {
   return (
     
     <Link to={`/books/${book.id}`} className="block">
-      <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
+      <div className="bg-white  rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
         <img
           src={book.image}
           alt={`Cover of ${book.title}`}
-          className="w-full h-48 object-cover"
+          className="w-full aspect-[3/4] object-contain mx-auto"
         />
         <div className="p-4">
           <h3 className="text-lg font-semibold text-gray-900 mb-1 h-12">{book.title} </h3>

@@ -1,7 +1,5 @@
 import { useEffect, useState } from 'react';
-// import { useNavigate } from 'react-router-dom';
 import Header from '../components/Header';
-import Hero from '../components/Hero';
 import BookList from '../components/BookList'
 import Footer from '../components/Footer';
 import ConnectedUserSearchBar from '../components/ConnectedUserSearchBar';
@@ -9,14 +7,16 @@ import { getAllBooks } from '../services/api';
 import { Book } from "../types";
 import { filterBooks } from '../utils/filterBooks';
 import { useDebouncedSearch } from '../hooks/useDebouncedSearch';
+import LinksUser from '../components/LinksUser';
 
+const  BOOKS_PER_PAGE = 9;
 
 const AllBooksPage = () => {
   const [books, setBooks] = useState<Book[]>([]);
   const [searchOption, setSearchOption] = useState<string>("title"); // Critère par défaut : Titre
   const [currentPage, setCurrentPage] = useState<number>(1);
   const [filteredBooks, setFilteredBooks] = useState<Book[]>([]);
-  const booksPerPage = 6;
+  const booksPerPage = BOOKS_PER_PAGE;
 
  // Utilisation du hook `useDebouncedSearch`
   const { query, setQuery, debouncedQuery } = useDebouncedSearch("", 1000);
@@ -71,7 +71,8 @@ const AllBooksPage = () => {
   return (
     <div className="min-h-screen bg-gray-50">
       <Header />
-      <Hero isBooksPage={true} />
+      <main className="flex-grow container mx-auto px-4 pt-24 pb-12">
+      <LinksUser />
       <ConnectedUserSearchBar 
               searchQuery={query}
               setSearchQuery={setQuery}
@@ -101,6 +102,7 @@ const AllBooksPage = () => {
           Suivant
         </button>
       </div>
+      </main>
       <Footer />
     </div>
   );
