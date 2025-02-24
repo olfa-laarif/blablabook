@@ -1,4 +1,3 @@
-import React from "react";
 import { Book } from "../types"; // chemin vers votre interface Book
 import { BookCard } from "./BookCardUser"; // Un composant pour afficher un livre
 
@@ -6,7 +5,9 @@ interface BookListProps {
   books: Book[];
 }
 
-const BookList: React.FC<BookListProps> = ({ books }) => {
+const BookList = ({ books }:BookListProps) => {
+
+  
   if (!books.length) {
     return <p className="text-center py-4">Aucun livre trouvé.</p>;
   }

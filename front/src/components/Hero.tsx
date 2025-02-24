@@ -40,14 +40,14 @@ export default function Hero({ isBooksPage }: HeroProps) {
           )}
           {/* Bouton "Ma Bibliothèque" */}
           <button 
-            onClick={() => navigate("/ma-bibliotheque")}
+            onClick={() => navigate("/library")}
             className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
           >
             Ma Bibliothèque
           </button>
           {/* Bouton "Mon Profil" */}
           <button 
-            onClick={() => navigate("/mon-profil")}
+            onClick={() => navigate("/profil")}
             className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600"
           >
             Mon Profil

@@ -1,7 +1,7 @@
 import {Book, Author, Category, Mark} from "../models/associations.js";
 import { sequelize } from "../models/sequelizeClient.js";
 
-
+const RANDOM_LIMIT=30;
 
 export const bookController ={
 
@@ -9,7 +9,7 @@ export const bookController ={
 async  getRandomBooks(req, res){
 
 const randomBooks = await Book.findAll(
-{ limit: 6 ,
+{ limit: RANDOM_LIMIT ,
     order: sequelize.random(),
     include : [
     { model : Author,attributes: ['firstname', 'lastname']}

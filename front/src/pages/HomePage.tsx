@@ -1,6 +1,5 @@
 
 import Header from '../components/Header';
-import Hero from '../components/Hero';
 import FeaturedBook from '../components/FeaturedBook';
 import Features from '../components/Features';
 import Footer from '../components/Footer';
@@ -9,6 +8,7 @@ import { useEffect, useState } from 'react';
 import { getRandomBooks } from '../services/api';
 import { Book } from "../types";
 import { filterBooks } from '../utils/filterBooks';
+
 
 
 const HomePage = () => {
@@ -21,7 +21,6 @@ const HomePage = () => {
     const fetchBooks = async () => {
       try {
         const data = await getRandomBooks();
-        console.log(data);
         setBooks(data);
       } catch (error) {
         console.error('Impossible de charger les livres:', error);
@@ -31,12 +30,11 @@ const HomePage = () => {
   }, []);
 
   const filteredBooks = filterBooks(books, searchQuery, searchOption);
-  //console.log("filtered books", filteredBooks);
 return (
     <>
         <div className="min-h-screen bg-gray-50">
         <Header/>
-        <Hero />
+        <main className="flex-grow container mx-auto px-4 pt-24 pb-12">
         <SearchBar 
         searchQuery={searchQuery} 
         setSearchQuery={setSearchQuery} 
@@ -45,6 +43,7 @@ return (
         />
         <FeaturedBook books={filteredBooks}/>
         <Features />
+        </main>
         <Footer />
         </div>
     </>

@@ -1,60 +1,60 @@
-
-import type { Book} from '../types';
+import type { Book } from '../types';
 import { Link } from "react-router-dom";
-import { Plus, Minus, Check, X,Heart } from "lucide-react";
-import { useState } from "react";
+import { Plus, Minus } from "lucide-react";
 import slugify from 'slugify'; 
+import { useState, useEffect } from "react";
+import { addBookToLibrary, removeBookFromLibrary, checkIfInLibrary } from "../services/api";
+import { useAuth } from "../context/AuthContext";
+
 interface BookCardProps {
   book: Book;
 }
 
- export const BookCard: React.FC<BookCardProps> = ({ book }) => {
-   // État pour savoir si le livre est dans la bibliothèque
-  const [inLibrary, setInLibrary] = useState(false);
-  // État pour savoir si le livre est marqué comme lu
-  const [isRead, setIsRead] = useState(false);
-   // État pour gérer l'ajout en favoris
-   const [favorite, setFavorite] = useState(false);
+export const BookCard = ({ book }: BookCardProps) => {
+  const { user } = useAuth();
+  const [inLibrary, setInLibrary] = useState<boolean>(false);
+  
+  useEffect(() => {
+    if (user) {
+      // Fonction pour vérifier si le livre est dans la bibliothèque
+      checkIfInLibrary(user.id, book.id).then(setInLibrary).catch(console.error);
+    }
+  }, [user, book.id]); 
+  
 
-  const handleAdd = () => {
-    // Logique pour ajouter le livre à la bibliothèque
-    setInLibrary(true);
+  const handleAdd = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (!inLibrary && user) {
+      try {
+        const result = await addBookToLibrary(user.id, book.id);
+        if (result) setInLibrary(true);
+      } catch (error) {
+        console.error("Erreur lors de l'ajout du livre :", error);
+      }
+    }
   };
 
-  const handleRemove = () => {
-    // Logique pour retirer le livre de la bibliothèque
-    setInLibrary(false);
-  };
-  const toggleRead = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation(); // Empêche la navigation si on clique sur le bouton
-    setIsRead(!isRead);
-    // On pouvez ici ajouter la logique d'appel à l'API pour enregistrer le statut "lu"
-  };
-  const toggleFavorite = (e: React.MouseEvent<HTMLButtonElement>) => {
-    e.stopPropagation(); // Empêche le clic de déclencher la navigation du lien parent
-    setFavorite(!favorite);
-    // Vous pouvez ajouter ici un appel API pour enregistrer le favori
+  const handleRemove = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+    if (inLibrary && user) {
+      try {
+        const result = await removeBookFromLibrary(user.id, book.id);
+        if (result) setInLibrary(false);
+      } catch (error) {
+        console.error("Erreur lors de la suppression du livre :", error);
+      }
+    }
   };
 
   // création du slug côté front pour avoir des liens SEO friendly
   const slug = slugify(book.title, { lower: true, strict: true });
 
   return (
-    // Conteneur relatif pour positionner les boutons absolument par rapport à la carte
     <div className="relative group">
 
-         {/* Bouton cœur toujours présent en haut à droite */}
-      <div className="absolute top-2 right-2" z-10>
-        <button
-          onClick={toggleFavorite}
-          className="w-12 h-12 flex items-center justify-center focus:outline-none"
-          title="Ajouter aux favoris"
-        >
-          <Heart size={28} className="text-indigo-500" />
-        </button>
-      </div>
       {/* Le lien enveloppe la carte pour la navigation vers le détail du livre, ajout du slug pour rendre l'URL SEO friendly */}
       <Link to={`/books/${book.id}-${slug}`} className="block">
+     
         <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
           <img
             src={book.image}
@@ -62,44 +62,35 @@ interface BookCardProps {
             className="w-full h-48 object-cover"
           />
           <div className="p-4">
-            <h3 className="text-lg font-semibold text-gray-900 mb-1 h-12">{book.title}</h3>
-            <p className="text-gray-600 text-sm mb-2">
-              par {book.Author.firstname} {book.Author.lastname}
-            </p>
+            <h3 className="text-lg font-semibold text-gray-900  h-14 line-clamp-2 mb-1">{book.title}</h3>
+            {book.Author?.firstname && book.Author?.lastname && (
+              <p className="text-gray-600 text-sm mb-2">
+                par {book.Author.firstname} {book.Author.lastname}
+              </p>
+            )}
           </div>
         </div>
       </Link>
 
       <div className="absolute bottom-2 right-2 flex flex-row space-x-5">
         {inLibrary ? (
-          <>
-          
-            <button
-              onClick={toggleRead}
-              className="w-10 h-10 bg-indigo-500 text-white rounded-full flex items-center justify-center hover:bg-indigo-600"
-              title="Marquer comme lu / non lu"
-            >
-              {isRead ? <Check size={20} /> : <X size={20} />}
-            </button>
-            
-            <button 
-              onClick={handleRemove}
-              className="w-10 h-10 bg-indigo-500 text-white rounded-full flex items-center justify-center hover:bg-indigo-600"
-              title="Enlever de votre bibliothèque"
-            >
-              <Minus size={50} />
-            </button>
-          </>
+          <button 
+            onClick={handleRemove}
+            className="w-10 h-10 text-gray-500 flex items-center justify-center hover:text-indigo-600"
+            title="Enlever de votre bibliothèque"
+          >
+            <Minus size={24} />
+          </button>
         ) : (
           <button 
             onClick={handleAdd}
-            className="w-10 h-10 bg-indigo-500 text-white rounded-full flex items-center justify-center hover:bg-indigo-600"
+            className="w-10 h-10 text-gray-500 flex items-center justify-center hover:text-indigo-600"
             title="Ajouter à votre bibliothèque"
           >
-            <Plus size={50} />
+            <Plus size={24} />
           </button>
         )}
       </div>
     </div>
   );
-}
+};

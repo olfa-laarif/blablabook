@@ -8,7 +8,6 @@ const NotFoundPage = () => {
       <Header/>
       <NotFound/>
       <Footer/>
-
     </>
   );
 };

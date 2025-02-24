@@ -206,4 +206,20 @@ export const removeBookFromLibrary = async (user_id: string,book_id:string) => {
     }
 };
 
+// Vérifier si un livre est dans la bibliothèque de l'utilisateur
+export const checkIfInLibrary = async (user_id: string, book_id: string) => {
+try {
+    const response = await fetch(`${API_BASE_URL}/api/users/${user_id}/books/${book_id}`);
+    if (!response.ok) throw new Error("Impossible de récupérer le statut du livre");
+    const data = await response.json();
+    return data.inLibrary;
+    } catch (error) {
+    console.error( error);
+    return null;
+    }
+};
+
+
+
+
 
