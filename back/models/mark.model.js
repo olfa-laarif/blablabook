@@ -18,6 +18,7 @@ Mark.init({
   }
 }, {
   sequelize,
+  tableName: "Mark", // Spécifie explicitement le nom de la table
   indexes: [
     {
       unique: true,

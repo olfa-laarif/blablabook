@@ -12,6 +12,7 @@ Category.init({
     },
 }, {
     sequelize,
+    tableName: "Category", // Spécifie explicitement le nom de la table
 });
 
 

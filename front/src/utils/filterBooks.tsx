@@ -1,28 +1,44 @@
 /* eslint-disable no-case-declarations */
-export function filterBooks(books, query, searchOption) {
-    if (!query) return books;
+import type { Book } from "../types";
 
-    const lowerCaseQuery = query.toLowerCase();
+/**
+ * Filtre les livres selon le critère choisi (titre, auteur, date de publication)
+ * @param books - Liste des livres
+ * @param query - Texte saisi par l'utilisateur
+ * @param searchOption - Filtre sélectionné : "title", "author", "published_date"
+ * @returns Liste des livres filtrés
+ */
+export function filterBooks(books: Book[], query: string, searchOption: string): Book[] {
+  if (!query.trim()) return books; // Si la recherche est vide, on retourne tous les livres
 
-    return books
-      .filter(book => {
-        switch (searchOption) {
-          case "title":
-            return book.title.toLowerCase().includes(lowerCaseQuery);
-          case "author":
-            // Vérifier si book.Author existe et contient firstname et lastname
-            if (!book.Author || !book.Author.firstname || !book.Author.lastname) return false;
+  const lowerCaseQuery = query.toLowerCase();
 
-            const firstNameMatch = book.Author.firstname.toLowerCase().includes(lowerCaseQuery);
-            const lastNameMatch = book.Author.lastname.toLowerCase().includes(lowerCaseQuery);
+  const filteredBooks = books.filter((book: Book) => {
+    switch (searchOption) {
+      case "title":
+        return book.title?.toLowerCase().includes(lowerCaseQuery) ?? false;
 
-            console.log(`Searching for "${lowerCaseQuery}" in "${book.Author.firstname} ${book.Author.lastname}"`);
-            return firstNameMatch || lastNameMatch;
-          case "published_date":
-            return book.published_date.includes(lowerCaseQuery);
-          default:
-            return false;
-        }
-      })
-      .filter((book, index, self) => self.findIndex(b => b.id === book.id) === index); // Supprime les doublons
+      case "author":
+        if (!book.Author) return false;
+        const firstNameMatch = book.Author.firstname?.toLowerCase().includes(lowerCaseQuery) ?? false;
+        const lastNameMatch = book.Author.lastname?.toLowerCase().includes(lowerCaseQuery) ?? false;
+        return firstNameMatch || lastNameMatch;
+
+      case "published_date":
+        return book.published_date?.includes(lowerCaseQuery) ?? false;
+
+      default:
+        return false;
+    }
+  });
+
+  // Suppression des doublons avec `Set`
+  return Array.from(new Set(filteredBooks.map((book) => book.id))).map(
+    (id) => filteredBooks.find((book) => book.id === id)!
+  );
 }
+
+
+
+
+

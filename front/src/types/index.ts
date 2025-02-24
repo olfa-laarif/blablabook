@@ -21,8 +21,12 @@ export interface Book {
   
   export interface User {
     id: string;
-    name: string;
-    email: string;
-    readBooks: string[];
-    toReadBooks: string[];
+    username: string;
+    firstname: string;
+    lastname: string;
+    email: string; 
+    biography:string;
+    Books:Book[];
   }
+
+  

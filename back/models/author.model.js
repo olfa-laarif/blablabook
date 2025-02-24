@@ -19,6 +19,7 @@ Author.init({
   }
 }, {
   sequelize,
+  tableName: "Author", // Spécifie explicitement le nom de la table
 });
 
 
