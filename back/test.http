@@ -1,0 +1,65 @@
+### Récupération d'une liste random de livre
+GET http://localhost:3001/api/books/random
+
+###Récupérer tout les livres
+GET http://localhost:3001/api/books
+
+
+###Récupérer un seul livre par son id
+GET http://localhost:3001/api/books/3
+
+
+
+# Test pour Register, Login et Logout
+
+### Tester l'inscription d'un utilisateur
+POST http://localhost:3001/api/auth/register
+Content-Type: application/json
+
+{
+    "username": "Bonsiigigi",
+    "firstname": "Delly",
+    "lastname": "Delabarre",
+    "email": "aceyyt@exmple.com",
+    "password": "Tet@1234",
+    "biography": "Développeur passionné"
+}
+
+
+### Tester la connexion d'un utilisateur
+POST http://localhost:3001/api/auth/login
+Content-Type: application/json
+
+{
+    "email": "Noel@example.com",
+    "password": "Test@1234"
+}
+
+
+### Récupérer les informations de l'utilisateur connecté
+GET http://localhost:3001/api/auth/connected-user
+Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJvbGZhQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM5ODIwMzU2LCJleHAiOjE3Mzk5MDY3NTZ9.PKUWNS7ocxRB9vxn_j2iTGtwJ3R4eF-1v4ySEYdQeHA
+
+### Tester la déconnexion d'un utilisateur
+GET http://localhost:3001/api/auth/logout
+
+### Récuperer un utilisateur par son email
+GET http://localhost:3001/api/users/email/aceyyt@exmple.com
+
+
+### Récuperer un utilisateur par son pseudo
+GET http://localhost:3001/api/users/username/Bonsiigigi
+
+
+### Récuperer un utilisateur et ses livres par son Id 
+GET http://localhost:3001/api/users/1
+
+###Récupérer tout les users et leurs livres
+GET http://localhost:3001/api/users
+
+
+### ajouter un livre à la bibliothèque d'un utilisateur
+PUT  http://localhost:3001/api/users/1/books/3
+
+### supprimer un livre de la bibliothèque d'un utilisateur
+DELETE  http://localhost:3001/api/users/1/books/3

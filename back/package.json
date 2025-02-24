@@ -1,18 +1,29 @@
 {
   "dependencies": {
+    "argon2": "^0.41.1",
+    "cookie-parser": "^1.4.7",
+    "cors": "^2.8.5",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "express-rate-limit": "^7.5.0",
+    "express-validator": "^7.2.1",
+    "helmet": "^8.0.0",
+    "joi": "^17.13.3",
+    "jsonwebtoken": "^9.0.2",
     "pg": "^8.13.1",
+    "redis": "^4.7.0",
+    "sanitize-html": "^2.14.0",
     "sequelize": "^6.37.5"
   },
   "name": "back",
   "version": "1.0.0",
-  "type":"module",
+  "type": "module",
   "main": "eslint.config.js",
-  "devDependencies": {},
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "dev":"node --watch index.js"
+    "dev": "node --watch index.js",
+    "db:sync": "node data/01.create-tables.js",
+    "db:seed": "node data/02.seed-tables.js",
+    "db:reset": "npm run db:sync && npm run db:seed"
   },
   "keywords": [],
   "author": "",

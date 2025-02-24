@@ -1,35 +1,42 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { BrowserRouter as Router, Routes, Route, Navigate } from "react-router-dom";
+import { useAuth } from "./context/AuthContext";
+import Header from "./components/Header";
+import HomePage from "./pages/HomePage";
+import LoginPage from "./pages/LoginPage";
+import SignUpPage from "./pages/SignUpPage";
+import  { BookDetailsPage } from "./pages/BookDetailsPage";
+import NotFoundPage from "./pages/NotFoundPage";
+import PrivateRoute from "./routes/PrivateRoute";
+import AllBooksPage from "./pages/AllBooksPage";
+import LegalPage from "./pages/LegalPage";
+import UserProfilPage from "./pages/UserProfilPage";
+import LibraryPage from "./pages/LibraryPage";
 
-function App() {
-  const [count, setCount] = useState(0)
+
+export default function App() {
+  const { user } = useAuth(); // On récupère l'utilisateur connecté
 
   return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
-}
+    <Router>
+      <Header />
+      <Routes>
+        {/* Redirection si l'utilisateur est connecté */}
+        <Route path="/" element={user ? <Navigate to="/all-books" replace /> : <HomePage />} />
 
-export default App
+        {/* Pages publiques */}
+        <Route path="/login" element={user ? <Navigate to="/all-books" replace /> : <LoginPage />} />
+        <Route path="/signup" element={user ? <Navigate to="/all-books" replace /> : <SignUpPage />} />
+        <Route path="/legal" element={<LegalPage />} />
+        <Route path="/books/:id" element={<BookDetailsPage />} />
+
+        {/* Routes protégées */}
+        <Route path="/all-books" element={<PrivateRoute><AllBooksPage /></PrivateRoute>} />
+        <Route path="/profil" element={<PrivateRoute><UserProfilPage /></PrivateRoute>} />
+        <Route path="/library" element={<PrivateRoute><LibraryPage /></PrivateRoute>}/> 
+        
+        {/* Page 404 */}
+        <Route path="*" element={<NotFoundPage />} />
+      </Routes>
+    </Router>
+  );
+}
