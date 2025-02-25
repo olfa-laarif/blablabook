@@ -9,7 +9,6 @@ const blacklist = new Set();
  */
 export async function authenticateToken(req, res, next) {
   const token = req.cookies?.token || req.headers["authorization"]?.split(" ")[1];
-    console.log(token);
   if (!token || blacklist.has(token)) {
     return res.status(401).json({ error: "Authentification requise." });
   }
