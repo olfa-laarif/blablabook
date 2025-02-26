@@ -9,7 +9,6 @@ const STATIC_BOOKS = [
   "Tartuffe", "L'Assommoir"
 ];
 
-const DEFAULT_BOOK_IMAGE = "https://via.placeholder.com/300x400?text=Image+Indisponible";
 const GOOGLE_API_URL = "https://www.googleapis.com/books/v1";
 const LIMIT = 40;
 const TOTAL_NEEDED = 100;
@@ -44,7 +43,6 @@ const fetchBookInfo = async (title) => {
       summary: book.description || "Résumé non disponible.",
       published_date: book.publishedDate || "Date inconnue",
       image: book.imageLinks?.thumbnail?.replace("&zoom=1", "&zoom=3").replace("http://", "https://") ,
-      status: ["lu", "à lire", "en cours"][Math.floor(Math.random() * 3)],
       availability: Math.random() > 0.5,
       categories: bookCategories,
       authors: book.authors ? book.authors.map(author => {
@@ -83,7 +81,6 @@ async function fetchFrenchBooks() {
           summary: book.volumeInfo.description || "Résumé non disponible.",
           published_date: book.volumeInfo.publishedDate || "",
           image: book.volumeInfo.imageLinks.thumbnail.replace("&zoom=1", "&zoom=3").replace("http://", "https://"),
-          status: ["lu", "à lire", "en cours"][Math.floor(Math.random() * 3)],
           availability: Math.random() > 0.5,
           categories: book.volumeInfo.categories || ["Inconnu"],
           authors: book.volumeInfo.authors.map(author => {

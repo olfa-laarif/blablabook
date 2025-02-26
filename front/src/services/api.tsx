@@ -218,41 +218,72 @@ try {
     }
 };
 
+//mise à jour d'un utilisateur
 export const updateUser = async (
     lastnameFromInput: string,
     firstnameFromInput: string,
     usernameFromInput: string,
     emailFromInput: string,
-    biographyFromInput: string
-  ) => {
+    biographyFromInput: string) => {
     try {
-      const response = await fetch(`${API_BASE_URL}/api/auth/update-user`, {
+    const response = await fetch(`${API_BASE_URL}/api/auth/update-user`, {
         credentials: "include",
         method: "PATCH", // PATCH pour mettre à jour partiellement
         headers: {
-          "Content-Type": "application/json",
+        "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: usernameFromInput,
-          email: emailFromInput,
-          firstname: firstnameFromInput,
-          lastname: lastnameFromInput,
-          biography: biographyFromInput,
+        username: usernameFromInput,
+        email: emailFromInput,
+        firstname: firstnameFromInput,
+        lastname: lastnameFromInput,
+        biography: biographyFromInput,
         }),
-      });
-  
-      if (!response.ok) {
+    });
+
+    if (!response.ok) {
         throw new Error("Erreur lors de la mise à jour de l'utilisateur");
-      }
-  
-      const updatedUser = await response.json();
-      return updatedUser;
-    } catch (error) {
-      console.error("Erreur dans updateUser :", error);
-      throw error;
     }
-  };
-  
+
+    const updatedUser = await response.json();
+    return updatedUser;
+    } catch (error) {
+    console.error("Erreur dans updateUser :", error);
+    throw error;
+    }
+};
+
+export const updateBookStatus = async (userId: string, bookId: string, status: "read" | "toread") => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/users/${userId}/library/${bookId}/status/${status}`, {
+            method: "PATCH"
+        });
+
+        if (!response.ok) {
+            throw new Error("Erreur lors de la mise à jour du statut du livre");
+        }
+
+        return await response.json();
+    } catch (error) {
+        console.error("Erreur dans updateBookStatus :", error);
+        throw error;
+    }
+};
+
+// Vérifier si un livre est marqué comme "lu" dans la bibliothèque de l'utilisateur
+export const checkIfBookIsRead = async (user_id: string, book_id: string) => {
+    try {
+        const response = await fetch(`${API_BASE_URL}/api/users/${user_id}/library/${book_id}/status/isread`);
+        if (!response.ok) throw new Error("Impossible de récupérer le statut de lecture du livre");
+        
+        const data = await response.json();
+        return data.isRead; // Retourne true si le livre est lu, sinon false
+    } catch (error) {
+        console.error("Erreur lors de la vérification du statut de lecture :", error);
+        return null; // Retourne null en cas d'erreur
+    }
+};
+
 
 
 

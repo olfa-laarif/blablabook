@@ -37,9 +37,9 @@ const LibraryPage = () => {
   useEffect(() => {
     let filtered = books;
     if (activeFilter === "read") {
-      filtered = filtered.filter(book => book.status.toLowerCase() === "lu");
+      filtered = filtered.filter(book => book.Library.status.toLowerCase() === "lu");
     } else if (activeFilter === "toread") {
-      filtered = filtered.filter(book => book.status.toLowerCase() === "à lire");
+      filtered = filtered.filter(book => book.Library.status.toLowerCase() === "à lire");
     }
 
     if (searchQuery.trim() !== "") {
@@ -66,6 +66,7 @@ const LibraryPage = () => {
               setSearchQuery={setSearchQuery}
               searchOption={activeFilter}
               setSearchOption={setActiveFilter}
+              
             />
             {/* Boutons de filtre */}
             <div className="flex mt-4 md:mt-0 space-x-4">
