@@ -3,7 +3,7 @@ import { sequelize } from '../models/sequelizeClient.js';
 
 
 // Même si on utilise pas les modèles directement, il faut tout de même les importer pour que la synchronisation de sequelize en soit informé.
-import { User, Book, Author,Category,Mark } from '../models/associations.js';
+import { User, Book, Author,Category,Mark ,Library} from '../models/associations.js';
 
 await sequelize.drop();
 

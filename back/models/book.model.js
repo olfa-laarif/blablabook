@@ -20,10 +20,6 @@ Book.init({
     type: DataTypes.TEXT,
     allowNull: false,
   },
-  status: {
-    type: DataTypes.TEXT,
-    allowNull: false,
-  },
   availability:{
     type: DataTypes.BOOLEAN,
     allowNull: false,

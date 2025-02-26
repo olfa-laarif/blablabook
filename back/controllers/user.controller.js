@@ -93,7 +93,7 @@ try {
         include: [
             { 
                 model: Book,
-                attributes: ['id', 'title', 'summary', 'published_date', 'image', 'status', 'availability']
+                attributes: ['id', 'title', 'summary', 'published_date', 'image', 'availability']
             }
         ]
     });
