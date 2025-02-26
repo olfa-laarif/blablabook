@@ -3,10 +3,11 @@ import { BookCard } from "./BookCardUser";
 
 interface BookListProps {
   books: Book[];
-  fetchUserLibrary: () => void; // Ajout de la fonction pour mettre à jour la liste
+  fetchUserLibrary?: () => void; // Rendu optionnel avec `?`
 }
 
-const BookList = ({ books, fetchUserLibrary }: BookListProps) => {
+
+const BookList = ({ books, fetchUserLibrary  }: BookListProps) => {
   if (!books.length) {
     return <p className="text-center py-4">Aucun livre trouvé.</p>;
   }

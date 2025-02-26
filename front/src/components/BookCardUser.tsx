@@ -8,10 +8,10 @@ import { Book } from "../types";
 
 interface BookCardProps {
   book: Book;
-  fetchUserLibrary: () => void; // Fonction pour rafraîchir la liste des livres
+  fetchUserLibrary?: () => void; // Fonction pour rafraîchir la liste des livres
 }
 
-export const BookCard = ({ book, fetchUserLibrary }: BookCardProps) => {
+export const BookCard = ({ book, fetchUserLibrary = () => {} }: BookCardProps) => {
   const { user } = useAuth();
   const [inLibrary, setInLibrary] = useState<boolean>(false);
   
@@ -44,7 +44,7 @@ export const BookCard = ({ book, fetchUserLibrary }: BookCardProps) => {
         const result = await removeBookFromLibrary(user.id, book.id);
         if (result) {
           setInLibrary(false);
-          fetchUserLibrary(); // 🔄 Mettre à jour la bibliothèque après suppression
+          fetchUserLibrary();  // 🔄 Mettre à jour la bibliothèque après suppression
         }
       } catch (error) {
         console.error("Erreur lors de la suppression du livre :", error);
