@@ -20,6 +20,8 @@ const AllBooksPage = () => {
 
  // Utilisation du hook `useDebouncedSearch`
   const { query, setQuery, debouncedQuery } = useDebouncedSearch("", 1000);
+  // Pour l'input de page :
+  const [customPage, setCustomPage] = useState<string>("");
 
   useEffect(() => {
     // Chargement des livres dès le montage de la page
@@ -67,6 +69,29 @@ const AllBooksPage = () => {
       setCurrentPage(prev => prev + 1);
     }
   };
+   // Gérer la saisie du numéro de page
+   const handleChangePageInput = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setCustomPage(e.target.value);
+  };
+
+     // Aller à la page (après clic ou Enter)
+  const handleGoToPage = () => {
+    // Convertir la chaîne en nombre
+    const pageNumber = parseInt(customPage, 10);
+    // Vérifier que c'est un nombre valide et dans l'intervalle [1, totalPages]
+    if (!isNaN(pageNumber) && pageNumber >= 1 && pageNumber <= totalPages) {
+      setCurrentPage(pageNumber);
+      setCustomPage(""); // Optionnel : réinitialiser l'input
+    }
+  };
+
+  // Possibilité de valider avec la touche Entrée
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === 'Enter') {
+      handleGoToPage();
+    }
+  };
+
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -94,7 +119,21 @@ const AllBooksPage = () => {
         <span className="text-gray-700">
           Page {currentPage} de {totalPages}
         </span>
+        <input
+              type="number"
+              className="w-30 border border-gray-300 rounded py-1 px-2 focus:outline-none focus:border-indigo-500"
+              placeholder="N° page"
+              value={customPage}
+              onChange={handleChangePageInput}
+              onKeyDown={handleKeyDown}
+              min={1}
+              max={totalPages}
+            />
         <button
+              onClick={handleGoToPage}
+        ></button>
+
+          <button
           onClick={handleNextPage}
           disabled={currentPage === totalPages || totalPages === 0}
           className="px-4 py-2 bg-indigo-500 text-white rounded hover:bg-indigo-600 disabled:opacity-50"
@@ -109,5 +148,3 @@ const AllBooksPage = () => {
 };
 
 export default AllBooksPage;
-
-
