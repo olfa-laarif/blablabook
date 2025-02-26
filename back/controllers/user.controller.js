@@ -46,26 +46,26 @@ try {
 
 // Récupérer un utilisateur par son pseudo
 async getUserByUsername(req, res) {
-  try {
-      const username = req.params.username;
-      // Vérifier si le pseudo est fourni
-      if (!username) {
-          return res.status(400).json({ error: "Le pseudo est requis." });
-      }
-      // Rechercher l'utilisateur par pseudo
-      const user = await User.findOne({ 
-          where: { username },
-          attributes: ['username', 'email']
-      });
-      // Vérifier si l'utilisateur existe
-      if (!user) {
-          return res.status(404).json({ error: "Utilisateur non trouvé !" });
-      }
-      return res.status(200).json(user);
-  } catch (error) {
-      console.error("Erreur lors de la récupération de l'utilisateur :", error);
-      return res.status(500).json({ error: "Erreur interne du serveur.", details: error.message });
-  }
+try {
+    const username = req.params.username;
+    // Vérifier si le pseudo est fourni
+    if (!username) {
+        return res.status(400).json({ error: "Le pseudo est requis." });
+    }
+    // Rechercher l'utilisateur par pseudo
+    const user = await User.findOne({ 
+        where: { username },
+        attributes: ['username', 'email']
+    });
+    // Vérifier si l'utilisateur existe
+    if (!user) {
+        return res.status(404).json({ error: "Utilisateur non trouvé !" });
+    }
+        return res.status(200).json(user);
+} catch (error) {
+    console.error("Erreur lors de la récupération de l'utilisateur :", error);
+    return res.status(500).json({ error: "Erreur interne du serveur.", details: error.message });
+}
 },
 
 // Vérifier si un pseudo est déjà en base de données
@@ -88,30 +88,30 @@ async userNameAlreadyExist(req, res) {
  // Récupérer un utilisateur et tous les livres de sa bibliothèque
 async getOneUserWithLibrary(req, res) {
 try {
-      const user = await User.findByPk(req.params.user_id, { 
-          attributes: ['id', 'firstname', 'lastname', 'username', 'biography', 'email'],
-          include: [
-              { 
-                  model: Book,
-                  attributes: ['id', 'title', 'summary', 'published_date', 'image', 'status', 'availability']
-              }
-          ]
-      });
+    const user = await User.findByPk(req.params.user_id, { 
+        attributes: ['id', 'firstname', 'lastname', 'username', 'biography', 'email'],
+        include: [
+            { 
+                model: Book,
+                attributes: ['id', 'title', 'summary', 'published_date', 'image', 'status', 'availability']
+            }
+        ]
+    });
       // Vérifier si l'utilisateur existe
-      if (!user) {
-          return res.status(404).json({ error: 'Utilisateur non trouvé !' });
-      }
-      return res.status(200).json(user);
-  } catch (error) {
-      console.error("Erreur lors de la récupération de l'utilisateur :", error);
-      return res.status(500).json({ message: "Erreur interne du serveur." });
-  }
+    if (!user) {
+        return res.status(404).json({ error: 'Utilisateur non trouvé !' });
+    }
+    return res.status(200).json(user);
+} catch (error) {
+    console.error("Erreur lors de la récupération de l'utilisateur :", error);
+    return res.status(500).json({ message: "Erreur interne du serveur." });
+}
 },
 
  // Récupérer tous les utilisateurs et leurs livres associés
 async getAllUsers(req, res) {
-  try {
-      const users = await User.findAll({
+try {
+    const users = await User.findAll({
           include: [
               { model: Book } // Inclure les livres associés à chaque utilisateur
           ]

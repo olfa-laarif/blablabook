@@ -2,7 +2,6 @@
 // Obtention de tous les livres (Méthode getAllBooks qui pointera sur une route get '/books')
 // Obtention d'un livre par son ID (Méthode getBookById qui pointera sur la route get'/books/${id})
 // Fetch à faire directement dans HomePage et BookDetails avec useEffect
-//import type { NewUserData } from "../types";
 
 const API_BASE_URL = "http://localhost:3001";
 
@@ -218,6 +217,42 @@ try {
     return null;
     }
 };
+
+export const updateUser = async (
+    lastnameFromInput: string,
+    firstnameFromInput: string,
+    usernameFromInput: string,
+    emailFromInput: string,
+    biographyFromInput: string
+  ) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/update-user`, {
+        credentials: "include",
+        method: "PATCH", // PATCH pour mettre à jour partiellement
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: usernameFromInput,
+          email: emailFromInput,
+          firstname: firstnameFromInput,
+          lastname: lastnameFromInput,
+          biography: biographyFromInput,
+        }),
+      });
+  
+      if (!response.ok) {
+        throw new Error("Erreur lors de la mise à jour de l'utilisateur");
+      }
+  
+      const updatedUser = await response.json();
+      return updatedUser;
+    } catch (error) {
+      console.error("Erreur dans updateUser :", error);
+      throw error;
+    }
+  };
+  
 
 
 

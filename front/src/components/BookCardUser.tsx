@@ -1,22 +1,22 @@
-import type { Book } from '../types';
 import { Link } from "react-router-dom";
 import { Plus, Minus } from "lucide-react";
 import slugify from 'slugify'; 
 import { useState, useEffect } from "react";
 import { addBookToLibrary, removeBookFromLibrary, checkIfInLibrary } from "../services/api";
 import { useAuth } from "../context/AuthContext";
+import { Book } from "../types";
 
 interface BookCardProps {
   book: Book;
+  fetchUserLibrary: () => void; // Fonction pour rafraîchir la liste des livres
 }
 
-export const BookCard = ({ book }: BookCardProps) => {
+export const BookCard = ({ book, fetchUserLibrary }: BookCardProps) => {
   const { user } = useAuth();
   const [inLibrary, setInLibrary] = useState<boolean>(false);
   
   useEffect(() => {
     if (user) {
-      // Fonction pour vérifier si le livre est dans la bibliothèque
       checkIfInLibrary(user.id, book.id).then(setInLibrary).catch(console.error);
     }
   }, [user, book.id]); 
@@ -27,7 +27,10 @@ export const BookCard = ({ book }: BookCardProps) => {
     if (!inLibrary && user) {
       try {
         const result = await addBookToLibrary(user.id, book.id);
-        if (result) setInLibrary(true);
+        if (result) {
+          setInLibrary(true);
+          fetchUserLibrary(); // 🔄 Mettre à jour la bibliothèque
+        }
       } catch (error) {
         console.error("Erreur lors de l'ajout du livre :", error);
       }
@@ -39,22 +42,21 @@ export const BookCard = ({ book }: BookCardProps) => {
     if (inLibrary && user) {
       try {
         const result = await removeBookFromLibrary(user.id, book.id);
-        if (result) setInLibrary(false);
+        if (result) {
+          setInLibrary(false);
+          fetchUserLibrary(); // 🔄 Mettre à jour la bibliothèque après suppression
+        }
       } catch (error) {
         console.error("Erreur lors de la suppression du livre :", error);
       }
     }
   };
 
-  // création du slug côté front pour avoir des liens SEO friendly
   const slug = slugify(book.title, { lower: true, strict: true });
 
   return (
     <div className="relative group">
-
-      {/* Le lien enveloppe la carte pour la navigation vers le détail du livre, ajout du slug pour rendre l'URL SEO friendly */}
       <Link to={`/books/${book.id}-${slug}`} className="block">
-     
         <div className="bg-white rounded-lg shadow-md overflow-hidden transition-transform hover:scale-105">
           <img
             src={book.image}
@@ -62,7 +64,7 @@ export const BookCard = ({ book }: BookCardProps) => {
             className="w-full h-48 object-cover"
           />
           <div className="p-4">
-            <h3 className="text-lg font-semibold text-gray-900  h-14 line-clamp-2 mb-1">{book.title}</h3>
+            <h3 className="text-lg font-semibold text-gray-900 h-14 line-clamp-2 mb-1">{book.title}</h3>
             {book.Author?.firstname && book.Author?.lastname && (
               <p className="text-gray-600 text-sm mb-2">
                 par {book.Author.firstname} {book.Author.lastname}
