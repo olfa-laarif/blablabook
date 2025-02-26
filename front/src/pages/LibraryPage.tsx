@@ -66,6 +66,7 @@ const LibraryPage = () => {
               setSearchQuery={setSearchQuery}
               searchOption={activeFilter}
               setSearchOption={setActiveFilter}
+              
             />
             {/* Boutons de filtre */}
             <div className="flex mt-4 md:mt-0 space-x-4">

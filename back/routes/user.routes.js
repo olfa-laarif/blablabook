@@ -37,4 +37,8 @@ userRouter.patch('/:user_id/library/:book_id/status/read',userController.setStat
 // Mettre à jour le statut du livre dans la table de liaison "Library" à lire
 userRouter.patch('/:user_id/library/:book_id/status/toread',userController.setStatusBookToRead);
 
+//Vérifier si le livre est lu
+userRouter.get('/:user_id/library/:book_id/status/isread', userController.checkIfBookIsRead);
+
+
 export { userRouter } 

@@ -1,26 +1,54 @@
 import { Link } from "react-router-dom";
-import { Plus, Minus } from "lucide-react";
+import { Plus, Minus, BookOpen, Book } from "lucide-react";
 import slugify from 'slugify'; 
 import { useState, useEffect } from "react";
-import { addBookToLibrary, removeBookFromLibrary, checkIfInLibrary } from "../services/api";
+import { addBookToLibrary, removeBookFromLibrary, checkIfInLibrary, checkIfBookIsRead, updateBookStatus } from "../services/api";
 import { useAuth } from "../context/AuthContext";
-import { Book } from "../types";
+import { Book as BookType } from "../types";
 
 interface BookCardProps {
-  book: Book;
+  book: BookType;
   fetchUserLibrary?: () => void; // Fonction pour rafraîchir la liste des livres
 }
 
 export const BookCard = ({ book, fetchUserLibrary = () => {} }: BookCardProps) => {
   const { user } = useAuth();
   const [inLibrary, setInLibrary] = useState<boolean>(false);
-  
+  const [isRead, setIsRead] = useState<boolean>(false);
+
   useEffect(() => {
-    if (user) {
-      checkIfInLibrary(user.id, book.id).then(setInLibrary).catch(console.error);
+    if (!user) return;
+
+    // Vérifie si le livre est dans la bibliothèque
+    checkIfInLibrary(user.id, book.id)
+      .then((isInLibrary) => {
+        setInLibrary(isInLibrary);
+        if (isInLibrary) {
+          // Si le livre est dans la bibliothèque, vérifier s'il est lu
+          checkIfBookIsRead(user.id, book.id).then(setIsRead).catch(console.error);
+        }
+      })
+      .catch(console.error);
+  }, [user, book.id]);
+
+  const toggleRead = async (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.stopPropagation();
+
+    if (!inLibrary || !user) {
+      console.warn("Le livre doit être dans la bibliothèque avant de changer son statut.");
+      return;
     }
-  }, [user, book.id]); 
+    
+    const newStatus = isRead ? "toread" : "read"; // Alternance entre "lu" et "à lire"
+    try {
+      await updateBookStatus(user!.id, book.id, newStatus);
+      setIsRead(!isRead); // Mise à jour de l'UI après succès
+      fetchUserLibrary();
+    } catch (error) {
+      console.error(error);
+    }
   
+  };
 
   const handleAdd = async (e: React.MouseEvent<HTMLButtonElement>) => {
     e.stopPropagation();
@@ -29,7 +57,7 @@ export const BookCard = ({ book, fetchUserLibrary = () => {} }: BookCardProps) =
         const result = await addBookToLibrary(user.id, book.id);
         if (result) {
           setInLibrary(true);
-          fetchUserLibrary(); // 🔄 Mettre à jour la bibliothèque
+          fetchUserLibrary();
         }
       } catch (error) {
         console.error("Erreur lors de l'ajout du livre :", error);
@@ -44,7 +72,7 @@ export const BookCard = ({ book, fetchUserLibrary = () => {} }: BookCardProps) =
         const result = await removeBookFromLibrary(user.id, book.id);
         if (result) {
           setInLibrary(false);
-          fetchUserLibrary();  // 🔄 Mettre à jour la bibliothèque après suppression
+          fetchUserLibrary();
         }
       } catch (error) {
         console.error("Erreur lors de la suppression du livre :", error);
@@ -76,13 +104,22 @@ export const BookCard = ({ book, fetchUserLibrary = () => {} }: BookCardProps) =
 
       <div className="absolute bottom-2 right-2 flex flex-row space-x-5">
         {inLibrary ? (
-          <button 
-            onClick={handleRemove}
-            className="w-10 h-10 text-gray-500 flex items-center justify-center hover:text-indigo-600"
-            title="Enlever de votre bibliothèque"
-          >
-            <Minus size={24} />
-          </button>
+          <>
+            <button
+              onClick={toggleRead}
+              className="w-10 h-10 text-gray-500 flex items-center justify-center hover:text-indigo-600"
+              title={isRead ? "Marquer comme à lire" : "Marquer comme lu"}
+            >
+              {isRead ? <BookOpen size={20} /> : <Book size={20} />}
+            </button>
+            <button 
+              onClick={handleRemove}
+              className="w-10 h-10 text-gray-500 flex items-center justify-center hover:text-indigo-600"
+              title="Enlever de votre bibliothèque"
+            >
+              <Minus size={24} />
+            </button>
+          </>
         ) : (
           <button 
             onClick={handleAdd}

@@ -131,46 +131,49 @@ export async function logoutUser(req, res) {
 
 //mettre à jour l'utilisateur
 export async function updateUser(req, res) {
-  const userId = req.user.id; // Récupération de l'ID utilisateur depuis le token
+  try {
+    const userId = req.user.id; // Récupération de l'ID utilisateur depuis le token
 
-  await Promise.all([
-    body("username").optional().trim().escape().run(req),
-    body("firstname").optional().trim().escape().run(req),
-    body("lastname").optional().trim().escape().run(req),
-    body("email").optional().trim().escape().run(req),
-    body("biography").optional().trim().escape().run(req),
-  ]);
+    await Promise.all([
+      body("username").optional().trim().escape().run(req),
+      body("firstname").optional().trim().escape().run(req),
+      body("lastname").optional().trim().escape().run(req),
+      body("email").optional().trim().escape().run(req),
+      body("biography").optional().trim().escape().run(req),
+    ]);
 
-  const errors = validationResult(req);
-  if (!errors.isEmpty()) {
-    return res.status(400).json({ error: "Données invalides", details: errors.array() });
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ error: "Données invalides", details: errors.array() });
+    }
+
+    const { username, firstname, lastname, email, biography } = req.body;
+
+    // Récupérer l'utilisateur actuel
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+
+    // Vérifier si les données sont identiques avant de mettre à jour
+    const updates = {};
+    if (username && username !== user.username) updates.username = username;
+    if (firstname && firstname !== user.firstname) updates.firstname = firstname;
+    if (lastname && lastname !== user.lastname) updates.lastname = lastname;
+    if (email && email !== user.email) updates.email = email;
+    if (biography && biography !== user.biography) updates.biography = biography;
+
+    // Si aucun changement, on évite l'update inutile
+    if (Object.keys(updates).length === 0) {
+      return res.status(200).json({ message: "Aucune modification détectée", user });
+    }
+
+    // Mise à jour des données modifiées uniquement
+    await user.update(updates);
+
+    res.status(200).json({ message: "Profil mis à jour avec succès", user });
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du profil :", error);
+    res.status(500).json({ error: "Erreur interne du serveur" });
   }
-
-  const { username, firstname, lastname,email, biography } = req.body;
-
-  // Récupérer l'utilisateur actuel
-  const user = await User.findByPk(userId);
-  if (!user) {
-    return res.status(404).json({ error: "Utilisateur non trouvé" });
-  }
-
-  // Vérifier si les données sont identiques avant de mettre à jour
-  const updates = {};
-  if (username && username !== user.username) updates.username = username;
-  if (firstname && firstname !== user.firstname) updates.firstname = firstname;
-  if (lastname && lastname !== user.lastname) updates.lastname = lastname;
-  if (email && email !== user.email) updates.email = email;
-  if (biography && biography !== user.biography) updates.biography = biography;
-
-  // Si aucun changement, on évite l'update inutile
-  if (Object.keys(updates).length === 0) {
-    return res.status(200).json({ message: "Aucune modification détectée",user });
-  }
-
-  // Mise à jour des données modifiées uniquement
-  await user.update(updates);
-
-
-  res.status(200).json({ message: "Profil mis à jour avec succès", user });
 }
-

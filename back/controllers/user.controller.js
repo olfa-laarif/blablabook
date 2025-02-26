@@ -249,7 +249,7 @@ async setStatusBookRead(req, res) {
             }
         );
 
-        return res.status(200).json({ message: "Statut du livre mis à jour avec succès." });
+        return res.status(200).json({ message: "Statut du livre mis à jour à 'lu' avec succès." });
     } catch (error) {
         console.error("Erreur lors de la mise à jour du statut du livre :", error);
         return res.status(500).json({ message: "Erreur interne du serveur." });
@@ -294,6 +294,38 @@ async setStatusBookToRead(req, res) {
         console.error("Erreur lors de la mise à jour du statut du livre :", error);
         return res.status(500).json({ message: "Erreur interne du serveur." });
     }
-}
+},
 
+//Vérifier si le livre est lu
+async checkIfBookIsRead(req, res) {
+    try {
+        const { user_id, book_id } = req.params;
+
+        // Vérifier si l'utilisateur existe
+        const user = await User.findByPk(user_id);
+        if (!user) {
+            return res.status(404).json({ message: "Utilisateur non trouvé." });
+        }
+
+        // Vérifier si le livre existe
+        const book = await Book.findByPk(book_id);
+        if (!book) {
+            return res.status(404).json({ message: "Livre non trouvé." });
+        }
+
+        // Vérifier si le livre est dans la bibliothèque de l'utilisateur avec le statut "lu"
+        const libraryEntry = await Library.findOne({
+            where: {
+                UserId: user_id,
+                BookId: book_id,
+                status: "lu", // Vérifie si le statut est "lu"
+            },
+        });
+
+        return res.status(200).json({ isRead: !!libraryEntry });
+    } catch (error) {
+        console.error("Erreur lors de la vérification du statut du livre :", error);
+        return res.status(500).json({ message: "Erreur interne du serveur." });
+    }
+}
 }
