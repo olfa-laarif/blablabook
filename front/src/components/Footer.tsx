@@ -8,7 +8,10 @@ export default function Footer() {
      //{ title: 'My Books', href: '/my-books' }, // A voir si on en a besoin
     // { title: 'My Borrowings', href: '/borrowings' }, // possible évolution v2
     // { title: 'My Loans', href: '/loans' }, // possible évolution v2
+    
+    { title: 'Accueil', href: '/' },
     { title: 'Mentions légales', href: '/legal' },
+
     // { title: 'App', href: '/app' }, // Possible évolution vX
     //{ title: 'Contactez-nous', href: '/contact' },
   ];
