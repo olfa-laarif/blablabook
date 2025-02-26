@@ -74,3 +74,9 @@ PUT  http://localhost:3001/api/users/1/books/3
 
 ### supprimer un livre de la bibliothèque d'un utilisateur
 DELETE  http://localhost:3001/api/users/1/books/3
+
+### Mettre à jour le statut du livre dans la table de liaison "Library" à lu
+PATCH   http://localhost:3001/api/users/1/library/3/status/read
+
+### Mettre à jour le statut du livre dans la table de liaison "Library" à lire
+PATCH   http://localhost:3001/api/users/1/library/3/status/toread
