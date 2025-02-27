@@ -31,4 +31,14 @@ userRouter.delete('/:user_id/books/:book_id',userController.removeBookFromLibrar
 // Vérifier si un livre est dans la bibliothèque de l'utilisateur
 userRouter.get('/:user_id/books/:book_id',userController.checkIfInLibrary);
 
+// Mettre à jour le statut du livre dans la table de liaison "Library" à lu
+userRouter.patch('/:user_id/library/:book_id/status/read',userController.setStatusBookRead);
+
+// Mettre à jour le statut du livre dans la table de liaison "Library" à lire
+userRouter.patch('/:user_id/library/:book_id/status/toread',userController.setStatusBookToRead);
+
+//Vérifier si le livre est lu
+userRouter.get('/:user_id/library/:book_id/status/isread', userController.checkIfBookIsRead);
+
+
 export { userRouter } 

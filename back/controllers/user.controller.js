@@ -1,4 +1,4 @@
-import {User,Book} from "../models/associations.js";
+import {User,Book,Library} from "../models/associations.js";
 import { sequelize } from "../models/sequelizeClient.js";
 
 export const userController ={
@@ -46,81 +46,81 @@ try {
 
 // Récupérer un utilisateur par son pseudo
 async getUserByUsername(req, res) {
-  try {
-      const username = req.params.username;
-      // Vérifier si le pseudo est fourni
-      if (!username) {
-          return res.status(400).json({ error: "Le pseudo est requis." });
-      }
-      // Rechercher l'utilisateur par pseudo
-      const user = await User.findOne({ 
-          where: { username },
-          attributes: ['username', 'email']
-      });
-      // Vérifier si l'utilisateur existe
-      if (!user) {
-          return res.status(404).json({ error: "Utilisateur non trouvé !" });
-      }
-      return res.status(200).json(user);
-  } catch (error) {
-      console.error("Erreur lors de la récupération de l'utilisateur :", error);
-      return res.status(500).json({ error: "Erreur interne du serveur.", details: error.message });
-  }
+try {
+    const username = req.params.username;
+    // Vérifier si le pseudo est fourni
+    if (!username) {
+        return res.status(400).json({ error: "Le pseudo est requis." });
+    }
+    // Rechercher l'utilisateur par pseudo
+    const user = await User.findOne({ 
+        where: { username },
+        attributes: ['username', 'email']
+    });
+    // Vérifier si l'utilisateur existe
+    if (!user) {
+        return res.status(404).json({ error: "Utilisateur non trouvé !" });
+    }
+        return res.status(200).json(user);
+} catch (error) {
+    console.error("Erreur lors de la récupération de l'utilisateur :", error);
+    return res.status(500).json({ error: "Erreur interne du serveur.", details: error.message });
+}
 },
 
 // Vérifier si un pseudo est déjà en base de données
 async userNameAlreadyExist(req, res) {
-  try {
-      const username = req.params.username; 
+try {
+    const username = req.params.username; 
       // Vérifier si le pseudo est bien fourni
-      if (!username) {
-          return res.status(400).json({ error: "Le pseudo est requis." });
-      }
-      // Vérifier si l'utilisateur existe avec ce pseudo
-      const user = await User.findOne({ where: { username } });
-      return res.status(200).json({ exists: !!user });  
-  } catch (error) {
-      console.error("Erreur lors de la vérification du pseudo :", error);
-      return res.status(500).json({ error: "Erreur interne du serveur.", details: error.message });
-  }
+    if (!username) {
+        return res.status(400).json({ error: "Le pseudo est requis." });
+    }
+    // Vérifier si l'utilisateur existe avec ce pseudo
+    const user = await User.findOne({ where: { username } });
+    return res.status(200).json({ exists: !!user });  
+} catch (error) {
+    console.error("Erreur lors de la vérification du pseudo :", error);
+    return res.status(500).json({ error: "Erreur interne du serveur.", details: error.message });
+}
 },
 
  // Récupérer un utilisateur et tous les livres de sa bibliothèque
 async getOneUserWithLibrary(req, res) {
 try {
-      const user = await User.findByPk(req.params.user_id, { 
-          attributes: ['id', 'firstname', 'lastname', 'username', 'biography', 'email'],
-          include: [
-              { 
-                  model: Book,
-                  attributes: ['id', 'title', 'summary', 'published_date', 'image', 'status', 'availability']
-              }
-          ]
-      });
+    const user = await User.findByPk(req.params.user_id, { 
+        attributes: ['id', 'firstname', 'lastname', 'username', 'biography', 'email'],
+        include: [
+            { 
+                model: Book,
+                attributes: ['id', 'title', 'summary', 'published_date', 'image', 'availability']
+            }
+        ]
+    });
       // Vérifier si l'utilisateur existe
-      if (!user) {
-          return res.status(404).json({ error: 'Utilisateur non trouvé !' });
-      }
-      return res.status(200).json(user);
-  } catch (error) {
-      console.error("Erreur lors de la récupération de l'utilisateur :", error);
-      return res.status(500).json({ message: "Erreur interne du serveur." });
-  }
+    if (!user) {
+        return res.status(404).json({ error: 'Utilisateur non trouvé !' });
+    }
+    return res.status(200).json(user);
+} catch (error) {
+    console.error("Erreur lors de la récupération de l'utilisateur :", error);
+    return res.status(500).json({ message: "Erreur interne du serveur." });
+}
 },
 
  // Récupérer tous les utilisateurs et leurs livres associés
 async getAllUsers(req, res) {
-  try {
-      const users = await User.findAll({
-          include: [
+try {
+    const users = await User.findAll({
+        include: [
               { model: Book } // Inclure les livres associés à chaque utilisateur
-          ]
-      });
-      return res.status(200).json(users);
-  } catch (error) {
-      console.error("Erreur lors de la récupération des utilisateurs :", error);
-      return res.status(500).json({ message: "Erreur interne du serveur." });
-  }
+        ]
+    });
+    return res.status(200).json(users);
+} catch (error) {
+    console.error("Erreur lors de la récupération des utilisateurs :", error);
+    return res.status(500).json({ message: "Erreur interne du serveur." });
+}
 },
 
 // Ajouter un livre à la bibliothèque de l'utilisateur
@@ -156,34 +156,34 @@ try {
 
 //Supprimer un livre de la bibliothèque de l'utilisateur
 async removeBookFromLibrary(req, res) {
-  try {
-      const {  user_id, book_id } = req.params;
+try {
+    const {  user_id, book_id } = req.params;
       // Rechercher l'utilisateur
-      const user = await User.findByPk(user_id, {
-          include: Book, 
-      });
+    const user = await User.findByPk(user_id, {
+        include: Book, 
+    });
       // Vérifier si l'utilisateur existe
-      if (!user) {
-          return res.status(404).json({ message: "Utilisateur non trouvé." });
-      }
+    if (!user) {
+        return res.status(404).json({ message: "Utilisateur non trouvé." });
+    }
       // Vérifier si le livre existe
-      const book = await Book.findByPk(book_id);
-      if (!book) {
-          return res.status(404).json({ message: "Livre non trouvé." });
-      }
+    const book = await Book.findByPk(book_id);
+    if (!book) {
+        return res.status(404).json({ message: "Livre non trouvé." });
+    }
       // Vérifier si le livre fait partie de la bibliothèque de l'utilisateur
-      const hasBook = await user.hasBook(book);
-      if (!hasBook) {
-          return res.status(404).json({ message: "Ce livre n'est pas dans votre bibliothèque." });
-      }
+    const hasBook = await user.hasBook(book);
+    if (!hasBook) {
+        return res.status(404).json({ message: "Ce livre n'est pas dans votre bibliothèque." });
+    }
       // Retirer le livre de la bibliothèque de l'utilisateur 
-      await user.removeBook(book_id);
-      await user.reload({ include: Book });
-      return res.status(200).json({ message: "Livre retiré de votre bibliothèque avec succès." });
-  } catch (error) {
-      console.error("Erreur lors de la suppression du livre :", error);
-      return res.status(500).json({ message: "Erreur interne du serveur." });
-  }
+    await user.removeBook(book_id);
+    await user.reload({ include: Book });
+    return res.status(200).json({ message: "Livre retiré de votre bibliothèque avec succès." });
+} catch (error) {
+    console.error("Erreur lors de la suppression du livre :", error);
+    return res.status(500).json({ message: "Erreur interne du serveur." });
+}
 },
 
 // Vérifier si un livre est dans la bibliothèque de l'utilisateur
@@ -215,6 +215,117 @@ async checkIfInLibrary(req, res) {
     console.error("Erreur lors de la vérification du livre :", error);
     return res.status(500).json({ message: "Erreur interne du serveur." });
     }
-}
+},
 
+// Mettre à jour le statut du livre dans la table de liaison "Library" à lu
+async setStatusBookRead(req, res) {
+    try {
+        const { user_id, book_id } = req.params;
+
+        // Vérifier si le livre est bien dans la bibliothèque de l'utilisateur
+        const user = await User.findByPk(user_id, {
+            include: {
+                model: Book,
+                through: "Library",
+                where: { id: book_id },
+            },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "Utilisateur non trouvé." });
+        }
+
+        if (user.Books.length === 0) {
+            return res.status(404).json({ message: "Ce livre n'est pas dans votre bibliothèque." });
+        }
+
+        await Library.update(
+            { status: "lu" },
+            {
+                where: {
+                    UserId: user_id,
+                    BookId: book_id,
+                },
+            }
+        );
+
+        return res.status(200).json({ message: "Statut du livre mis à jour à 'lu' avec succès." });
+    } catch (error) {
+        console.error("Erreur lors de la mise à jour du statut du livre :", error);
+        return res.status(500).json({ message: "Erreur interne du serveur." });
+    }
+},
+
+
+async setStatusBookToRead(req, res) {
+    try {
+        const { user_id, book_id } = req.params;
+
+        // Vérifier si le livre est bien dans la bibliothèque de l'utilisateur
+        const user = await User.findByPk(user_id, {
+            include: {
+                model: Book,
+                through: "Library",
+                where: { id: book_id },
+            },
+        });
+
+        if (!user) {
+            return res.status(404).json({ message: "Utilisateur non trouvé." });
+        }
+
+        if (user.Books.length === 0) {
+            return res.status(404).json({ message: "Ce livre n'est pas dans votre bibliothèque." });
+        }
+
+        // Mettre à jour le statut du livre à "lire"
+        await Library.update(
+            { status: "à lire" },
+            {
+                where: {
+                    UserId: user_id,
+                    BookId: book_id,
+                },
+            }
+        );
+
+        return res.status(200).json({ message: "Statut du livre mis à jour à 'à lire' avec succès." });
+    } catch (error) {
+        console.error("Erreur lors de la mise à jour du statut du livre :", error);
+        return res.status(500).json({ message: "Erreur interne du serveur." });
+    }
+},
+
+//Vérifier si le livre est lu
+async checkIfBookIsRead(req, res) {
+    try {
+        const { user_id, book_id } = req.params;
+
+        // Vérifier si l'utilisateur existe
+        const user = await User.findByPk(user_id);
+        if (!user) {
+            return res.status(404).json({ message: "Utilisateur non trouvé." });
+        }
+
+        // Vérifier si le livre existe
+        const book = await Book.findByPk(book_id);
+        if (!book) {
+            return res.status(404).json({ message: "Livre non trouvé." });
+        }
+
+        // Vérifier si le livre est dans la bibliothèque de l'utilisateur avec le statut "lu"
+        const libraryEntry = await Library.findOne({
+            where: {
+                UserId: user_id,
+                BookId: book_id,
+                status: "lu", // Vérifie si le statut est "lu"
+            },
+        });
+
+        return res.status(200).json({ isRead: !!libraryEntry });
+    } catch (error) {
+        console.error("Erreur lors de la vérification du statut du livre :", error);
+        return res.status(500).json({ message: "Erreur interne du serveur." });
+    }
+}
 }

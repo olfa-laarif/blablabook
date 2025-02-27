@@ -7,12 +7,14 @@ export interface Book {
       biography: string
     };
     Categories: {
-      name:string}[];
+    name:string}[];
     published_date: string;
     image: string;
     summary: string;
-    status:string;
     availability : string;
+    Library: {
+        status: string;
+    }
     Marks: {
       review: string;
       createdAt:string;

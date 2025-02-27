@@ -7,6 +7,7 @@ export default function LinksUser() {
 
   return (
     <div className="flex items-center gap-4 mb-8">
+      
     {location.pathname !== "/library" && <Link 
         to="/library"
         className="flex items-center gap-2 text-gray-600 hover:text-purple-600">

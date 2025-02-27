@@ -4,6 +4,7 @@ import {Author} from "./author.model.js";
 import {Category} from "./category.model.js";
 import {User} from "./user.model.js";
 import {Mark} from "./mark.model.js";
+import { Library } from "./library.model.js";
 
 
 
@@ -34,13 +35,9 @@ Category.belongsToMany(Book,{
 
 
 // user <--> Book : association many-to-many
-Book.belongsToMany(User, {
-  through: 'library'
-});
-
-User.belongsToMany(Book,{
-  through:'library'
-});
+// Association Many-to-Many avec modèle Library
+Book.belongsToMany(User, { through: Library });
+User.belongsToMany(Book, { through: Library });
 
 // User <--> Mark : association "one-to-many"
 User.hasMany(Mark,{
@@ -56,6 +53,6 @@ Mark.belongsTo(Book);
 
 
 // on rééxporte les modèles avec leur associations
-export { User, Book, Author,Category,Mark };
+export { User, Book, Author,Category,Mark ,Library};
 
 
