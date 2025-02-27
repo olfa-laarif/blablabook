@@ -11,7 +11,7 @@ export const app = express();
 app.use(cors({
   origin: "http://localhost:5173", // L'origine du front-end
   credentials: true, // Autorise l'envoi des cookies
-  methods: ["GET", "POST", "PUT", "DELETE"], // Autoriser les méthodes HTTP nécessaires
+  methods: ["GET", "POST", "PUT", "DELETE","PATCH"], // Autoriser les méthodes HTTP nécessaires
   allowedHeaders: ["Content-Type", "Authorization"], // Autoriser les headers nécessaires
 }));
 

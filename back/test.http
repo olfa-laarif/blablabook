@@ -31,14 +31,25 @@ POST http://localhost:3001/api/auth/login
 Content-Type: application/json
 
 {
-    "email": "Noel@example.com",
-    "password": "Test@1234"
+    "email": "alice.dupont@example.com",
+    "password": "securepass1"
 }
 
 
 ### Récupérer les informations de l'utilisateur connecté
 GET http://localhost:3001/api/auth/connected-user
-Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiZW1haWwiOiJvbGZhQGV4YW1wbGUuY29tIiwiaWF0IjoxNzM5ODIwMzU2LCJleHAiOjE3Mzk5MDY3NTZ9.PKUWNS7ocxRB9vxn_j2iTGtwJ3R4eF-1v4ySEYdQeHA
+Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwiZW1haWwiOiJhbGljZS5kdXBvbnRAZXhhbXBsZS5jb20iLCJpYXQiOjE3NDA1MTA4MDQsImV4cCI6MTc0MDU5NzIwNH0.RhLq_0rg6WkQydOd9cACxXIovdVJ5KNPKO2Tr3BdOIM;
+### Tester la mise à jour d'un utilisateur
+PATCH http://localhost:3001/api/auth/update-user
+Cookie: token=eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NywiZW1haWwiOiJhY2V5eXRAZXhtcGxlLmNvbSIsImlhdCI6MTc0MDUwMDAzNCwiZXhwIjoxNzQwNTg2NDM0fQ.viSIRaOvTl-oaqYFTam_bw2CaVegAHKOh8eQbbBzxkc
+Content-Type: application/json
+
+{
+    "username": "test",
+    "firstname": "test",
+    "lastname": "test"
+    
+}
 
 ### Tester la déconnexion d'un utilisateur
 GET http://localhost:3001/api/auth/logout
@@ -63,3 +74,9 @@ PUT  http://localhost:3001/api/users/1/books/3
 
 ### supprimer un livre de la bibliothèque d'un utilisateur
 DELETE  http://localhost:3001/api/users/1/books/3
+
+### Mettre à jour le statut du livre dans la table de liaison "Library" à lu
+PATCH   http://localhost:3001/api/users/1/library/3/status/read
+
+### Mettre à jour le statut du livre dans la table de liaison "Library" à lire
+PATCH   http://localhost:3001/api/users/1/library/3/status/toread

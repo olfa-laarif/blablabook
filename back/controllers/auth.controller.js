@@ -40,9 +40,6 @@ export async function registerUser(req, res) {
     throw new Error("ValidationError : Cet email est déjà utilisé.");
   }
 
-  // Vous pouvez hacher le mot de passe avant de le stocker (ici, c'est commenté)
-  // const hashedPassword = await argon2.hash(password, { type: argon2.argon2id });
-
   // Création de l'utilisateur dans la base de données
   try {
     console.log("Création de l'utilisateur avec les données :", { username, firstname, lastname, email, password });
@@ -51,7 +48,7 @@ export async function registerUser(req, res) {
       firstname,
       lastname,
       email,
-      password: password, // Remplacez par hashedPassword si vous hachez le mot de passe
+      password: password, 
     });
     console.log("Utilisateur créé avec succès :", newUser);
   } catch (dbError) {
@@ -71,8 +68,9 @@ export async function registerUser(req, res) {
  */
 export async function loginUser(req, res) {
   const { email, password } = req.body;
-
-  const user = await User.findOne({ where: { email } });
+  const user = await User.findOne({
+    where: { email }
+  });
   if (!user) {
     throw new Error("ValidationError : Email incorrect.");
   }
@@ -90,7 +88,7 @@ export async function loginUser(req, res) {
   res.cookie("token", token, {
     httpOnly: true,
     secure: true,
-    sameSite: "Strict",
+    sameSite: "None",
   });
 
   res.status(200).json({ message: "Connexion réussie !" });
@@ -129,4 +127,53 @@ export async function logoutUser(req, res) {
   });
 
   res.status(200).json({ message: "Déconnexion réussie." });
+}
+
+//mettre à jour l'utilisateur
+export async function updateUser(req, res) {
+  try {
+    const userId = req.user.id; // Récupération de l'ID utilisateur depuis le token
+
+    await Promise.all([
+      body("username").optional().trim().escape().run(req),
+      body("firstname").optional().trim().escape().run(req),
+      body("lastname").optional().trim().escape().run(req),
+      body("email").optional().trim().escape().run(req),
+      body("biography").optional().trim().escape().run(req),
+    ]);
+
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+      return res.status(400).json({ error: "Données invalides", details: errors.array() });
+    }
+
+    const { username, firstname, lastname, email, biography } = req.body;
+
+    // Récupérer l'utilisateur actuel
+    const user = await User.findByPk(userId);
+    if (!user) {
+      return res.status(404).json({ error: "Utilisateur non trouvé" });
+    }
+
+    // Vérifier si les données sont identiques avant de mettre à jour
+    const updates = {};
+    if (username && username !== user.username) updates.username = username;
+    if (firstname && firstname !== user.firstname) updates.firstname = firstname;
+    if (lastname && lastname !== user.lastname) updates.lastname = lastname;
+    if (email && email !== user.email) updates.email = email;
+    if (biography && biography !== user.biography) updates.biography = biography;
+
+    // Si aucun changement, on évite l'update inutile
+    if (Object.keys(updates).length === 0) {
+      return res.status(200).json({ message: "Aucune modification détectée", user });
+    }
+
+    // Mise à jour des données modifiées uniquement
+    await user.update(updates);
+
+    res.status(200).json({ message: "Profil mis à jour avec succès", user });
+  } catch (error) {
+    console.error("Erreur lors de la mise à jour du profil :", error);
+    res.status(500).json({ error: "Erreur interne du serveur" });
+  }
 }
