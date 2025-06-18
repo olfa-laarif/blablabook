@@ -2,7 +2,11 @@ import { User } from "../models/associations.js";
 import { userCreateShema } from "../schemas/user.schema.js";
 import jwt from "jsonwebtoken";
 import argon2 from "argon2";
+import nodemailer from "nodemailer";
+import "dotenv/config";
 import { validationResult, body } from "express-validator";
+
+
 
 const blacklist = new Set();
 
@@ -177,3 +181,60 @@ export async function updateUser(req, res) {
     res.status(500).json({ error: "Erreur interne du serveur" });
   }
 }
+
+
+// Génération du token de réinitialisation (valide 15 min)
+function generateResetToken(userId) {
+  return jwt.sign({ id: userId }, process.env.JWT_SECRET, { expiresIn: "15m" });
+}
+
+export async function forgotPassword(req, res){
+
+  const { email } = req.body;
+  const user = await User.findOne({ where: { email } });
+  if (!user) return res.status(404).json({ error: "Aucun compte trouvé." });
+
+  const token = generateResetToken(user.id);
+  const resetLink = `http://localhost:3001/reset-password?token=${token}`;
+
+  // Envoi d'e-mail
+  const transporter = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: process.env.SMTP_PORT,
+    secure: true,
+    auth: {
+      user: process.env.SMTP_MAIL,
+      pass: process.env.SMTP_PASSWORD,
+    },
+  });
+
+  await transporter.sendMail({
+    from: process.env.SMTP_MAIL,
+    to: email,
+    subject: "Réinitialisation de mot de passe",
+    html: `Cliquez ici pour réinitialiser: <a href="${resetLink}">Réinitialiser le mot de passe</a>`
+  });
+
+  res.json({ message: "Email envoyé." });
+
+}
+
+export async function resetPassword(req, res){
+  const { token, newPassword } = req.body;
+  try {
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    const user = await User.findByPk(decoded.id);
+    if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
+
+     await user.update({ password: newPassword });
+
+    res.json({ message: "Mot de passe mis à jour avec succès" });
+  } catch (err) {
+    res.status(400).json({ error: "Lien expiré ou invalide." });
+  }
+
+
+}
+
+
+
