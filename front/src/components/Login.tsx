@@ -12,7 +12,7 @@ export default function Login() {
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const formData = new FormData(event.currentTarget);
+    const formData  = new FormData(event.currentTarget);
     const data = Object.fromEntries(formData);
 
     try {
@@ -33,7 +33,7 @@ export default function Login() {
     }
   };
 
-  return (
+return (
     <div className="flex items-center justify-center min-h-screen bg-gray-100">
       <div className="w-full max-w-md p-6 bg-white rounded-2xl shadow-md mt-10">
         <h2 className="text-2xl font-bold text-center text-gray-700">Se connecter</h2>
@@ -43,13 +43,18 @@ export default function Login() {
             <label htmlFor="email" className="block text-sm font-medium text-gray-600">Email</label>
             <input id="email" name="email" type="email" required className="w-full px-4 py-1 mt-1 border rounded-lg focus:ring focus:ring-indigo-500 focus:outline-none" placeholder="Votre email" />
           </div>
-          <div className="mb-4">
+          <div className="mb-2">
             <label htmlFor="password" className="block text-sm font-medium text-gray-600">Mot de passe</label>
             <div className="relative">
               <input type={passwordVisible ? "text" : "password"} id="password" name="password" required className="w-full px-4 py-1 mt-1 border rounded-lg focus:ring focus:ring-indigo-500 focus:outline-none" placeholder="Votre mot de passe" />
               <button type="button" className="absolute right-3 top-3 text-gray-600" onClick={() => setPasswordVisible(!passwordVisible)}>
                 {passwordVisible ? <EyeOff size={20} /> : <Eye size={20} />}
               </button>
+            </div>
+            <div className="text-right mt-1">
+              <a href="/forgot-password" className="text-sm text-indigo-500 hover:underline">
+                Mot de passe oublié ?
+              </a>
             </div>
           </div>
           <button type="submit" className="w-full px-4 py-1 font-bold text-white bg-indigo-400 rounded-lg hover:bg-indigo-600">Se connecter</button>

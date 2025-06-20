@@ -11,6 +11,7 @@ import AllBooksPage from "./pages/AllBooksPage";
 import LegalPage from "./pages/LegalPage";
 import UserProfilPage from "./pages/UserProfilPage";
 import LibraryPage from "./pages/LibraryPage";
+import ForgotPasswordPage from "./pages/ForgotPasswordPage";
 
 
 export default function App() {
@@ -28,6 +29,7 @@ export default function App() {
         <Route path="/signup" element={user ? <Navigate to="/all-books" replace /> : <SignUpPage />} />
         <Route path="/legal" element={<LegalPage />} />
         <Route path="/books/:id" element={<BookDetailsPage />} />
+         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
 
         {/* Routes protégées */}
         <Route path="/all-books" element={<PrivateRoute><AllBooksPage /></PrivateRoute>} />
