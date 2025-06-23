@@ -310,7 +310,30 @@ try {
   };
 
 
+export const resetPassword=async(token: string, newPasswordFromInput :string)=>{
+   
+try {
+      const response = await fetch(`${API_BASE_URL}/api/auth/resetPassword`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ newPassword: newPasswordFromInput,token :token }),
+      });
 
+      if (!response.ok) {
+        throw new Error("Impossible d'envoyer d'initialiserle mot de passe");
+      }
+      const data = await response.json();
+      return data.message;
+      
+    } catch (error) {
+      console.error( "Erreur ",error);
+      return null; // Retourne null en cas d'erreur
+      
+
+    }
+  };
 
 
 

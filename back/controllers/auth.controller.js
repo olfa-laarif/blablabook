@@ -195,7 +195,7 @@ export async function forgotPassword(req, res){
   if (!user) return res.status(404).json({ error: "Aucun compte trouvé." });
 
   const token = generateResetToken(user.id);
-  const resetLink = `http://localhost:3001/reset-password?token=${token}`;
+  const resetLink = `http://localhost:5173/reset-password?token=${token}`;
 
   // Envoi d'e-mail
   const transporter = nodemailer.createTransport({

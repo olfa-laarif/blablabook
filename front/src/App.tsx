@@ -12,6 +12,7 @@ import LegalPage from "./pages/LegalPage";
 import UserProfilPage from "./pages/UserProfilPage";
 import LibraryPage from "./pages/LibraryPage";
 import ForgotPasswordPage from "./pages/ForgotPasswordPage";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
 
 
 export default function App() {
@@ -30,6 +31,7 @@ export default function App() {
         <Route path="/legal" element={<LegalPage />} />
         <Route path="/books/:id" element={<BookDetailsPage />} />
          <Route path="/forgot-password" element={<ForgotPasswordPage />} />
+         <Route path="/reset-password" element={<ResetPasswordPage />} />
 
         {/* Routes protégées */}
         <Route path="/all-books" element={<PrivateRoute><AllBooksPage /></PrivateRoute>} />
