@@ -5,10 +5,7 @@ import argon2 from "argon2";
 import nodemailer from "nodemailer";
 import "dotenv/config";
 import { validationResult, body } from "express-validator";
-
-
-
-const blacklist = new Set();
+import blacklist from "../utils/blacklist.js";
 
 
 /**

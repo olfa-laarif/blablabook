@@ -2,8 +2,12 @@ import { useState } from "react";
 import { resetPassword } from "../services/api";
 import { useSearchParams } from "react-router-dom";
 import { Eye, EyeOff } from "lucide-react";
+import { useNavigate } from "react-router-dom";
 
 export default function ResetPassword() {
+
+  const navigate = useNavigate();
+
   const [searchParams] = useSearchParams();
   const token = searchParams.get("token");
 
@@ -38,6 +42,7 @@ export default function ResetPassword() {
      
     if (response ) {
       setMessage(response);
+      navigate("/login"); 
     } else {
       setError("Une erreur est survenue.");
     }
