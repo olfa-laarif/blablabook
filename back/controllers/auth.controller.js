@@ -5,7 +5,8 @@ import argon2 from "argon2";
 import nodemailer from "nodemailer";
 import "dotenv/config";
 import { validationResult, body } from "express-validator";
-import blacklist from "../utils/blacklist.js";
+import {blacklist} from "../utils/blacklist.js";
+import { addToBlacklist,isBlacklisted } from "../utils/blacklist.js";
 
 
 /**
@@ -218,12 +219,21 @@ export async function forgotPassword(req, res){
 
 export async function resetPassword(req, res){
   const { token, newPassword } = req.body;
+
+   // Vérifie si le token est déjà utilisé
+  if (isBlacklisted(token)) {
+    return res.status(400).json({ error: "Lien déjà utilisé ou expiré" });
+  }
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
     const user = await User.findByPk(decoded.id);
     if (!user) return res.status(404).json({ error: "Utilisateur non trouvé" });
 
      await user.update({ password: newPassword });
+
+    // Invalide le token en le mettant dans la blacklist
+    addToBlacklist(token);
+   
 
     res.json({ message: "Mot de passe mis à jour avec succès" });
   } catch (err) {

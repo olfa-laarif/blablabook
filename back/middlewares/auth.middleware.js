@@ -1,7 +1,6 @@
 import jwt from "jsonwebtoken";
 import { User } from "../models/associations.js";
-
-import blacklist from "../utils/blacklist.js";
+import {blacklist} from "../utils/blacklist.js";
 
 /**
  * Vérifie le token JWT et attache l'utilisateur à `req.user`
