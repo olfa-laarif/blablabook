@@ -66,7 +66,7 @@ async function fetchFrenchBooks() {
 
   while (books.length < TOTAL_NEEDED) {
     try {
-      const response = await fetch(`${GOOGLE_API_URL}/volumes?q=subject:fiction&langRestrict=fr&printType=books&filter=ebooks&maxResults=${LIMIT}&startIndex=${startIndex}`);
+      const response = await fetch(`${GOOGLE_API_URL}/volumes?q=subject:fiction+language:fr&filter=ebooks&printType=books&maxResults=${LIMIT}&startIndex=${startIndex}`);
       const data = await response.json();
 
       if (!data.items) break;
@@ -75,6 +75,7 @@ async function fetchFrenchBooks() {
         .filter(book => book.volumeInfo.imageLinks?.thumbnail)
         .filter(book => book.volumeInfo.authors?.length)
         .filter(book => book.volumeInfo.publishedDate && parseInt(book.volumeInfo.publishedDate) > 2000)
+        .filter(book => book.volumeInfo.language === 'fr')
         .filter(book => book.volumeInfo.categories?.some(cat => ALLOWED_CATEGORIES.includes(cat)))
         .map(book => ({
           title: book.volumeInfo.title,

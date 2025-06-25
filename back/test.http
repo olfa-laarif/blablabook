@@ -17,10 +17,10 @@ POST http://localhost:3001/api/auth/register
 Content-Type: application/json
 
 {
-    "username": "Bonsiigigi",
-    "firstname": "Delly",
-    "lastname": "Delabarre",
-    "email": "aceyyt@exmple.com",
+    "username": "olfa.la",
+    "firstname": "olfa",
+    "lastname": "laarif",
+    "email": "olfa.laarif@gmail.com",
     "password": "Tet@1234",
     "biography": "Développeur passionné"
 }
@@ -33,6 +33,26 @@ Content-Type: application/json
 {
     "email": "aceyyt@exmple.com",
     "password": "Tet@1234"
+}
+
+
+### Tester la reanitialisation de mot de passe
+POST http://localhost:3001/api/auth/forgetPassword
+Content-Type: application/json
+
+{
+    
+    "email": "olfa.laarif@gmail.com"
+  
+}
+
+### Réinitialisation du mot de passe avec le token reçu
+POST http://localhost:3001/api/auth/resetPassword
+Content-Type: application/json
+
+{
+  "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NiwiaWF0IjoxNzUwMjU2OTUwLCJleHAiOjE3NTAyNTc4NTB9.H5PtwEXR75W_dT2QA94owO1QBV8R3Wv5dCbUBdWIP3Q",  
+  "newPassword": "NouveauMotDePasse123"
 }
 
 
